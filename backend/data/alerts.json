@@ -1,5 +1,17 @@
 [
   {
+    "id": 6,
+    "severity": "critical",
+    "title": "Hyderabad Petrol Shortage",
+    "title_telugu": "హైదరాబాద్ పెట్రోల్ కొరత",
+    "description_telugu": "హైదరాబాద్‌లో పెట్రోల్ సరఫరా తగ్గిపోయింది. నగరవ్యాప్తంగా పెట్రోల్ బంకుల వద్ద గంటల తరబడి క్యూలు. 40 లక్షల వాహనదారులు, అంబులెన్స్ సేవలు ప్రభావితం.",
+    "district": "Hyderabad",
+    "category": "fuel",
+    "icon": "⛽",
+    "timestamp": "2026-04-30T17:05:43Z",
+    "action_required": "HPCL / BPCL డిపోల నుండి అత్యవసర పెట్రోల్ సరఫరా ఏర్పాటు చేయాలి. పెట్రోల్ బంకు నిల్వలు తక్షణం నింపాలి"
+  },
+  {
     "id": 1,
     "severity": "critical",
     "title": "Nizamabad Water Crisis",

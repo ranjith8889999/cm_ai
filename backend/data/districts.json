@@ -5,18 +5,19 @@
     "name_telugu": "హైదరాబాద్",
     "x": 38,
     "y": 52,
-    "sentiment": "neutral",
-    "score": 55,
-    "mood": "neutral",
-    "trend": "stable",
+    "sentiment": "negative",
+    "score": 38,
+    "mood": "angry",
+    "trend": "declining",
     "issues": [
+      "petrol shortage",
       "traffic",
       "pollution",
       "water supply"
     ],
     "population": 4000000,
-    "positive_news": 3,
-    "negative_news": 2
+    "positive_news": 2,
+    "negative_news": 3
   },
   {
     "id": 2,
