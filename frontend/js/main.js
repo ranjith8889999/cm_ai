@@ -267,11 +267,10 @@ function closeAnalysisPanel(tabKey) {
 }
 
 function speakAnalysis(tabKey) {
-  const textEl  = document.getElementById(`analysisText-${tabKey}`);
-  const stepsEl = document.getElementById(`analysisSteps-${tabKey}`);
+  const textEl = document.getElementById(`analysisText-${tabKey}`);
   if (!textEl) return;
-  const stepsText = stepsEl ? stepsEl.innerText.replace(/\n/g, ". ") : "";
-  speakText(`విశ్లేషణ: ${textEl.textContent}. పరిష్కార దశలు: ${stepsText}`);
+  // Only speak the analysis paragraph (not all steps) to avoid 1-2 min TTS delay
+  speakText(textEl.textContent);
 }
 
 

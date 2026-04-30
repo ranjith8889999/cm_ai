@@ -3,11 +3,17 @@ from flask_cors import CORS
 import json
 import os
 import io
+import hashlib
+from collections import OrderedDict
 from datetime import datetime
 from groq_service import GroqService
 from gtts import gTTS
 from scheduler import start_scheduler, stop_scheduler, get_status as scheduler_status
 import atexit
+
+# Simple in-memory TTS cache (keyed by MD5 of text, max 200 entries)
+_TTS_CACHE: OrderedDict = OrderedDict()
+_TTS_CACHE_MAX = 200
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -205,12 +211,26 @@ def tts():
     text = data.get("text", "").strip()
     if not text:
         return jsonify({"error": "No text provided"}), 400
+    # Truncate to 300 chars to limit the number of gTTS chunks (each chunk = 1 HTTP call)
+    if len(text) > 300:
+        text = text[:300].rsplit(" ", 1)[0]
+    cache_key = hashlib.md5(text.encode("utf-8")).hexdigest()
+    if cache_key in _TTS_CACHE:
+        # Return cached audio immediately
+        _TTS_CACHE.move_to_end(cache_key)
+        return send_file(io.BytesIO(_TTS_CACHE[cache_key]), mimetype="audio/mpeg",
+                         as_attachment=False, download_name="tts.mp3")
     try:
         tts_obj = gTTS(text=text, lang="te", slow=False)
         buf = io.BytesIO()
         tts_obj.write_to_fp(buf)
-        buf.seek(0)
-        return send_file(buf, mimetype="audio/mpeg", as_attachment=False, download_name="tts.mp3")
+        audio_bytes = buf.getvalue()
+        # Store in cache
+        _TTS_CACHE[cache_key] = audio_bytes
+        if len(_TTS_CACHE) > _TTS_CACHE_MAX:
+            _TTS_CACHE.popitem(last=False)
+        return send_file(io.BytesIO(audio_bytes), mimetype="audio/mpeg",
+                         as_attachment=False, download_name="tts.mp3")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

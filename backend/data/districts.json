@@ -6,9 +6,9 @@
     "x": 38,
     "y": 52,
     "sentiment": "neutral",
-    "score": 40,
+    "score": 41,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "petrol shortage",
       "traffic",
@@ -26,9 +26,9 @@
     "x": 32,
     "y": 63,
     "sentiment": "positive",
-    "score": 69,
+    "score": 70,
     "mood": "happy",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "urban expansion",
       "infrastructure"
@@ -44,7 +44,7 @@
     "x": 44,
     "y": 47,
     "sentiment": "positive",
-    "score": 62,
+    "score": 67,
     "mood": "happy",
     "trend": "improving",
     "issues": [
@@ -61,9 +61,9 @@
     "name_telugu": "సంగారెడ్డి",
     "x": 22,
     "y": 48,
-    "sentiment": "neutral",
-    "score": 56,
-    "mood": "neutral",
+    "sentiment": "positive",
+    "score": 60,
+    "mood": "happy",
     "trend": "stable",
     "issues": [
       "water",
@@ -80,9 +80,9 @@
     "x": 28,
     "y": 43,
     "sentiment": "neutral",
-    "score": 54,
+    "score": 59,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "employment",
       "education"
@@ -98,9 +98,9 @@
     "x": 22,
     "y": 24,
     "sentiment": "negative",
-    "score": 36,
+    "score": 35,
     "mood": "angry",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "water shortage",
       "unemployment"
@@ -116,7 +116,7 @@
     "x": 28,
     "y": 33,
     "sentiment": "neutral",
-    "score": 41,
+    "score": 43,
     "mood": "neutral",
     "trend": "improving",
     "issues": [
@@ -134,9 +134,9 @@
     "x": 60,
     "y": 30,
     "sentiment": "positive",
-    "score": 73,
+    "score": 75,
     "mood": "happy",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "road improvement done",
       "agriculture"
@@ -152,9 +152,9 @@
     "x": 58,
     "y": 18,
     "sentiment": "neutral",
-    "score": 49,
+    "score": 45,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
       "agriculture",
       "water"
@@ -170,7 +170,7 @@
     "x": 64,
     "y": 24,
     "sentiment": "neutral",
-    "score": 55,
+    "score": 57,
     "mood": "neutral",
     "trend": "stable",
     "issues": [
@@ -188,9 +188,9 @@
     "x": 50,
     "y": 24,
     "sentiment": "positive",
-    "score": 66,
+    "score": 65,
     "mood": "happy",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "textile industry",
       "development"
@@ -208,7 +208,7 @@
     "sentiment": "neutral",
     "score": 40,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "sewage",
       "roads",
@@ -224,10 +224,10 @@
     "name_telugu": "వరంగల్ రూరల్",
     "x": 65,
     "y": 53,
-    "sentiment": "neutral",
-    "score": 45,
-    "mood": "neutral",
-    "trend": "improving",
+    "sentiment": "negative",
+    "score": 39,
+    "mood": "angry",
+    "trend": "stable",
     "issues": [
       "crop insurance",
       "roads"
@@ -242,9 +242,9 @@
     "name_telugu": "జనగాం",
     "x": 65,
     "y": 43,
-    "sentiment": "neutral",
-    "score": 53,
-    "mood": "neutral",
+    "sentiment": "positive",
+    "score": 60,
+    "mood": "happy",
     "trend": "improving",
     "issues": [
       "connectivity",
@@ -261,9 +261,9 @@
     "x": 38,
     "y": 38,
     "sentiment": "positive",
-    "score": 74,
+    "score": 71,
     "mood": "happy",
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
       "development schemes",
       "water"
@@ -279,7 +279,7 @@
     "x": 58,
     "y": 50,
     "sentiment": "positive",
-    "score": 66,
+    "score": 67,
     "mood": "happy",
     "trend": "declining",
     "issues": [
@@ -297,7 +297,7 @@
     "x": 55,
     "y": 60,
     "sentiment": "neutral",
-    "score": 57,
+    "score": 58,
     "mood": "neutral",
     "trend": "stable",
     "issues": [
@@ -315,9 +315,9 @@
     "x": 62,
     "y": 66,
     "sentiment": "neutral",
-    "score": 54,
+    "score": 49,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "agriculture",
       "connectivity"
@@ -333,7 +333,7 @@
     "x": 75,
     "y": 68,
     "sentiment": "positive",
-    "score": 64,
+    "score": 62,
     "mood": "happy",
     "trend": "stable",
     "issues": [
@@ -351,7 +351,7 @@
     "x": 82,
     "y": 64,
     "sentiment": "neutral",
-    "score": 43,
+    "score": 45,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -369,9 +369,9 @@
     "x": 74,
     "y": 58,
     "sentiment": "neutral",
-    "score": 46,
+    "score": 44,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "tribal development",
       "education"
@@ -387,9 +387,9 @@
     "x": 80,
     "y": 40,
     "sentiment": "neutral",
-    "score": 44,
+    "score": 46,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "tribal area development",
       "connectivity"
@@ -405,9 +405,9 @@
     "x": 72,
     "y": 33,
     "sentiment": "positive",
-    "score": 61,
+    "score": 66,
     "mood": "happy",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "Kaleshwaram benefits",
       "tribal welfare"
@@ -423,7 +423,7 @@
     "x": 65,
     "y": 11,
     "sentiment": "neutral",
-    "score": 49,
+    "score": 48,
     "mood": "neutral",
     "trend": "stable",
     "issues": [
@@ -440,9 +440,9 @@
     "name_telugu": "ఆదిలాబాద్",
     "x": 35,
     "y": 8,
-    "sentiment": "negative",
-    "score": 36,
-    "mood": "angry",
+    "sentiment": "neutral",
+    "score": 43,
+    "mood": "neutral",
     "trend": "improving",
     "issues": [
       "hospital staff shortage",
@@ -460,9 +460,9 @@
     "x": 52,
     "y": 5,
     "sentiment": "neutral",
-    "score": 57,
+    "score": 59,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "forest rights",
       "tribal welfare"
@@ -478,7 +478,7 @@
     "x": 28,
     "y": 17,
     "sentiment": "neutral",
-    "score": 49,
+    "score": 45,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -498,7 +498,7 @@
     "sentiment": "neutral",
     "score": 44,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "roads",
       "agriculture"
@@ -514,7 +514,7 @@
     "x": 35,
     "y": 75,
     "sentiment": "neutral",
-    "score": 48,
+    "score": 51,
     "mood": "neutral",
     "trend": "stable",
     "issues": [
@@ -532,9 +532,9 @@
     "x": 38,
     "y": 81,
     "sentiment": "neutral",
-    "score": 51,
+    "score": 47,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
       "agriculture",
       "employment"
@@ -549,10 +549,10 @@
     "name_telugu": "మహబూబ్‌నగర్",
     "x": 28,
     "y": 84,
-    "sentiment": "negative",
-    "score": 39,
-    "mood": "angry",
-    "trend": "stable",
+    "sentiment": "neutral",
+    "score": 42,
+    "mood": "neutral",
+    "trend": "improving",
     "issues": [
       "school dropouts",
       "unemployment",
@@ -571,7 +571,7 @@
     "sentiment": "neutral",
     "score": 41,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "improving",
     "issues": [
       "border connectivity",
       "agriculture"
@@ -587,9 +587,9 @@
     "x": 22,
     "y": 88,
     "sentiment": "neutral",
-    "score": 46,
+    "score": 47,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "agriculture",
       "water"
