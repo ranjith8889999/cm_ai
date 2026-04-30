@@ -9,7 +9,7 @@
     "district": "Hyderabad",
     "category": "fuel",
     "icon": "⛽",
-    "timestamp": "2026-04-30T18:16:57Z",
+    "timestamp": "2026-04-30T18:22:14Z",
     "action_required": "HPCL/BPCL డిపోల నుండి అత్యవసర పెట్రోల్ సరఫరా ఏర్పాటు చేయాలి. 24 గంటల్లో అన్ని పెట్రోల్ బంకుల నిల్వలు నింపాలి"
   },
   {
@@ -22,7 +22,7 @@
     "district": "Nizamabad",
     "category": "water",
     "icon": "💧",
-    "timestamp": "2026-04-30T18:16:57Z",
+    "timestamp": "2026-04-30T18:22:14Z",
     "action_required": "20 వాటర్ ట్యాంకర్లు వెంటనే పంపాలి. నీటి సరఫరా పైప్‌లైన్ మరమ్మత్తు 48 గంటల్లో పూర్తి చేయాలి"
   },
   {
@@ -35,7 +35,7 @@
     "district": "Warangal Urban",
     "category": "protest",
     "icon": "🚜",
-    "timestamp": "2026-04-30T18:16:57Z",
+    "timestamp": "2026-04-30T18:22:14Z",
     "action_required": "వ్యవసాయ శాఖతో అత్యవసర సమావేశం నిర్వహించాలి. 7 రోజుల్లో పరిహారం విడుదల హమీ ఇవ్వాలి"
   },
   {
@@ -48,7 +48,7 @@
     "district": "Adilabad",
     "category": "health",
     "icon": "🏥",
-    "timestamp": "2026-04-30T18:16:57Z",
+    "timestamp": "2026-04-30T18:22:14Z",
     "action_required": "50 వైద్య సిబ్బందిని తక్షణం నియమించాలి. మొబైల్ వైద్య యూనిట్లు పంపాలి"
   },
   {
@@ -61,7 +61,7 @@
     "district": "Warangal Urban",
     "category": "sanitation",
     "icon": "⚠️",
-    "timestamp": "2026-04-30T18:16:57Z",
+    "timestamp": "2026-04-30T18:22:14Z",
     "action_required": "మున్సిపాలిటీ త్వరిత మరమ్మత్తు బృందాలను వెంటనే పంపాలి. నీటి శుద్ధి మందులు పంపిణీ చేయాలి"
   },
   {
@@ -74,7 +74,7 @@
     "district": "Mulugu",
     "category": "disaster",
     "icon": "🚧",
-    "timestamp": "2026-04-30T18:16:57Z",
+    "timestamp": "2026-04-30T18:22:14Z",
     "action_required": "NDRF బృందాలు వెంటనే పంపాలి. హెలికాప్టర్ ద్వారా ఆహారం, వైద్య సరఫరా ఏర్పాటు చేయాలి"
   },
   {

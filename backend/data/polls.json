@@ -58,8 +58,8 @@
       "change": "+1%"
     },
     "category": "infrastructure",
-    "responses": 2138,
-    "rating": 3.2
+    "responses": 2205,
+    "rating": 3.3
   },
   {
     "id": 2,
@@ -120,7 +120,7 @@
       "change": "-6%"
     },
     "category": "health",
-    "responses": 2509,
+    "responses": 2578,
     "rating": 2.7
   },
   {
@@ -176,7 +176,7 @@
       "change": "+3%"
     },
     "category": "governance",
-    "responses": 2373,
+    "responses": 2488,
     "rating": 3.1
   }
 ]

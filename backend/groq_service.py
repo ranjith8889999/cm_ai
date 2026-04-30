@@ -161,9 +161,15 @@ class GroqService:
         lang_instruction = "English" if is_en else "Telugu"
         context_descriptions = {
             "alerts": (
-                "You are a senior governance analyst for Telangana Chief Minister's Office. "
-                "Analyze the provided active alerts across districts. Identify patterns, "
-                f"root causes, and the most critical issues. Respond ONLY with valid JSON in {lang_instruction}."
+                "You are a senior governance analyst and policy researcher for Telangana Chief Minister's Office. "
+                "You have expertise in analyzing critical governance alerts and researching best practices from across India. "
+                "For each alert, conduct an in-depth analysis:\n"
+                "1. Identify root causes and historical patterns\n"
+                "2. Research how other Indian states (Kerala, Karnataka, Gujarat, Tamil Nadu, Maharashtra, etc.) have successfully solved similar problems\n"
+                "3. Compare solutions across states and identify evidence-based best practices\n"
+                "4. Reference specific state programs, timelines, and measurable outcomes\n"
+                "5. Adapt these solutions to Telangana's context with concrete action plans\n"
+                f"Respond ONLY with valid JSON in {lang_instruction}. Be specific about which states did what."
             ),
             "districts": (
                 "You are a district performance analyst for Telangana Chief Minister's Office. "
@@ -222,21 +228,71 @@ class GroqService:
 
         # Use "analysis_text" for English, "analysis_telugu" for Telugu (backward compat)
         analysis_field = "analysis_text" if is_en else "analysis_telugu"
+        
+        # Enhanced user prompt for alerts context - request cross-state research
+        if context_type == "alerts":
+            if is_en:
+                user_instruction = (
+                    f"Current alerts data:\n{summary}\n\n"
+                    "Conduct in-depth research and analysis:\n"
+                    "1. Identify patterns and root causes across these alerts\n"
+                    "2. Research how other Indian states (Kerala, Karnataka, Gujarat, Tamil Nadu, Maharashtra, Rajasthan, etc.) have successfully solved similar problems\n"
+                    "3. For each major issue, cite specific state programs with timelines and outcomes\n"
+                    "4. Provide evidence-based solutions adapted to Telangana's context\n\n"
+                    f'Return a JSON object with EXACTLY these two keys:\n'
+                    f'1. "{analysis_field}": A 3-4 sentence English paragraph that:\n'
+                    "   - Summarizes the critical patterns\n"
+                    "   - References successful solutions from at least 2 other Indian states (name the states)\n"
+                    "   - States the urgency level\n"
+                    '2. "resolution_steps": a JSON array of exactly 5 strings. Each string must:\n'
+                    "   - Be in English\n"
+                    "   - Reference the successful state model being adapted (e.g., 'Adopt Kerala model:', 'Following Gujarat approach:')\n"
+                    "   - Name the responsible Telangana department\n"
+                    "   - Include specific timeline\n"
+                    "   - State measurable action with target numbers\n"
+                    '   Example: "Adopt Kerala model: Water Resources Dept - Deploy 50 mobile water testing units across affected districts within 72 hours (Kerala reduced water contamination by 60% in 2023)"\n'
+                    "Return ONLY valid JSON, no extra text or markdown."
+                )
+            else:
+                user_instruction = (
+                    f"ప్రస్తుత అలర్ట్ డేటా:\n{summary}\n\n"
+                    "లోతైన పరిశోధన మరియు విశ్లేషణ చేయండి:\n"
+                    "1. ఈ అలర్ట్‌లలో నమూనాలు మరియు మూల కారణాలను గుర్తించండి\n"
+                    "2. ఇతర భారతీయ రాష్ట్రాలు (కేరళ, కర్ణాటక, గుజరాత్, తమిళనాడు, మహారాష్ట్ర, రాజస్థాన్ మొదలైనవి) ఇలాంటి సమస్యలను ఎలా పరిష్కరించాయో పరిశోధించండి\n"
+                    "3. ప్రతి ప్రధాన సమస్యకు, నిర్దిష్ట రాష్ట్ర కార్యక్రమాలను సమయ పరిమితులు మరియు ఫలితాలతో ఉదహరించండి\n"
+                    "4. తెలంగాణ సందర్భానికి అనుకూలమైన సాక్ష్య-ఆధారిత పరిష్కారాలు అందించండి\n\n"
+                    f'ఈ రెండు కీలతో JSON ఆబ్జెక్ట్ రిటర్న్ చేయండి:\n'
+                    f'1. "{analysis_field}": 3-4 వాక్యాల తెలుగు పేరా:\n'
+                    "   - క్లిష్టమైన నమూనాలను సంగ్రహించండి\n"
+                    "   - కనీసం 2 ఇతర భారతీయ రాష్ట్రాల విజయవంతమైన పరిష్కారాలను సూచించండి (రాష్ట్రాల పేర్లు పేర్కొనండి)\n"
+                    "   - అత్యవసరత స్థాయిని తెలపండి\n"
+                    '2. "resolution_steps": ఖచ్చితంగా 5 స్ట్రింగ్‌ల JSON అర్రే. ప్రతి స్ట్రింగ్:\n'
+                    "   - తెలుగులో ఉండాలి\n"
+                    "   - అనుసరించబడుతున్న విజయవంతమైన రాష్ట్ర మోడల్‌ను సూచించండి (ఉదా: 'కేరళ మోడల్ అనుసరించి:', 'గుజరాత్ విధానం ప్రకారం:')\n"
+                    "   - బాధ్యత గల తెలంగాణ శాఖను పేర్కొనండి\n"
+                    "   - నిర్దిష్ట సమయ పరిమితిని చేర్చండి\n"
+                    "   - లక్ష్య సంఖ్యలతో కొలవదగిన చర్యను తెలపండి\n"
+                    '   ఉదాహరణ: "కేరళ మోడల్ అనుసరించి: జల వనరుల శాఖ - 72 గంటల్లో ప్రభావిత జిల్లాల్లో 50 మొబైల్ వాటర్ టెస్టింగ్ యూనిట్లు అమర్చాలి (కేరళ 2023లో నీటి కలుషితాన్ని 60% తగ్గించింది)"\n'
+                    "కేవలం JSON మాత్రమే రిటర్న్ చేయండి, అదనపు టెక్స్ట్ లేదా మార్క్‌డౌన్ వద్దు."
+                )
+        else:
+            # Default prompt for other contexts
+            user_instruction = (
+                f"Current data:\n{summary}\n\n"
+                f"Return a JSON object with EXACTLY these two keys:\n"
+                f'1. "{analysis_field}": {analysis_key_desc}\n'
+                '2. "resolution_steps": a JSON array of exactly 5 strings. Each string must:\n'
+                f"{steps_desc}\n"
+                "Return ONLY valid JSON, no extra text or markdown."
+            )
+        
         messages = [
             {"role": "system", "content": system_prompt},
-            {
-                "role": "user",
-                "content": (
-                    f"Current data:\n{summary}\n\n"
-                    f"Return a JSON object with EXACTLY these two keys:\n"
-                    f'1. "{analysis_field}": {analysis_key_desc}\n'
-                    '2. "resolution_steps": a JSON array of exactly 5 strings. Each string must:\n'
-                    f"{steps_desc}\n"
-                    "Return ONLY valid JSON, no extra text or markdown."
-                ),
-            },
+            {"role": "user", "content": user_instruction},
         ]
-        raw = self._chat(messages, temperature=0.4, max_tokens=1000)
+        # Use more tokens for alerts context to allow detailed cross-state research
+        max_tokens = 1500 if context_type == "alerts" else 1000
+        raw = self._chat(messages, temperature=0.4, max_tokens=max_tokens)
         try:
             start = raw.find("{")
             end = raw.rfind("}") + 1
