@@ -269,8 +269,9 @@ EasyPanel (easypanel.io) deploys Docker containers directly from a Git repositor
 ```
 GROQ_API_KEY=gsk_your_actual_key_here
 FLASK_DEBUG=false
-PORT=5000
 ```
+
+Do not set `PORT` in EasyPanel unless you also change the app's internal port mapping. The Docker image defaults to `PORT=80`, which matches EasyPanel's `http://your_app:80/` routing.
 
 **4. Configure the Domain**
 - EasyPanel → App → Domains → Add domain (e.g. `governance.telangana.gov.in`)

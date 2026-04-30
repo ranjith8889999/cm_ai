@@ -9,6 +9,7 @@ services:
       # Replace with your actual Groq API key or use a .env file
       - GROQ_API_KEY=${GROQ_API_KEY:?Set GROQ_API_KEY in .env file}
       - FLASK_DEBUG=false
+      - PORT=5000
     volumes:
       # Persist the data directory so scheduler writes survive restarts
       - ./backend/data:/app/backend/data

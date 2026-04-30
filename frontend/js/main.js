@@ -2,7 +2,7 @@
    TELANGANA AI GOVERNANCE – MAIN JAVASCRIPT
    ════════════════════════════════════════════════════ */
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 
 /* ─── App State ─────────────────────────────────────── */
 let state = {

@@ -3,7 +3,7 @@
 # For EasyPanel deployment (or any Docker host)
 #
 # Build:  docker build -t telangana-gov .
-# Run:    docker run -e GROQ_API_KEY=your_key -p 5000:5000 telangana-gov
+# Run:    docker run -e GROQ_API_KEY=your_key -p 8080:80 telangana-gov
 # ─────────────────────────────────────────────────────────────────────────────
 
 FROM python:3.12-slim
@@ -24,15 +24,11 @@ RUN pip install --no-cache-dir -r ./backend/requirements.txt
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
-# Expose the Flask port (EasyPanel will auto-detect via the PORT env var)
-EXPOSE 5000
+# Expose the HTTP port EasyPanel routes to by default.
+# Set PORT to override this in local Docker Compose or another platform.
+ENV PORT=80
+EXPOSE 80
 
 # Use gunicorn for production; Flask dev server is single-threaded
 # Workers: 1 so the scheduler runs in exactly one process
-CMD ["gunicorn", \
-     "--bind", "0.0.0.0:5000", \
-     "--workers", "1", \
-     "--threads", "4", \
-     "--timeout", "120", \
-     "--chdir", "/app/backend", \
-     "app:app"]
+CMD ["sh", "-c", "exec gunicorn --bind 0.0.0.0:${PORT:-80} --workers 1 --threads 4 --timeout 120 --chdir /app/backend app:app"]
