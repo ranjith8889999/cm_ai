@@ -899,7 +899,7 @@ function alertCard(a) {
       </div>
     </div>
     <div class="alert-card-actions">
-      <button class="alert-speak-btn" onclick="speakText('${escQ(a.description_telugu)}')">
+      <button class="alert-speak-btn" data-speak="${escAttr(a.title_telugu + '. ' + a.description_telugu)}" onclick="speakText(this.dataset.speak)">
         <i class="fas fa-volume-high"></i> వినండి
       </button>
     </div>
@@ -1167,6 +1167,7 @@ function speakText(text) {
     .then((blob) => {
       const url = URL.createObjectURL(blob);
       _ttsAudio = new Audio(url);
+      _ttsAudio.playbackRate = 1.3;
       _ttsAudio.onended = () => {
         URL.revokeObjectURL(url);
         _ttsAudio = null;
@@ -1325,6 +1326,10 @@ function moodEmoji(s) {
 
 function escQ(s) {
   return String(s || "").replace(/'/g, "\\'").replace(/"/g, "&quot;").replace(/\n/g, " ");
+}
+
+function escAttr(s) {
+  return String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, " ");
 }
 
 /* ═══════════════════════════════════════════════════════
