@@ -915,6 +915,8 @@ function alertCard(a) {
   const actionPrefix = isGreen ? "✅" : "⚡";
   const actionClass = isGreen ? "alert-card-action green-action" : "alert-card-action";
   const sevLabel = isGreen ? "POSITIVE ✅" : a.severity.toUpperCase();
+  // Include action_required in the speech text for complete information
+  const fullSpeechText = a.title_telugu + '. ' + a.description_telugu + '. ' + a.action_required;
   return `
   <div class="alert-card ${a.severity}">
     <span class="alert-card-icon">${a.icon}</span>
@@ -929,7 +931,7 @@ function alertCard(a) {
       </div>
     </div>
     <div class="alert-card-actions">
-      <button class="alert-speak-btn" data-speak="${escAttr(a.title_telugu + '. ' + a.description_telugu)}" onclick="speakText(this.dataset.speak)">
+      <button class="alert-speak-btn" data-speak="${escAttr(fullSpeechText)}" onclick="speakTextWithFeedback(this)">
         <i class="fas fa-volume-high"></i> వినండి
       </button>
     </div>
@@ -1176,6 +1178,28 @@ function dismissBanner() {
 /* ─── TTS (Text-to-Speech) — Google gTTS via backend ───── */
 // We keep a single Audio element so we can stop/replace it
 let _ttsAudio = null;
+
+// Wrapper function to provide immediate visual feedback
+function speakTextWithFeedback(btn) {
+  const text = btn.dataset.speak;
+  if (!text) return;
+  
+  // Immediate visual feedback - disable button and show loading state
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> లోడ్ అవుతోంది...';
+  
+  // Call the actual speak function
+  speakText(text);
+  
+  // Re-enable button after a short delay (TTS will continue playing)
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = originalHTML;
+  }, 1000);
+}
 
 function speakText(text) {
   if (!text) return;
