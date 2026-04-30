@@ -137,6 +137,7 @@ def analyze_and_resolve():
     data = request.get_json()
     context_type = data.get("type", "alerts")   # alerts | districts | news | governance
     items        = data.get("items", [])
+    lang         = data.get("lang", "te")          # "te" (Telugu) or "en" (English)
 
     # Build a compact summary string to stay within token limits
     if context_type == "alerts":
@@ -153,7 +154,7 @@ def analyze_and_resolve():
                  for s in items[:10]]
 
     summary = "\n".join(lines) if lines else "No data available."
-    result = groq.analyze_and_resolve(context_type, summary)
+    result = groq.analyze_and_resolve(context_type, summary, lang)
     return jsonify(result)
 
 
@@ -209,19 +210,20 @@ def voice_query():
 def tts():
     data = request.get_json()
     text = data.get("text", "").strip()
+    lang = data.get("lang", "te")  # "te" (Telugu) or "en" (English)
     if not text:
         return jsonify({"error": "No text provided"}), 400
     # Truncate to 300 chars to limit the number of gTTS chunks (each chunk = 1 HTTP call)
     if len(text) > 300:
         text = text[:300].rsplit(" ", 1)[0]
-    cache_key = hashlib.md5(text.encode("utf-8")).hexdigest()
+    cache_key = hashlib.md5(f"{lang}:{text}".encode("utf-8")).hexdigest()
     if cache_key in _TTS_CACHE:
         # Return cached audio immediately
         _TTS_CACHE.move_to_end(cache_key)
         return send_file(io.BytesIO(_TTS_CACHE[cache_key]), mimetype="audio/mpeg",
                          as_attachment=False, download_name="tts.mp3")
     try:
-        tts_obj = gTTS(text=text, lang="te", slow=False)
+        tts_obj = gTTS(text=text, lang=lang, slow=False)
         buf = io.BytesIO()
         tts_obj.write_to_fp(buf)
         audio_bytes = buf.getvalue()

@@ -151,52 +151,87 @@ class GroqService:
         ]
         return self._chat(messages, max_tokens=150)
 
-    def analyze_and_resolve(self, context_type: str, summary: str) -> dict:
+    def analyze_and_resolve(self, context_type: str, summary: str, lang: str = "te") -> dict:
         """
         Analyze historical data for a given context (alerts/districts/news/governance)
-        and return a Telugu analysis + actionable resolution steps as JSON.
+        and return an analysis + actionable resolution steps as JSON.
+        lang: "te" = Telugu (default), "en" = English
         """
+        is_en = lang == "en"
+        lang_instruction = "English" if is_en else "Telugu"
         context_descriptions = {
             "alerts": (
                 "You are a senior governance analyst for Telangana Chief Minister's Office. "
                 "Analyze the provided active alerts across districts. Identify patterns, "
-                "root causes, and the most critical issues. Respond ONLY with valid JSON."
+                f"root causes, and the most critical issues. Respond ONLY with valid JSON in {lang_instruction}."
             ),
             "districts": (
                 "You are a district performance analyst for Telangana Chief Minister's Office. "
                 "Analyze district sentiment scores, trends, and issues. Identify which districts "
-                "need priority intervention. Respond ONLY with valid JSON."
+                f"need priority intervention. Respond ONLY with valid JSON in {lang_instruction}."
             ),
             "news": (
                 "You are a media intelligence analyst for Telangana Chief Minister's Office. "
                 "Analyze news sentiment patterns across districts. Identify root causes of "
-                "negative news and suggest how to improve public perception. Respond ONLY with valid JSON."
+                f"negative news and suggest how to improve public perception. Respond ONLY with valid JSON in {lang_instruction}."
             ),
             "governance": (
                 "You are a policy strategy advisor for Telangana Chief Minister's Office. "
                 "Analyze pending governance issues and AI suggestions. Identify systemic gaps "
-                "and provide a policy roadmap. Respond ONLY with valid JSON."
+                f"and provide a policy roadmap. Respond ONLY with valid JSON in {lang_instruction}."
             ),
         }
         system_prompt = context_descriptions.get(
             context_type,
-            "You are a governance analyst for Telangana. Respond ONLY with valid JSON.",
+            f"You are a governance analyst for Telangana. Respond ONLY with valid JSON in {lang_instruction}.",
         )
+        if is_en:
+            analysis_key_desc = '"analysis_text": a 2-3 sentence English paragraph analyzing the current situation, patterns, and urgency level.'
+            steps_desc = (
+                "   - Be in English\n"
+                "   - Name the responsible department (e.g., Jal Jeevan Mission, Agriculture Dept, NDRF, NHM)\n"
+                "   - Include a specific timeline (e.g., within 24 hours, within 7 days, within 30 days)\n"
+                "   - State a concrete measurable action\n"
+                '   Example format: "Jal Jeevan Mission: Deploy 20 water tankers to Nizamabad within 48 hours"'
+            )
+            fallback_analysis = "Multiple critical governance issues require immediate attention across Telangana districts. Historical patterns indicate recurring problems in water, agriculture, and healthcare sectors."
+            fallback_steps = [
+                "Hold emergency meeting with concerned departments within 24 hours",
+                "District Collectors: Set clear targets and deadlines within 48 hours",
+                "CMO: Prepare Action Plan within 7 days",
+                "Review progress weekly and escalate blockers",
+                "Submit complete status report within 30 days",
+            ]
+        else:
+            analysis_key_desc = '"analysis_telugu": a 2-3 sentence Telugu paragraph analyzing the current situation, patterns, and urgency level.'
+            steps_desc = (
+                "   - Be in Telugu\n"
+                "   - Name the responsible department (e.g., జల్ జీవన్ మిషన్, వ్యవసాయ శాఖ, NDRF, NHM)\n"
+                "   - Include a specific timeline (e.g., 24 గంటల్లో, 7 రోజుల్లో, 30 రోజుల్లో)\n"
+                "   - State a concrete measurable action\n"
+                "   Example format: 'జల్ జీవన్ మిషన్: 48 గంటల్లో 20 వాటర్ ట్యాంకర్లు నిజామాబాద్ పంపాలి'"
+            )
+            fallback_analysis = "విశ్లేషణ అందుబాటులో లేదు. తర్వాత మళ్ళీ ప్రయత్నించండి."
+            fallback_steps = [
+                "సంబంధిత శాఖలతో అత్యవసర సమావేశం 24 గంటల్లో నిర్వహించాలి",
+                "జిల్లా కలెక్టర్లకు 48 గంటల్లో స్పష్టమైన లక్ష్యాలు నిర్ణయించాలి",
+                "CMO: 7 రోజుల్లో యాక్షన్ ప్లాన్ రూపొందించాలి",
+                "పురోగతిని వారానికొకసారి సమీక్షించాలి",
+                "30 రోజుల్లో పూర్తి నివేదిక సమర్పించాలి",
+            ]
+
+        # Use "analysis_text" for English, "analysis_telugu" for Telugu (backward compat)
+        analysis_field = "analysis_text" if is_en else "analysis_telugu"
         messages = [
             {"role": "system", "content": system_prompt},
             {
                 "role": "user",
                 "content": (
                     f"Current data:\n{summary}\n\n"
-                    "Return a JSON object with EXACTLY these two keys:\n"
-                    '1. "analysis_telugu": a 2-3 sentence Telugu paragraph analyzing the '
-                    "current situation, patterns, and urgency level.\n"
+                    f"Return a JSON object with EXACTLY these two keys:\n"
+                    f'1. "{analysis_field}": {analysis_key_desc}\n'
                     '2. "resolution_steps": a JSON array of exactly 5 strings. Each string must:\n'
-                    "   - Be in Telugu\n"
-                    "   - Name the responsible department (e.g., జల్ జీవన్ మిషన్, వ్యవసాయ శాఖ, NDRF, NHM)\n"
-                    "   - Include a specific timeline (e.g., 24 గంటల్లో, 7 రోజుల్లో, 30 రోజుల్లో)\n"
-                    "   - State a concrete measurable action\n"
-                    "   Example format: 'జల్ జీవన్ మిషన్: 48 గంటల్లో 20 వాటర్ ట్యాంకర్లు నిజామాబాద్ పంపాలి'\n"
+                    f"{steps_desc}\n"
                     "Return ONLY valid JSON, no extra text or markdown."
                 ),
             },
@@ -207,18 +242,16 @@ class GroqService:
             end = raw.rfind("}") + 1
             if start != -1 and end > start:
                 parsed = json.loads(raw[start:end])
-                if "analysis_telugu" in parsed and "resolution_steps" in parsed:
+                if "resolution_steps" in parsed:
+                    # Normalize: always expose both keys for frontend
+                    if "analysis_text" in parsed and "analysis_telugu" not in parsed:
+                        parsed["analysis_telugu"] = parsed["analysis_text"]
+                    elif "analysis_telugu" not in parsed and "analysis_text" not in parsed:
+                        parsed["analysis_telugu"] = fallback_analysis
                     return parsed
         except Exception:
             pass
-        # Fallback if JSON parsing fails
         return {
-            "analysis_telugu": raw[:400] if raw and not raw.startswith("Error") else "విశ్లేషణ అందుబాటులో లేదు. తర్వాత మళ్ళీ ప్రయత్నించండి.",
-            "resolution_steps": [
-                "సంబంధిత శాఖలతో అత్యవసర సమావేశం 24 గంటల్లో నిర్వహించాలి",
-                "జిల్లా కలెక్టర్లకు 48 గంటల్లో స్పష్టమైన లక్ష్యాలు నిర్ణయించాలి",
-                "CMO: 7 రోజుల్లో యాక్షన్ ప్లాన్ రూపొందించాలి",
-                "పురోగతిని వారానికొకసారి సమీక్షించాలి",
-                "30 రోజుల్లో పూర్తి నివేదిక సమర్పించాలి",
-            ],
+            "analysis_telugu": fallback_analysis,
+            "resolution_steps": fallback_steps,
         }

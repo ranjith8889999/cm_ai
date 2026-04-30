@@ -20,7 +20,29 @@ let state = {
   charts: {},
   recognition: null,
   isRecording: false,
+  lang: "te",  // "te" = Telugu (default) | "en" = English
 };
+
+/* ─── Language Helper ─────────────────────────────────── */
+// Returns the Telugu value when lang=te, English value when lang=en.
+// Falls back to te value if en value is missing.
+function t(te, en) { return state.lang === "en" ? (en || te) : te; }
+
+function toggleLang() {
+  state.lang = state.lang === "te" ? "en" : "te";
+  const btn = document.getElementById("langToggleBtn");
+  const lbl = document.getElementById("langLabel");
+  if (lbl) lbl.textContent = state.lang === "en" ? "EN" : "TE";
+  if (btn) btn.classList.toggle("en-active", state.lang === "en");
+  // Re-render all data views
+  renderDashNews();
+  renderDashAlerts();
+  renderAlerts();
+  renderNews(state.currentNewsFilter);
+  renderGovSuggestions();
+  if (state.currentTab === "map") renderDistrictMap();
+  showToast(state.lang === "en" ? "🇬🇧 Switched to English" : "🇮🇳 తెలుగుకు మారారు", "success");
+}
 
 /* ─── Init ───────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
@@ -149,7 +171,7 @@ async function loadTabAnalysis(tab) {
     const res = await fetch(`${API}/analyze`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: cfg.type, items: cfg.getData() }),
+      body: JSON.stringify({ type: cfg.type, items: cfg.getData(), lang: state.lang || "te" }),
     });
     const data = await res.json();
     renderAnalysisPanel(panelKey, data);
@@ -405,7 +427,7 @@ function renderDashNews() {
     <div class="dash-news-item" onclick="switchTab('news')">
       <div class="dni-dot" style="background:${n.sentiment === "positive" ? "var(--success)" : "var(--danger)"}"></div>
       <div>
-        <div class="dni-title">${n.title_telugu}</div>
+        <div class="dni-title">${t(n.title_telugu, n.title)}</div>
         <div class="dni-cat">${catLabel(n.category)} • ${n.district}</div>
       </div>
     </div>`
@@ -422,7 +444,7 @@ function renderDashAlerts() {
     <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;margin-bottom:6px;background:rgba(244,67,54,0.05);border:1px solid rgba(244,67,54,0.1)">
       <span style="font-size:1.3rem">${a.icon}</span>
       <div style="flex:1">
-        <div style="font-family:'Noto Sans Telugu';font-size:0.8rem;font-weight:600">${a.title_telugu}</div>
+        <div style="font-family:'Noto Sans Telugu';font-size:0.8rem;font-weight:600">${t(a.title_telugu, a.title)}</div>
         <div style="font-size:0.68rem;color:var(--text-muted)">${a.district}</div>
       </div>
       <span class="alert-severity sev-${a.severity}">${a.severity}</span>
@@ -547,24 +569,27 @@ function renderNews(cat = "all") {
 }
 
 function newsCard(n) {
+  const isEN = state.lang === "en";
+  const listenLabel = isEN ? "Listen" : "వినండి";
+  const speakContent = escQ(isEN ? (n.title + " " + n.district) : n.summary);
   return `
   <div class="news-card ${n.sentiment}" onclick="toggleNewsDetails(this)">
     <div class="news-card-header">
       <div class="news-sentiment-dot ${n.sentiment}"></div>
-      <div class="news-title">${n.title_telugu}</div>
+      <div class="news-title">${t(n.title_telugu, n.title)}</div>
       <span class="news-category cat-${n.category}">${catLabel(n.category)}</span>
     </div>
     <p class="news-summary">${n.summary}</p>
-    <div class="news-impact">💡 <strong>ప్రభావం:</strong> ${n.impact}</div>
+    <div class="news-impact">💡 <strong>${isEN ? "Impact:" : "ప్రభావం:"}</strong> ${n.impact}</div>
     <div class="news-what-means">
-      <div class="news-what-label">🎯 ఇది అంటే ఏమిటి?</div>
+      <div class="news-what-label">${isEN ? "🎯 What does this mean?" : "🎯 ఇది అంటే ఏమిటి?"}</div>
       ${n.what_this_means}
     </div>
     <div class="news-footer">
       <span class="news-meta">📍 ${n.district} • 📅 ${n.date}</span>
       <div class="news-actions">
-        <button class="news-btn" onclick="speakNewsCard(event, '${escQ(n.summary)}')">🔊 వినండి</button>
-        <button class="news-btn" onclick="aiSummarizeCard(event, '${escQ(n.title_telugu + " " + n.summary)}')">🤖 AI</button>
+        <button class="news-btn" onclick="speakNewsCard(event, '${speakContent}')">🔊 ${listenLabel}</button>
+        <button class="news-btn" onclick="aiSummarizeCard(event, '${escQ(t(n.title_telugu, n.title) + " " + n.summary)}')">🤖 AI</button>
       </div>
     </div>
   </div>`;
@@ -828,23 +853,27 @@ function renderDistrictMap() {
 }
 
 async function showDistrictInfo(d) {
+  const isEN = state.lang === "en";
+  const displayName = t(d.name_telugu, d.name);
   const panel = document.getElementById("mapDistrictInfo");
   panel.innerHTML = `
-    <div class="dist-info-name">${d.name_telugu}</div>
-    <div class="dist-info-score" style="color:${d.score > 60 ? "var(--success)" : d.score > 40 ? "var(--warning)" : "var(--danger)"}">${d.score}</div>
-    <div class="dist-info-mood">మూడ్: ${moodEmoji(d.sentiment)} ${d.mood}</div>
+    <div class="dist-info-name">${displayName}</div>
+    <div class="dist-info-score" style="color:${d.score > 60 ? "var(--success)" : d.score > 40 ? "var(--warning)" : "var(--danger)"}">Score: ${d.score}</div>
+    <div class="dist-info-mood">${isEN ? "Mood:" : "మూడ్:"} ${moodEmoji(d.sentiment)} ${d.mood}</div>
     <div class="dist-info-issues">
-      <strong style="font-family:'Noto Sans Telugu';font-size:0.78rem">సమస్యలు:</strong><br/>
+      <strong style="font-family:'Noto Sans Telugu';font-size:0.78rem">${isEN ? "Issues:" : "సమస్యలు:"}</strong><br/>
       ${d.issues.map((i) => `<span class="dist-issue-tag">${i}</span>`).join("")}
     </div>
     <div style="margin-top:10px;font-size:0.72rem;color:var(--text-muted);display:flex;gap:10px">
-      <span>✅ ${d.positive_news} మంచి</span>
-      <span>❌ ${d.negative_news} చెడు</span>
+      <span>✅ ${d.positive_news} ${isEN ? "Good" : "మంచి"}</span>
+      <span>❌ ${d.negative_news} ${isEN ? "Bad" : "చెడు"}</span>
     </div>
     <div class="dist-ai-summary" id="distAiSummary">
-      <i class="fas fa-spinner fa-spin"></i> AI సారాంశం లోడ్ అవుతోంది...
+      <i class="fas fa-spinner fa-spin"></i> ${isEN ? "Loading AI summary..." : "AI సారాంశం లోడ్ అవుతోంది..."}
     </div>`;
-  speakText(`${d.name_telugu} జిల్లా సెంటిమెంట్ స్కోర్ ${d.score}. మూడ్: ${d.mood}`);
+  speakText(isEN
+    ? `${d.name} district. Sentiment score ${d.score}. Mood: ${d.mood}.`
+    : `${d.name_telugu} జిల్లా సెంటిమెంట్ స్కోర్ ${d.score}. మూడ్: ${d.mood}`);
   try {
     const r = await fetch(`${API}/districts/${encodeURIComponent(d.name)}`);
     const data = await r.json();
@@ -852,7 +881,9 @@ async function showDistrictInfo(d) {
     if (el && data.ai_summary) el.textContent = data.ai_summary;
   } catch {
     const el = document.getElementById("distAiSummary");
-    if (el) el.textContent = `${d.name_telugu} జిల్లాలో ${d.issues[0]} ప్రధాన సమస్యగా ఉంది.`;
+    if (el) el.textContent = isEN
+      ? `${d.name} district: ${d.issues[0]} is the primary issue.`
+      : `${d.name_telugu} జిల్లాలో ${d.issues[0]} ప్రధాన సమస్యగా ఉంది.`;
   }
 }
 
@@ -907,8 +938,13 @@ function alertCard(a) {
 
 function playAlertBriefing() {
   const redAlerts = state.alertsData.filter((a) => a.type === "red");
-  const text = redAlerts.map((a) => `అలర్ట్: ${a.title_telugu}. ${a.action_required}`).join(". ");
-  speakText("తక్షణం దృష్టి అవసరం. " + text);
+  if (state.lang === "en") {
+    const text = redAlerts.map((a) => `Alert: ${a.title}. ${a.district} district.`).join(". ");
+    speakText("Immediate attention required. " + text);
+  } else {
+    const text = redAlerts.map((a) => `అలర్ట్: ${a.title_telugu}. ${a.action_required}`).join(". ");
+    speakText("తక్షణం దృష్టి అవసరం. " + text);
+  }
 }
 
 /* ─── Impact Tracker ─────────────────────────────────── */
@@ -1157,7 +1193,7 @@ function speakText(text) {
   fetch(API + "/tts", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, lang: state.lang || "te" }),
   })
     .then((res) => {
       if (!res.ok) throw new Error("TTS API error");

@@ -367,6 +367,18 @@ body {
 }
 .btn-icon-circle:hover { background: rgba(244,67,54,0.15); color: var(--danger); }
 
+.btn-lang-toggle {
+  height: 36px; padding: 0 14px; border-radius: 18px;
+  background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.4);
+  color: var(--primary); font-size: 0.78rem; font-weight: 700;
+  cursor: pointer; transition: var(--transition); letter-spacing: 0.5px;
+}
+.btn-lang-toggle:hover { background: rgba(99,102,241,0.3); }
+.btn-lang-toggle.en-active {
+  background: rgba(0,188,212,0.15); border-color: rgba(0,188,212,0.4);
+  color: #00bcd4;
+}
+
 /* ─── Dashboard Grid ─────────────────────────────────── */
 .greeting-card {
   position: relative; border-radius: var(--radius);
