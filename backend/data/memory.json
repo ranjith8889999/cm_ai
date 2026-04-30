@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "date": "2026-04-21",
+    "status": "open",
+    "priority": "high",
+    "title": "నిజామాబాద్ నీటి సమస్య",
+    "title_en": "Nizamabad Water Issue",
+    "description": "నిజామాబాద్ పట్టణంలో 50,000 కుటుంబాలకు నీటి సరఫరా లేదు. శాశ్వత పరిష్కారం అవసరం.",
+    "district": "Nizamabad",
+    "follow_up_days": 5,
+    "reminder": "మీరు 5 రోజుల క్రితం చెప్పిన నిజామాబాద్ నీటి సమస్య ఇంకా పరిష్కారం కాలేదు",
+    "tags": ["water", "urgent"]
+  },
+  {
+    "id": 2,
+    "date": "2026-04-18",
+    "status": "open",
+    "priority": "high",
+    "title": "వరంగల్ రైతుల పంట బీమా",
+    "title_en": "Warangal Farmers Crop Insurance",
+    "description": "2 లక్షల రైతులకు పంట బీమా పరిహారం విడుదల చేయాలి. వ్యవసాయ శాఖ చర్యలు తీసుకోవాలి.",
+    "district": "Warangal Urban",
+    "follow_up_days": 8,
+    "reminder": "వరంగల్ రైతుల పంట బీమా అదే సమస్యగా ఉంది – 8 రోజులు అయింది",
+    "tags": ["agriculture", "farmers"]
+  },
+  {
+    "id": 3,
+    "date": "2026-04-15",
+    "status": "resolved",
+    "priority": "medium",
+    "title": "కరీంనగర్ రోడ్ల మరమ్మత్తు",
+    "title_en": "Karimnagar Road Repairs",
+    "description": "కరీంనగర్ జిల్లాలో 200 కి.మీ రోడ్ల మరమ్మత్తు అవసరం.",
+    "district": "Karimnagar",
+    "follow_up_days": 11,
+    "reminder": "కరీంనగర్ రోడ్ మరమ్మత్తు పూర్తయింది ✅",
+    "tags": ["roads", "infrastructure"]
+  },
+  {
+    "id": 4,
+    "date": "2026-04-20",
+    "status": "open",
+    "priority": "high",
+    "title": "ఆదిలాబాద్ ఆసుపత్రి సిబ్బంది నియామకం",
+    "title_en": "Adilabad Hospital Staff Recruitment",
+    "description": "ఆదిలాబాద్ గిరిజన ప్రాంత ఆసుపత్రుల్లో వైద్య సిబ్బందిని నియమించాలి.",
+    "district": "Adilabad",
+    "follow_up_days": 6,
+    "reminder": "ఆదిలాబాద్ ఆసుపత్రి సిబ్బంది నియామకం – 6 రోజులు పెండింగ్‌లో ఉంది",
+    "tags": ["health", "tribal"]
+  },
+  {
+    "id": 5,
+    "date": "2026-04-22",
+    "status": "open",
+    "priority": "medium",
+    "title": "మహబూబ్‌నగర్ బడి మానేసిన పిల్లలు",
+    "title_en": "Mahabubnagar School Dropout Program",
+    "description": "12,000 మంది పిల్లలను పాఠశాలకు తిరిగి తేవడానికి ప్రత్యేక కార్యక్రమం అమలు చేయాలి.",
+    "district": "Mahabubnagar",
+    "follow_up_days": 4,
+    "reminder": "మహబూబ్‌నగర్ బాలల విద్య కార్యక్రమం – 4 రోజులు పెండింగ్‌లో ఉంది",
+    "tags": ["education", "children"]
+  }
+]

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>తెలంగాణ AI గవర్నెన్స్ డాష్‌బోర్డ్</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════ LOADING SCREEN ═══════════════ -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-content">
+      <div class="loading-logo">
+        <div class="logo-ring"></div>
+        <div class="logo-ring ring2"></div>
+        <div class="logo-ring ring3"></div>
+        <span class="logo-icon">🏛️</span>
+      </div>
+      <h1 class="loading-title">తెలంగాణ AI</h1>
+      <p class="loading-sub">గవర్నెన్స్ ఇంటెలిజెన్స్ సిస్టమ్</p>
+      <div class="loading-bar"><div class="loading-fill" id="loadFill"></div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PARTICLE CANVAS ═══════════════ -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ═══════════════ RED ALERT BANNER ═══════════════ -->
+  <div class="alert-banner" id="alertBanner" style="display:none">
+    <span class="alert-icon">🚨</span>
+    <span class="alert-banner-text" id="alertBannerText">తక్షణం దృష్టి అవసరం</span>
+    <button onclick="dismissBanner()" class="alert-banner-close">✕</button>
+  </div>
+
+  <!-- ═══════════════ SIDEBAR ═══════════════ -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-emblem">TS</div>
+        <div class="logo-info">
+          <span class="logo-title">తెలంగాణ AI</span>
+          <span class="logo-sub">Gov Intelligence</span>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div class="sidebar-date" id="sidebarDate"></div>
+
+    <ul class="nav-list" id="navList">
+      <li class="nav-item active" data-tab="dashboard">
+        <span class="nav-icon"><i class="fas fa-home"></i></span>
+        <span class="nav-label">డాష్‌బోర్డ్</span>
+        <span class="nav-badge" id="badge-dashboard"></span>
+      </li>
+      <li class="nav-item" data-tab="news">
+        <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
+        <span class="nav-label">వార్తలు</span>
+        <span class="nav-badge" id="badge-news">12</span>
+      </li>
+      <li class="nav-item" data-tab="polls">
+        <span class="nav-icon"><i class="fas fa-chart-bar"></i></span>
+        <span class="nav-label">ప్రజా అభిప్రాయం</span>
+        <span class="nav-badge" id="badge-polls"></span>
+      </li>
+      <li class="nav-item" data-tab="governance">
+        <span class="nav-icon"><i class="fas fa-robot"></i></span>
+        <span class="nav-label">AI సూచనలు</span>
+        <span class="nav-badge pulse-badge" id="badge-governance">3</span>
+      </li>
+      <li class="nav-item" data-tab="map">
+        <span class="nav-icon"><i class="fas fa-map-marked-alt"></i></span>
+        <span class="nav-label">జిల్లా మ్యాప్</span>
+        <span class="nav-badge" id="badge-map"></span>
+      </li>
+      <li class="nav-item" data-tab="alerts">
+        <span class="nav-icon"><i class="fas fa-bell"></i></span>
+        <span class="nav-label">రెడ్ అలర్ట్లు</span>
+        <span class="nav-badge danger-badge" id="badge-alerts">5</span>
+      </li>
+      <li class="nav-item" data-tab="impact">
+        <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
+        <span class="nav-label">ప్రభావ ట్రాకర్</span>
+        <span class="nav-badge" id="badge-impact"></span>
+      </li>
+      <li class="nav-item" data-tab="memory">
+        <span class="nav-icon"><i class="fas fa-brain"></i></span>
+        <span class="nav-label">జ్ఞాపకం</span>
+        <span class="nav-badge warning-badge" id="badge-memory">4</span>
+      </li>
+      <li class="nav-item" data-tab="voice">
+        <span class="nav-icon"><i class="fas fa-microphone"></i></span>
+        <span class="nav-label">వాయిస్ AI</span>
+        <span class="nav-badge" id="badge-voice"></span>
+      </li>
+      <li class="nav-item" data-tab="election">
+        <span class="nav-icon"><i class="fas fa-vote-yea"></i></span>
+        <span class="nav-label">ఎన్నికల ఫలితాలు</span>
+        <span class="nav-badge success-badge" id="badge-election">2023</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">CM</div>
+        <div class="user-info">
+          <span class="user-name">Chief Minister</span>
+          <span class="user-role">Telangana</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2 class="page-title" id="pageTitle">డాష్‌బోర్డ్</h2>
+        <span class="page-subtitle" id="pageSubtitle">తెలంగాణ రాష్ట్ర గవర్నెన్స్ అవలోకనం</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-time" id="topbarTime"></div>
+        <button class="btn-refresh" id="refreshBtn" onclick="manualRefresh()" title="అన్ని డేటా రిఫ్రెష్ చేయండి">
+          <i class="fas fa-sync-alt" id="refreshIcon"></i>
+          <span>రిఫ్రెష్</span>
+        </button>
+        <button class="btn-brief" id="dailyBriefBtn" onclick="playDailyBrief()">
+          <i class="fas fa-play-circle"></i>
+          <span>1 నిమిషం బ్రీఫింగ్</span>
+        </button>
+        <button class="btn-icon-circle" onclick="stopSpeaking()" title="Stop Audio">
+          <i class="fas fa-stop"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══ TAB: DASHBOARD ═══ -->
+    <div id="tab-dashboard" class="tab-panel active">
+      <div class="greeting-card" id="greetingCard">
+        <div class="greeting-bg"></div>
+        <div class="greeting-content">
+          <div class="greeting-text">
+            <span class="greeting-time-label" id="greetingLabel">శుభోదయం</span>
+            <h1 id="greetingName">గౌరవనీయ ముఖ్యమంత్రి గారికి 🙏</h1>
+            <p id="greetingDate"></p>
+          </div>
+          <div class="greeting-stats">
+            <div class="gs-stat">
+              <span class="gs-num" id="gs-districts">33</span>
+              <span class="gs-label">జిల్లాలు</span>
+            </div>
+            <div class="gs-stat">
+              <span class="gs-num danger" id="gs-alerts">5</span>
+              <span class="gs-label">అలర్ట్లు</span>
+            </div>
+            <div class="gs-stat">
+              <span class="gs-num success" id="gs-positive">7</span>
+              <span class="gs-label">పాజిటివ్ వార్తలు</span>
+            </div>
+            <div class="gs-stat">
+              <span class="gs-num warning" id="gs-suggestions">3</span>
+              <span class="gs-label">AI సూచనలు</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Quick News Summary -->
+        <div class="glass-card dash-news">
+          <div class="card-header">
+            <h3><i class="fas fa-newspaper"></i> నేటి ముఖ్య వార్తలు</h3>
+            <button class="card-btn" onclick="switchTab('news')">మరిన్ని →</button>
+          </div>
+          <div id="dashNewsList" class="dash-news-list">
+            <div class="skeleton-list">
+              <div class="skeleton-item"></div>
+              <div class="skeleton-item"></div>
+              <div class="skeleton-item"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mood Overview -->
+        <div class="glass-card dash-mood">
+          <div class="card-header">
+            <h3><i class="fas fa-heart-pulse"></i> రాష్ట్ర మూడ్</h3>
+          </div>
+          <div class="mood-chart-wrap">
+            <canvas id="moodDonutChart"></canvas>
+          </div>
+          <div class="mood-legend" id="moodLegend"></div>
+        </div>
+
+        <!-- Top Alerts -->
+        <div class="glass-card dash-alerts">
+          <div class="card-header">
+            <h3><i class="fas fa-triangle-exclamation"></i> అత్యవసర అలర్ట్లు</h3>
+            <button class="card-btn danger" onclick="switchTab('alerts')">అన్నీ చూడండి →</button>
+          </div>
+          <div id="dashAlertsList"></div>
+        </div>
+
+        <!-- Sentiment Trend -->
+        <div class="glass-card dash-trend">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-area"></i> 7 రోజుల ట్రెండ్</h3>
+          </div>
+          <canvas id="trendLineChart"></canvas>
+        </div>
+
+        <!-- AI Suggestion Preview -->
+        <div class="glass-card dash-ai">
+          <div class="card-header">
+            <h3><i class="fas fa-robot"></i> AI సూచన</h3>
+            <button class="card-btn ai" onclick="switchTab('governance')">మరిన్ని →</button>
+          </div>
+          <div id="dashAiPreview"></div>
+        </div>
+
+        <!-- Memory Reminders -->
+        <div class="glass-card dash-memory">
+          <div class="card-header">
+            <h3><i class="fas fa-clock-rotate-left"></i> పెండింగ్ రిమైండర్లు</h3>
+            <button class="card-btn warning" onclick="switchTab('memory')">చూడండి →</button>
+          </div>
+          <div id="dashMemoryList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: NEWS ═══ -->
+    <div id="tab-news" class="tab-panel">
+      <div class="tab-toolbar">
+        <div class="filter-tabs" id="newsFilter">
+          <button class="filter-btn active" data-cat="all">అన్నీ</button>
+          <button class="filter-btn" data-cat="infrastructure">మౌలిక సదుపాయాలు</button>
+          <button class="filter-btn" data-cat="politics">రాజకీయాలు</button>
+          <button class="filter-btn" data-cat="public_complaints">ప్రజా ఫిర్యాదులు</button>
+          <button class="filter-btn" data-cat="economy">ఆర్థిక వ్యవస్థ</button>
+        </div>
+        <button class="btn-brief small" onclick="summarizeAllNews()">
+          <i class="fas fa-wand-magic-sparkles"></i> AI సారాంశం
+        </button>
+      </div>
+
+      <div id="newsList" class="news-grid"></div>
+
+      <!-- AI Summary Panel -->
+      <div class="ai-panel" id="newsSummaryPanel" style="display:none">
+        <div class="ai-panel-header">
+          <span><i class="fas fa-robot"></i> AI తెలుగు సారాంశం</span>
+          <button onclick="closeAiPanel('newsSummaryPanel')">✕</button>
+        </div>
+        <div class="ai-panel-body" id="newsSummaryText"></div>
+        <button class="btn-speak" onclick="speakText(document.getElementById('newsSummaryText').innerText)">
+          <i class="fas fa-volume-high"></i> వినండి
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: POLLS ═══ -->
+    <div id="tab-polls" class="tab-panel">
+      <div class="polls-header">
+        <h2>ప్రజా అభిప్రాయ విశ్లేషణ</h2>
+        <p>సోషల్ మీడియా, జిల్లా సర్వేలు, స్థానిక అభిప్రాయాల ఆధారంగా</p>
+      </div>
+
+      <div id="pollsContainer" class="polls-container"></div>
+
+      <div class="sentiment-district-section">
+        <div class="glass-card">
+          <div class="card-header">
+            <h3><i class="fas fa-map-location-dot"></i> జిల్లా-వారీ మూడ్ (టాప్ 8)</h3>
+          </div>
+          <canvas id="districtSentimentChart" height="120"></canvas>
+        </div>
+        <div class="glass-card">
+          <div class="card-header">
+            <h3><i class="fas fa-calendar-week"></i> 7 రోజుల ట్రెండ్</h3>
+          </div>
+          <canvas id="weekTrendChart" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: AI GOVERNANCE ═══ -->
+    <div id="tab-governance" class="tab-panel">
+      <div class="gov-header">
+        <h2><i class="fas fa-robot"></i> AI గవర్నెన్స్ సూచనలు</h2>
+        <div class="gov-controls">
+          <select id="govDistrictSelect" class="glass-select" onchange="loadGovernanceSuggestions()">
+            <option value="">అన్ని జిల్లాలు</option>
+          </select>
+          <button class="btn-brief small" onclick="loadGovernanceSuggestions()">
+            <i class="fas fa-sync"></i> AI నుండి తాజా సూచనలు
+          </button>
+        </div>
+      </div>
+
+      <div id="govLoader" class="ai-loader" style="display:none">
+        <div class="ai-thinking">
+          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+          <span>AI ఆలోచిస్తోంది...</span>
+        </div>
+      </div>
+
+      <div id="govSuggestions" class="gov-cards"></div>
+    </div>
+
+    <!-- ═══ TAB: MAP ═══ -->
+    <div id="tab-map" class="tab-panel">
+      <div class="map-layout">
+        <div class="map-sidebar">
+          <h3>జిల్లా వివరాలు</h3>
+          <div id="mapDistrictInfo" class="district-info-panel">
+            <p class="map-hint">మ్యాప్ పై జిల్లాను క్లిక్ చేయండి</p>
+          </div>
+          <div class="map-legend">
+            <h4>రంగు అర్థం</h4>
+            <div class="legend-item"><span class="leg-dot green"></span> సంతోషకరం (60+)</div>
+            <div class="legend-item"><span class="leg-dot yellow"></span> సాధారణం (40-60)</div>
+            <div class="legend-item"><span class="leg-dot red"></span> ఆందోళనకరం (&lt;40)</div>
+          </div>
+        </div>
+        <div class="map-main">
+          <div class="map-toolbar">
+            <span class="map-title">తెలంగాణ జిల్లా హీట్‌మ్యాప్</span>
+            <div class="map-filters">
+              <button class="map-filter-btn active" data-view="sentiment">సెంటిమెంట్</button>
+              <button class="map-filter-btn" data-view="alerts">అలర్ట్లు</button>
+              <button class="map-filter-btn" data-view="population">జనాభా</button>
+            </div>
+          </div>
+          <div class="telangana-map-container">
+            <svg id="telanganaMap" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
+              <!-- Telangana State Outline -->
+              <path d="M120,20 L160,15 L210,10 L260,8 L310,12 L360,20 L400,35 L420,55 L430,80 L425,110 L415,135 L410,160 L420,185 L415,210 L400,230 L385,255 L375,280 L380,310 L370,335 L355,360 L340,380 L320,400 L300,415 L275,430 L255,445 L235,455 L210,460 L185,455 L165,445 L145,430 L125,415 L108,395 L95,370 L88,345 L85,315 L90,285 L100,260 L105,235 L95,210 L85,185 L80,160 L82,135 L88,110 L95,85 L105,60 Z" 
+                    fill="rgba(15,25,60,0.5)" stroke="rgba(100,150,255,0.4)" stroke-width="2"/>
+              <!-- Districts will be rendered by JS -->
+              <g id="districtMarkers"></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: ALERTS ═══ -->
+    <div id="tab-alerts" class="tab-panel">
+      <div class="alerts-header">
+        <div class="alert-hero">
+          <div class="alert-hero-icon pulse-red">🚨</div>
+          <div>
+            <h2>రెడ్ అలర్ట్ సిస్టమ్</h2>
+            <p>తక్షణ దృష్టి అవసరమయ్యే సమస్యలు</p>
+          </div>
+        </div>
+        <button class="btn-brief danger" onclick="playAlertBriefing()">
+          <i class="fas fa-volume-high"></i> అన్ని అలర్ట్లు వినండి
+        </button>
+      </div>
+
+      <div id="alertsList" class="alerts-list"></div>
+    </div>
+
+    <!-- ═══ TAB: IMPACT ═══ -->
+    <div id="tab-impact" class="tab-panel">
+      <div class="impact-header">
+        <h2><i class="fas fa-chart-line"></i> ముందు vs తర్వాత ప్రభావం</h2>
+        <p>ప్రభుత్వ పథకాల ప్రజా స్పందన ట్రాకింగ్</p>
+      </div>
+
+      <div id="impactList" class="impact-list"></div>
+    </div>
+
+    <!-- ═══ TAB: MEMORY ═══ -->
+    <div id="tab-memory" class="tab-panel">
+      <div class="memory-header">
+        <h2><i class="fas fa-brain"></i> జ్ఞాపక వ్యవస్థ</h2>
+        <p>మీరు చెప్పిన సమస్యలు, ఫాలో-అప్ రిమైండర్లు</p>
+      </div>
+
+      <div class="memory-add-form glass-card">
+        <h4><i class="fas fa-plus-circle"></i> కొత్త సమస్య నమోదు చేయండి</h4>
+        <div class="form-row">
+          <input type="text" id="memTitle" placeholder="సమస్య పేరు (తెలుగులో)" class="glass-input" />
+          <select id="memDistrict" class="glass-select">
+            <option value="">జిల్లా ఎంచుకోండి</option>
+          </select>
+          <select id="memPriority" class="glass-select">
+            <option value="high">అత్యవసరం</option>
+            <option value="medium">మధ్యస్థం</option>
+            <option value="low">తక్కువ</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <textarea id="memDesc" placeholder="వివరాలు రాయండి..." class="glass-textarea" rows="2"></textarea>
+          <button class="btn-brief" onclick="addMemoryItem()">
+            <i class="fas fa-save"></i> సేవ్ చేయండి
+          </button>
+        </div>
+      </div>
+
+      <div id="memoryList" class="memory-list"></div>
+    </div>
+
+    <!-- ═══ TAB: VOICE ═══ -->
+    <div id="tab-voice" class="tab-panel">
+      <div class="voice-center">
+        <div class="voice-hero">
+          <div class="voice-orb" id="voiceOrb" onclick="toggleVoiceRecording()">
+            <div class="orb-ring r1"></div>
+            <div class="orb-ring r2"></div>
+            <div class="orb-ring r3"></div>
+            <i class="fas fa-microphone orb-icon" id="voiceIcon"></i>
+          </div>
+          <h2 id="voiceStatus">మీకు ఏమి సహాయం కావాలి?</h2>
+          <p id="voiceHint">పై బటన్ నొక్కి మాట్లాడండి లేదా క్రింద టైప్ చేయండి</p>
+        </div>
+
+        <div class="voice-input-row">
+          <input type="text" id="voiceTextInput" placeholder="ఇక్కడ ప్రశ్న టైప్ చేయండి... ఉదా: Warangal situation enti?"
+                 class="glass-input voice-input" onkeydown="if(event.key==='Enter') sendVoiceQuery()" />
+          <button class="btn-brief" onclick="sendVoiceQuery()">
+            <i class="fas fa-paper-plane"></i> పంపండి
+          </button>
+        </div>
+
+        <div class="voice-suggestions">
+          <p>సూచించిన ప్రశ్నలు:</p>
+          <div class="sugg-chips">
+            <span onclick="askVoiceQuery('Warangal situation enti?')">Warangal situation enti?</span>
+            <span onclick="askVoiceQuery('Nizamabad lo water problem undi?')">Nizamabad water problem?</span>
+            <span onclick="askVoiceQuery('Today top 3 issues cheppu')">నేటి top 3 సమస్యలు</span>
+            <span onclick="askVoiceQuery('Karimnagar positive news cheppu')">Karimnagar మంచి వార్తలు</span>
+            <span onclick="askVoiceQuery('Adilabad hospital problem enti?')">Adilabad hospital problem?</span>
+          </div>
+        </div>
+
+        <!-- Conversation History -->
+        <div class="voice-chat" id="voiceChat">
+          <div class="chat-welcome">
+            <div class="chat-bubble ai-bubble">
+              <span>నమస్కారం! నేను తెలంగాణ AI సహాయకుడిని. మీకు ఏ జిల్లా గురించైనా, ఏ సమస్య గురించైనా అడగవచ్చు. 🙏</span>
+              <button class="speak-mini" onclick="speakText('నమస్కారం! నేను తెలంగాణ AI సహాయకుడిని.')">
+                <i class="fas fa-volume-high"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: ELECTION RESULTS ═══ -->
+    <div id="tab-election" class="tab-panel">
+      <div class="election-header">
+        <div class="election-hero">
+          <div class="election-hero-icon">🗳️</div>
+          <div>
+            <h2>తెలంగాణ అసెంబ్లీ ఎన్నికలు 2023</h2>
+            <p>నవంబర్ 30, 2023 | మొత్తం స్థానాలు: 119 | ఫలితాలు: డిసెంబర్ 3, 2023</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overall Summary Chart -->
+      <div class="election-summary-row">
+        <div class="glass-card election-chart-card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-pie"></i> సీట్ల పంపిణీ</h3>
+          </div>
+          <div class="election-donut-wrap">
+            <canvas id="electionDonutChart"></canvas>
+          </div>
+          <div class="election-legend" id="electionLegend"></div>
+        </div>
+
+        <div class="glass-card election-bar-card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-bar"></i> పార్టీల పోటీ</h3>
+          </div>
+          <div class="election-bar-wrap">
+            <canvas id="electionBarChart"></canvas>
+          </div>
+        </div>
+
+        <div class="glass-card election-stats-card">
+          <div class="card-header">
+            <h3><i class="fas fa-trophy"></i> ముఖ్య గణాంకాలు</h3>
+          </div>
+          <div class="election-key-stats">
+            <div class="eks-item">
+              <span class="eks-icon" style="background:rgba(21,101,192,0.2);color:#1565c0">🤚</span>
+              <div class="eks-info"><span class="eks-name">INC విజయం</span><span class="eks-val" style="color:#1565c0">64 సీట్లు</span></div>
+            </div>
+            <div class="eks-item">
+              <span class="eks-icon" style="background:rgba(230,81,0,0.2);color:#e65100">🌸</span>
+              <div class="eks-info"><span class="eks-name">BRS</span><span class="eks-val" style="color:#e65100">39 సీట్లు</span></div>
+            </div>
+            <div class="eks-item">
+              <span class="eks-icon" style="background:rgba(255,87,34,0.2);color:#ff5722">🪷</span>
+              <div class="eks-info"><span class="eks-name">BJP</span><span class="eks-val" style="color:#ff5722">8 సీట్లు</span></div>
+            </div>
+            <div class="eks-item">
+              <span class="eks-icon" style="background:rgba(0,121,107,0.2);color:#00796b">☪️</span>
+              <div class="eks-info"><span class="eks-name">AIMIM</span><span class="eks-val" style="color:#00796b">7 సీట్లు</span></div>
+            </div>
+            <div class="eks-item">
+              <span class="eks-icon" style="background:rgba(198,40,40,0.2);color:#c62828">⭐</span>
+              <div class="eks-info"><span class="eks-name">CPI</span><span class="eks-val" style="color:#c62828">1 సీటు</span></div>
+            </div>
+            <div class="eks-item">
+              <span class="eks-icon" style="background:rgba(100,100,100,0.2);color:#aaa">🗳️</span>
+              <div class="eks-info"><span class="eks-name">మొత్తం ఓటింగ్</span><span class="eks-val" style="color:var(--secondary)">64.7%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Party Cards -->
+      <div class="election-section-title">
+        <i class="fas fa-building-columns"></i> పార్టీ వివరాలు – గెలిచిన స్థానాలలో పరిస్థితి
+        <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;margin-left:10px">పార్టీ కార్డ్ నొక్కి పూర్తి వివరాలు చూడండి</span>
+      </div>
+
+      <div class="election-party-cards" id="electionPartyCards"></div>
+
+      <!-- Detail Panel -->
+      <div class="election-detail-panel glass-card" id="electionDetailPanel" style="display:none">
+        <div class="edp-header" id="edpHeader"></div>
+        <div class="edp-tabs">
+          <button class="edp-tab-btn active" onclick="showEdpSection('constituencies')">
+            <i class="fas fa-map-marker-alt"></i> గెలిచిన నియోజకవర్గాలు
+          </button>
+          <button class="edp-tab-btn" onclick="showEdpSection('negative')">
+            <i class="fas fa-circle-exclamation"></i> సమస్యలు
+          </button>
+          <button class="edp-tab-btn" onclick="showEdpSection('positive')">
+            <i class="fas fa-circle-check"></i> విజయాలు
+          </button>
+        </div>
+        <div id="edpContent" class="edp-content"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════ AUDIO PLAYER BAR ═══════════════ -->
+  <div class="audio-bar" id="audioBar" style="display:none">
+    <div class="audio-bar-inner">
+      <div class="audio-waveform" id="audioWaveform">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span class="audio-text" id="audioBarText">ఆడియో ప్లే అవుతోంది...</span>
+      <button class="audio-stop" onclick="stopSpeaking()">
+        <i class="fas fa-stop"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TOAST ═══════════════ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

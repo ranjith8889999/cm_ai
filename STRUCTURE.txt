@@ -1,0 +1,19 @@
+cm/
+├── backend/
+│   ├── app.py              # Flask API server
+│   ├── groq_service.py     # Groq AI integration (Llama 3.1)
+│   ├── requirements.txt    # Python dependencies
+│   └── data/
+│       ├── news.json       # 12 Telangana news items
+│       ├── districts.json  # 33 Telangana districts with coordinates
+│       ├── polls.json      # Public opinion polls
+│       ├── alerts.json     # Red alerts
+│       ├── impact.json     # Before/After impact data
+│       ├── memory.json     # Saved issues & reminders
+│       └── governance.json # Fallback AI suggestions
+└── frontend/
+    ├── index.html          # Main SPA
+    ├── css/
+    │   └── styles.css      # Full UI with animations
+    └── js/
+        └── main.js         # All interactivity + API calls

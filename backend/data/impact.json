@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "scheme": "Karimnagar Road Repair Scheme",
+    "scheme_telugu": "కరీంనగర్ రోడ్ మరమ్మత్తు పథకం",
+    "district": "Karimnagar",
+    "launched": "2026-01-15",
+    "completed": "2026-04-15",
+    "before": {
+      "sentiment_score": 35,
+      "public_rating": 2.1,
+      "complaints": 420,
+      "description_telugu": "రోడ్లు చాలా పాడైపోయాయి. ప్రజలు చాలా అసంతృప్తిగా ఉన్నారు."
+    },
+    "after": {
+      "sentiment_score": 72,
+      "public_rating": 4.2,
+      "complaints": 45,
+      "description_telugu": "రోడ్లు బాగుపడ్డాయి. ప్రజలు సంతోషంగా ఉన్నారు."
+    },
+    "improvement": 37,
+    "beneficiaries": 500000,
+    "cost_crore": 85,
+    "status": "completed",
+    "feedback_telugu": "కరీంనగర్ ప్రజలు ప్రభుత్వ చర్యలను మెచ్చుకుంటున్నారు"
+  },
+  {
+    "id": 2,
+    "scheme": "Rajanna Sircilla Textile Industry Support",
+    "scheme_telugu": "రాజన్న సిరిసిల్ల వస్త్ర పరిశ్రమ మద్దతు",
+    "district": "Rajanna Sircilla",
+    "launched": "2025-10-01",
+    "completed": null,
+    "before": {
+      "sentiment_score": 40,
+      "public_rating": 2.5,
+      "complaints": 280,
+      "description_telugu": "చేనేత కార్మికులకు తక్కువ ఆదాయం. ఉద్యోగం పోయే భయం."
+    },
+    "after": {
+      "sentiment_score": 65,
+      "public_rating": 3.8,
+      "complaints": 90,
+      "description_telugu": "ఆదాయం పెరిగింది. కార్మికులు ఆశాభావంగా ఉన్నారు."
+    },
+    "improvement": 25,
+    "beneficiaries": 45000,
+    "cost_crore": 120,
+    "status": "in_progress",
+    "feedback_telugu": "చేనేత కార్మికులు ప్రభుత్వ సహాయానికి కృతజ్ఞులు"
+  },
+  {
+    "id": 3,
+    "scheme": "Hyderabad Metro Phase 1 Impact",
+    "scheme_telugu": "హైదరాబాద్ మెట్రో ఫేజ్ 1 ప్రభావం",
+    "district": "Hyderabad",
+    "launched": "2017-11-28",
+    "completed": "2023-03-15",
+    "before": {
+      "sentiment_score": 45,
+      "public_rating": 2.8,
+      "complaints": 1200,
+      "description_telugu": "ట్రాఫిక్ చాలా ఇబ్బంది. ప్రజలు అసంతృప్తి."
+    },
+    "after": {
+      "sentiment_score": 75,
+      "public_rating": 4.4,
+      "complaints": 300,
+      "description_telugu": "మెట్రో వల్ల ట్రాఫిక్ తగ్గింది. ప్రజలు చాలా సంతోషంగా ఉన్నారు."
+    },
+    "improvement": 30,
+    "beneficiaries": 3000000,
+    "cost_crore": 14132,
+    "status": "completed",
+    "feedback_telugu": "హైదరాబాద్ ట్రాఫిక్ 28% తగ్గింది – ప్రజల సెంటిమెంట్ 66% మెరుగైంది"
+  }
+]

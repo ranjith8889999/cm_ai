@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "question": "తెలంగాణలో రోడ్ల నాణ్యత గురించి మీ అభిప్రాయం?",
+    "question_en": "How do you rate road quality in Telangana?",
+    "options": [
+      {
+        "label": "చాలా మంచిది",
+        "value": "excellent",
+        "percent": 15,
+        "color": "#00e676"
+      },
+      {
+        "label": "మంచిది",
+        "value": "good",
+        "percent": 28,
+        "color": "#69f0ae"
+      },
+      {
+        "label": "సాధారణం",
+        "value": "average",
+        "percent": 30,
+        "color": "#ffd700"
+      },
+      {
+        "label": "చాలా చెడు",
+        "value": "poor",
+        "percent": 27,
+        "color": "#f44336"
+      }
+    ],
+    "total_responses": 24500,
+    "district_breakdown": {
+      "Karimnagar": {
+        "happy": 72,
+        "neutral": 18,
+        "angry": 10
+      },
+      "Warangal Urban": {
+        "happy": 15,
+        "neutral": 25,
+        "angry": 60
+      },
+      "Hyderabad": {
+        "happy": 45,
+        "neutral": 30,
+        "angry": 25
+      },
+      "Nizamabad": {
+        "happy": 20,
+        "neutral": 30,
+        "angry": 50
+      }
+    },
+    "trend": {
+      "7_days_ago": 42,
+      "today": 43,
+      "change": "+1%"
+    },
+    "category": "infrastructure",
+    "responses": 1060,
+    "rating": 2.9
+  },
+  {
+    "id": 2,
+    "question": "ప్రభుత్వ ఆసుపత్రి సేవలపై మీ అభిప్రాయం?",
+    "question_en": "How do you rate government hospital services?",
+    "options": [
+      {
+        "label": "చాలా మంచిది",
+        "value": "excellent",
+        "percent": 10,
+        "color": "#00e676"
+      },
+      {
+        "label": "మంచిది",
+        "value": "good",
+        "percent": 22,
+        "color": "#69f0ae"
+      },
+      {
+        "label": "సాధారణం",
+        "value": "average",
+        "percent": 35,
+        "color": "#ffd700"
+      },
+      {
+        "label": "చాలా చెడు",
+        "value": "poor",
+        "percent": 33,
+        "color": "#f44336"
+      }
+    ],
+    "total_responses": 31200,
+    "district_breakdown": {
+      "Adilabad": {
+        "happy": 10,
+        "neutral": 20,
+        "angry": 70
+      },
+      "Hyderabad": {
+        "happy": 55,
+        "neutral": 25,
+        "angry": 20
+      },
+      "Nalgonda": {
+        "happy": 30,
+        "neutral": 35,
+        "angry": 35
+      },
+      "Karimnagar": {
+        "happy": 50,
+        "neutral": 30,
+        "angry": 20
+      }
+    },
+    "trend": {
+      "7_days_ago": 38,
+      "today": 32,
+      "change": "-6%"
+    },
+    "category": "health",
+    "responses": 1160,
+    "rating": 3.0
+  },
+  {
+    "id": 3,
+    "question": "ప్రభుత్వం పనితీరుపై మీ సంతృప్తి ఎంత?",
+    "question_en": "How satisfied are you with government performance overall?",
+    "options": [
+      {
+        "label": "సంతృప్తి",
+        "value": "satisfied",
+        "percent": 38,
+        "color": "#00e676"
+      },
+      {
+        "label": "సాధారణ",
+        "value": "neutral",
+        "percent": 30,
+        "color": "#ffd700"
+      },
+      {
+        "label": "అసంతృప్తి",
+        "value": "dissatisfied",
+        "percent": 32,
+        "color": "#f44336"
+      }
+    ],
+    "total_responses": 45000,
+    "district_breakdown": {
+      "Karimnagar": {
+        "happy": 68,
+        "neutral": 20,
+        "angry": 12
+      },
+      "Siddipet": {
+        "happy": 70,
+        "neutral": 20,
+        "angry": 10
+      },
+      "Warangal Urban": {
+        "happy": 20,
+        "neutral": 30,
+        "angry": 50
+      },
+      "Mahabubnagar": {
+        "happy": 18,
+        "neutral": 25,
+        "angry": 57
+      }
+    },
+    "trend": {
+      "7_days_ago": 35,
+      "today": 38,
+      "change": "+3%"
+    },
+    "category": "governance",
+    "responses": 1196,
+    "rating": 3.0
+  }
+]

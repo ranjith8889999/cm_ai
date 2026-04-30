@@ -1,0 +1,1237 @@
+/* ═══════════════════════════════════════════════════════
+   TELANGANA AI GOVERNANCE DASHBOARD – STYLES
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── CSS Variables ─────────────────────────────────── */
+:root {
+  --bg: #050816;
+  --bg2: #0a1628;
+  --bg3: #0e1f3f;
+  --card: rgba(13, 22, 55, 0.75);
+  --card-border: rgba(100, 150, 255, 0.12);
+  --primary: #e91e8c;
+  --primary-dark: #b0156a;
+  --primary-glow: rgba(233, 30, 140, 0.35);
+  --secondary: #00d4ff;
+  --secondary-glow: rgba(0, 212, 255, 0.25);
+  --accent: #ffd700;
+  --success: #00e676;
+  --warning: #ffa726;
+  --danger: #f44336;
+  --danger-glow: rgba(244, 67, 54, 0.35);
+  --text: #e8eaf6;
+  --text-muted: #7986cb;
+  --text-dim: #4a5568;
+  --sidebar-w: 220px;
+  --topbar-h: 72px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Reset & Base ───────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Noto Sans Telugu', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 3px; }
+
+/* ─── Particle Canvas ────────────────────────────────── */
+#particleCanvas {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ─── Loading Screen ─────────────────────────────────── */
+.loading-screen {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+.loading-screen.fade-out { opacity: 0; pointer-events: none; }
+
+.loading-content { text-align: center; }
+
+.loading-logo {
+  position: relative; width: 100px; height: 100px;
+  margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-ring {
+  position: absolute; border-radius: 50%;
+  border: 2px solid transparent;
+  animation: spinRing 2s linear infinite;
+}
+.logo-ring { width: 90px; height: 90px; border-top-color: var(--primary); }
+.logo-ring.ring2 { width: 70px; height: 70px; border-right-color: var(--secondary); animation-duration: 1.5s; animation-direction: reverse; }
+.logo-ring.ring3 { width: 50px; height: 50px; border-bottom-color: var(--accent); animation-duration: 1s; }
+.logo-icon { font-size: 28px; z-index: 1; }
+
+.loading-title {
+  font-family: 'Noto Sans Telugu', sans-serif;
+  font-size: 2rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+}
+.loading-sub { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+.loading-bar { width: 200px; height: 3px; background: var(--bg3); border-radius: 2px; margin: 0 auto; overflow: hidden; }
+.loading-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: width 0.1s; }
+
+@keyframes spinRing { to { transform: rotate(360deg); } }
+
+/* ─── Alert Banner ───────────────────────────────────── */
+.alert-banner {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: linear-gradient(90deg, #b71c1c, #d32f2f);
+  color: white; z-index: 1001;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+  animation: slideDown 0.4s ease;
+  box-shadow: 0 4px 20px var(--danger-glow);
+}
+.alert-banner-text { flex: 1; font-family: 'Noto Sans Telugu'; font-weight: 600; }
+.alert-banner-close { background: none; border: none; color: white; font-size: 1.1rem; cursor: pointer; }
+.alert-icon { font-size: 1.3rem; animation: pulse 1s ease infinite; }
+
+@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+
+/* ─── Sidebar ─────────────────────────────────────────── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, rgba(10, 14, 40, 0.98) 0%, rgba(5, 8, 22, 0.98) 100%);
+  border-right: 1px solid var(--card-border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+}
+.sidebar.collapsed { width: 64px; }
+
+.sidebar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 14px 10px;
+  border-bottom: 1px solid var(--card-border);
+}
+.sidebar-logo { display: flex; align-items: center; gap: 10px; overflow: hidden; }
+.logo-emblem {
+  min-width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; color: white;
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+.logo-info { overflow: hidden; }
+.logo-title { display: block; font-family: 'Noto Sans Telugu'; font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+.logo-sub { display: block; font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; }
+
+.sidebar-toggle {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 1rem; padding: 4px;
+  transition: var(--transition);
+}
+.sidebar-toggle:hover { color: var(--primary); }
+
+.sidebar-date {
+  padding: 8px 14px;
+  font-size: 0.72rem; color: var(--text-muted);
+  border-bottom: 1px solid var(--card-border);
+  white-space: nowrap; overflow: hidden;
+  font-family: 'Noto Sans Telugu';
+}
+
+.nav-list { list-style: none; flex: 1; overflow-y: auto; padding: 8px 0; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  cursor: pointer; position: relative;
+  transition: var(--transition);
+  border-radius: 0;
+  margin: 2px 8px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  font-family: 'Noto Sans Telugu'; font-size: 0.82rem;
+}
+.nav-item::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--primary);
+  transform: scaleY(0); transition: transform 0.25s;
+  border-radius: 0 3px 3px 0;
+}
+.nav-item:hover { background: rgba(233, 30, 140, 0.08); color: var(--primary); }
+.nav-item.active { background: rgba(233, 30, 140, 0.12); color: var(--primary); }
+.nav-item.active::before { transform: scaleY(1); }
+
+.nav-icon { min-width: 20px; text-align: center; font-size: 0.9rem; }
+.nav-label { white-space: nowrap; overflow: hidden; transition: var(--transition); }
+.sidebar.collapsed .nav-label { opacity: 0; width: 0; }
+.sidebar.collapsed .sidebar-date { opacity: 0; }
+.sidebar.collapsed .logo-info { opacity: 0; width: 0; }
+.sidebar.collapsed .sidebar-user .user-info { opacity: 0; width: 0; }
+
+.nav-badge {
+  margin-left: auto; min-width: 18px; height: 18px;
+  background: var(--primary); border-radius: 9px;
+  font-size: 0.65rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 5px; white-space: nowrap;
+  font-family: 'Inter';
+}
+.nav-badge.danger-badge { background: var(--danger); }
+.nav-badge.warning-badge { background: var(--warning); color: #000; }
+.nav-badge.pulse-badge { animation: badgePulse 2s ease infinite; }
+.nav-badge:empty { display: none; }
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--primary-glow); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+
+.sidebar-footer {
+  padding: 12px 14px;
+  border-top: 1px solid var(--card-border);
+}
+.sidebar-user { display: flex; align-items: center; gap: 10px; overflow: hidden; }
+.user-avatar {
+  min-width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--secondary), #0080a0);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700;
+}
+.user-name { display: block; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
+.user-role { display: block; font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; }
+
+/* ─── Main Content ───────────────────────────────────── */
+.main-content {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative; z-index: 1;
+}
+.main-content.sidebar-collapsed { margin-left: 64px; }
+
+/* ─── Topbar ─────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(5, 8, 22, 0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  height: var(--topbar-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+}
+.topbar-left { display: flex; flex-direction: column; }
+.page-title { font-family: 'Noto Sans Telugu'; font-size: 1.25rem; font-weight: 700; }
+.page-subtitle { font-size: 0.72rem; color: var(--text-muted); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.topbar-time { font-size: 0.8rem; color: var(--text-muted); min-width: 60px; }
+
+/* ─── Tab Panels ─────────────────────────────────────── */
+.tab-panel {
+  display: none; padding: 24px;
+  animation: fadeInUp 0.4s ease;
+}
+.tab-panel.active { display: block; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Glass Cards ────────────────────────────────────── */
+.glass-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  backdrop-filter: blur(16px);
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.glass-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+.glass-card:hover {
+  border-color: rgba(233, 30, 140, 0.2);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-header h3 {
+  font-size: 0.9rem; font-weight: 600; font-family: 'Noto Sans Telugu';
+  display: flex; align-items: center; gap: 8px;
+}
+.card-header h3 i { color: var(--primary); }
+
+/* ─── Buttons ────────────────────────────────────────── */
+.btn-brief {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border: none; border-radius: 50px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  transition: var(--transition); white-space: nowrap;
+  font-family: 'Noto Sans Telugu';
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+.btn-brief:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
+
+/* ─── Refresh Button ─────────────────────────────────── */
+.btn-refresh {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 16px; border: none; border-radius: 50px;
+  background: linear-gradient(135deg, #0f9b8e, #0c7a6e);
+  color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  transition: var(--transition); white-space: nowrap;
+  font-family: 'Noto Sans Telugu';
+  box-shadow: 0 4px 15px rgba(15,155,142,0.4);
+}
+.btn-refresh:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(15,155,142,0.6); }
+.btn-refresh.spinning { pointer-events: none; opacity: 0.8; }
+.btn-refresh.spinning #refreshIcon { animation: spinContinuous 0.8s linear infinite; }
+@keyframes spinContinuous {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@media (max-width: 768px) { .btn-refresh span { display: none; } }
+.btn-brief.small { padding: 7px 14px; font-size: 0.75rem; }
+.btn-brief.danger { background: linear-gradient(135deg, var(--danger), #b71c1c); box-shadow: 0 4px 15px var(--danger-glow); }
+.btn-brief.ai { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+
+/* Playing state — glows cyan and shows wave bars */
+.btn-brief.playing {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  box-shadow: 0 0 18px rgba(0, 212, 255, 0.7), 0 4px 15px rgba(0, 212, 255, 0.4);
+  animation: playingPulse 1.4s ease-in-out infinite;
+}
+@keyframes playingPulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(0,212,255,0.6), 0 4px 15px rgba(0,212,255,0.3); }
+  50%       { box-shadow: 0 0 30px rgba(0,212,255,0.9), 0 8px 28px rgba(0,212,255,0.5); }
+}
+/* Mini waveform inside the playing button */
+.wave-icon { display: inline-flex; align-items: flex-end; gap: 2px; height: 16px; }
+.wave-icon i {
+  display: block; width: 3px; border-radius: 2px;
+  background: white; height: 6px;
+  animation: btnWave 0.8s ease-in-out infinite;
+}
+.wave-icon i:nth-child(1) { animation-delay: 0s;    height: 8px; }
+.wave-icon i:nth-child(2) { animation-delay: 0.15s; height: 14px; }
+.wave-icon i:nth-child(3) { animation-delay: 0.3s;  height: 10px; }
+.wave-icon i:nth-child(4) { animation-delay: 0.45s; height: 6px; }
+@keyframes btnWave {
+  0%, 100% { transform: scaleY(0.4); }
+  50%       { transform: scaleY(1.1); }
+}
+
+.card-btn {
+  background: none; border: 1px solid var(--card-border);
+  color: var(--text-muted); font-size: 0.72rem; padding: 4px 10px;
+  border-radius: 20px; cursor: pointer; transition: var(--transition);
+  font-family: 'Noto Sans Telugu';
+}
+.card-btn:hover { border-color: var(--primary); color: var(--primary); }
+.card-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+.card-btn.warning:hover { border-color: var(--warning); color: var(--warning); }
+.card-btn.ai:hover { border-color: #7c3aed; color: #a78bfa; }
+
+.btn-icon-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+  color: var(--text-muted); cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-icon-circle:hover { background: rgba(244,67,54,0.15); color: var(--danger); }
+
+/* ─── Dashboard Grid ─────────────────────────────────── */
+.greeting-card {
+  position: relative; border-radius: var(--radius);
+  overflow: hidden; margin-bottom: 20px;
+  min-height: 140px;
+  background: linear-gradient(135deg, rgba(233,30,140,0.15), rgba(0,212,255,0.1));
+  border: 1px solid rgba(233,30,140,0.2);
+}
+.greeting-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(233,30,140,0.2) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 50%, rgba(0,212,255,0.1) 0%, transparent 60%);
+  animation: greetingBg 6s ease infinite alternate;
+}
+@keyframes greetingBg {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+.greeting-content {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 28px; flex-wrap: wrap; gap: 16px;
+}
+.greeting-time-label { font-size: 0.8rem; color: var(--text-muted); font-family: 'Noto Sans Telugu'; display: block; }
+.greeting-content h1 { font-family: 'Noto Sans Telugu'; font-size: 1.4rem; font-weight: 700; margin: 4px 0; }
+#greetingDate { font-size: 0.8rem; color: var(--text-muted); font-family: 'Noto Sans Telugu'; }
+.greeting-stats { display: flex; gap: 20px; flex-wrap: wrap; }
+.gs-stat { text-align: center; }
+.gs-num { display: block; font-size: 2rem; font-weight: 800; font-family: 'Inter'; line-height: 1; }
+.gs-num.danger { color: var(--danger); }
+.gs-num.success { color: var(--success); }
+.gs-num.warning { color: var(--warning); }
+.gs-label { font-size: 0.7rem; color: var(--text-muted); font-family: 'Noto Sans Telugu'; }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+}
+.dash-news { grid-column: span 2; }
+.dash-mood { grid-column: span 1; }
+.dash-alerts { grid-column: span 1; }
+.dash-trend { grid-column: span 2; }
+.dash-ai { grid-column: span 2; }
+.dash-memory { grid-column: span 1; }
+
+/* ─── Skeleton Loading ───────────────────────────────── */
+.skeleton-item {
+  height: 44px; border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── News ───────────────────────────────────────────── */
+.tab-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid var(--card-border);
+  background: none; color: var(--text-muted);
+  font-size: 0.75rem; cursor: pointer; transition: var(--transition);
+  font-family: 'Noto Sans Telugu';
+}
+.filter-btn:hover, .filter-btn.active {
+  background: rgba(233,30,140,0.15);
+  border-color: var(--primary); color: var(--primary);
+}
+
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+.news-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 18px; cursor: pointer;
+  transition: var(--transition); position: relative; overflow: hidden;
+}
+.news-card:hover { transform: translateY(-3px); border-color: rgba(233,30,140,0.25); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+.news-card.positive { border-left: 3px solid var(--success); }
+.news-card.negative { border-left: 3px solid var(--danger); }
+
+.news-card-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 8px; margin-bottom: 10px;
+}
+.news-sentiment-dot {
+  min-width: 10px; height: 10px; border-radius: 50%; margin-top: 4px;
+}
+.news-sentiment-dot.positive { background: var(--success); box-shadow: 0 0 8px var(--success); }
+.news-sentiment-dot.negative { background: var(--danger); box-shadow: 0 0 8px var(--danger); animation: pulse 2s infinite; }
+
+.news-title { font-family: 'Noto Sans Telugu'; font-size: 0.88rem; font-weight: 600; line-height: 1.4; flex: 1; }
+.news-category {
+  font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;
+  font-weight: 600; white-space: nowrap;
+}
+.cat-infrastructure { background: rgba(0,212,255,0.12); color: var(--secondary); }
+.cat-politics { background: rgba(255,215,0,0.12); color: var(--accent); }
+.cat-public_complaints { background: rgba(244,67,54,0.12); color: var(--danger); }
+.cat-economy { background: rgba(0,230,118,0.12); color: var(--success); }
+
+.news-summary { font-size: 0.78rem; color: var(--text-muted); font-family: 'Noto Sans Telugu'; line-height: 1.5; margin-bottom: 12px; }
+.news-impact {
+  background: rgba(255,255,255,0.04); border-radius: 8px;
+  padding: 8px 12px; font-size: 0.75rem;
+  font-family: 'Noto Sans Telugu'; color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.news-impact strong { color: var(--text); }
+
+.news-what-means {
+  background: rgba(233,30,140,0.05); border: 1px solid rgba(233,30,140,0.1);
+  border-radius: 8px; padding: 8px 12px;
+  font-size: 0.75rem; font-family: 'Noto Sans Telugu'; display: none;
+}
+.news-what-means.visible { display: block; animation: fadeInUp 0.3s ease; }
+.news-what-label { color: var(--primary); font-weight: 600; font-size: 0.72rem; margin-bottom: 3px; }
+
+.news-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.news-meta { font-size: 0.68rem; color: var(--text-dim); }
+.news-actions { display: flex; gap: 6px; }
+.news-btn {
+  background: none; border: 1px solid var(--card-border);
+  color: var(--text-muted); font-size: 0.7rem; padding: 3px 8px;
+  border-radius: 10px; cursor: pointer; transition: var(--transition);
+  font-family: 'Noto Sans Telugu';
+}
+.news-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+.dash-news-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px;
+  transition: var(--transition); cursor: pointer;
+}
+.dash-news-item:hover { background: rgba(255,255,255,0.04); }
+.dni-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dni-title { font-family: 'Noto Sans Telugu'; font-size: 0.8rem; flex: 1; line-height: 1.3; }
+.dni-cat { font-size: 0.65rem; color: var(--text-muted); }
+
+/* ─── AI Panel ───────────────────────────────────────── */
+.ai-panel {
+  background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(91,33,182,0.08));
+  border: 1px solid rgba(124,58,237,0.25);
+  border-radius: var(--radius); padding: 20px; margin-top: 20px;
+  animation: fadeInUp 0.4s ease;
+}
+.ai-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; font-weight: 600; font-family: 'Noto Sans Telugu';
+}
+.ai-panel-header button { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; }
+.ai-panel-body { font-family: 'Noto Sans Telugu'; font-size: 0.9rem; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+.btn-speak {
+  margin-top: 12px; display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 20px;
+  background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3);
+  color: #a78bfa; font-size: 0.78rem; cursor: pointer; transition: var(--transition);
+  font-family: 'Noto Sans Telugu';
+}
+.btn-speak:hover { background: rgba(124,58,237,0.3); }
+
+/* ─── Polls ──────────────────────────────────────────── */
+.polls-header { margin-bottom: 24px; }
+.polls-header h2 { font-family: 'Noto Sans Telugu'; font-size: 1.4rem; }
+.polls-header p { color: var(--text-muted); font-size: 0.8rem; font-family: 'Noto Sans Telugu'; }
+
+.polls-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px; margin-bottom: 24px; }
+
+.poll-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 20px; transition: var(--transition);
+}
+.poll-card:hover { border-color: rgba(233,30,140,0.2); }
+.poll-question { font-family: 'Noto Sans Telugu'; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; }
+.poll-option { margin-bottom: 12px; }
+.poll-option-label { display: flex; justify-content: space-between; font-size: 0.78rem; font-family: 'Noto Sans Telugu'; margin-bottom: 4px; }
+.poll-bar-track { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.poll-bar-fill { height: 100%; border-radius: 4px; transition: width 1s cubic-bezier(0.4,0,0.2,1); width: 0; }
+.poll-footer { margin-top: 12px; font-size: 0.7rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.trend-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;
+}
+.trend-up { background: rgba(0,230,118,0.1); color: var(--success); }
+.trend-down { background: rgba(244,67,54,0.1); color: var(--danger); }
+.trend-stable { background: rgba(255,215,0,0.1); color: var(--accent); }
+
+.sentiment-district-section { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* ─── Governance ─────────────────────────────────────── */
+.gov-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+}
+.gov-header h2 { font-family: 'Noto Sans Telugu'; font-size: 1.4rem; }
+.gov-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.ai-loader { text-align: center; padding: 40px; }
+.ai-thinking { display: inline-flex; align-items: center; gap: 12px; font-family: 'Noto Sans Telugu'; color: var(--text-muted); }
+.ai-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--primary); animation: dotBounce 1.2s ease infinite; }
+.ai-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce { 0%,80%,100% { transform: scale(0.6); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
+
+.gov-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+
+.gov-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 20px; transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.gov-card:hover { transform: translateY(-2px); }
+.gov-card.high { border-top: 3px solid var(--danger); }
+.gov-card.medium { border-top: 3px solid var(--warning); }
+.gov-card.low { border-top: 3px solid var(--success); }
+.gov-priority {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.65rem; font-weight: 700; padding: 3px 8px;
+  border-radius: 10px; margin-bottom: 12px;
+}
+.gov-priority.high { background: rgba(244,67,54,0.12); color: var(--danger); }
+.gov-priority.medium { background: rgba(255,167,38,0.12); color: var(--warning); }
+.gov-priority.low { background: rgba(0,230,118,0.12); color: var(--success); }
+
+.gov-section { margin-bottom: 12px; }
+.gov-section-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
+.gov-section-text { font-family: 'Noto Sans Telugu'; font-size: 0.85rem; line-height: 1.5; }
+.gov-problem { color: var(--danger); }
+.gov-impact { color: var(--warning); }
+.gov-suggestion { color: var(--success); }
+
+.gov-steps { margin-top: 10px; }
+.gov-step {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-family: 'Noto Sans Telugu'; font-size: 0.78rem; color: var(--text-muted);
+  margin-bottom: 6px; padding: 6px 10px;
+  background: rgba(255,255,255,0.03); border-radius: 6px;
+}
+.gov-step-num {
+  min-width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(233,30,140,0.2); color: var(--primary);
+  font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+
+.glass-select {
+  padding: 8px 14px; background: var(--card);
+  border: 1px solid var(--card-border); border-radius: 8px;
+  color: var(--text); font-size: 0.8rem; cursor: pointer;
+  font-family: 'Noto Sans Telugu';
+}
+.glass-select:focus { outline: none; border-color: var(--primary); }
+
+/* ─── Map ────────────────────────────────────────────── */
+.map-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; height: calc(100vh - 120px); }
+.map-sidebar { display: flex; flex-direction: column; gap: 16px; }
+.map-sidebar h3 { font-family: 'Noto Sans Telugu'; font-size: 1rem; }
+.district-info-panel {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 16px; flex: 1;
+  overflow-y: auto;
+}
+.map-hint { color: var(--text-muted); font-family: 'Noto Sans Telugu'; font-size: 0.82rem; text-align: center; padding: 20px 0; }
+.map-legend { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 14px; }
+.map-legend h4 { font-family: 'Noto Sans Telugu'; font-size: 0.82rem; margin-bottom: 10px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-family: 'Noto Sans Telugu'; margin-bottom: 6px; }
+.leg-dot { width: 12px; height: 12px; border-radius: 50%; }
+.leg-dot.green { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.leg-dot.yellow { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+.leg-dot.red { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+
+.map-main { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+.map-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--card-border); }
+.map-title { font-family: 'Noto Sans Telugu'; font-size: 0.9rem; font-weight: 600; }
+.map-filters { display: flex; gap: 6px; }
+.map-filter-btn { padding: 4px 12px; border-radius: 15px; border: 1px solid var(--card-border); background: none; color: var(--text-muted); font-size: 0.72rem; cursor: pointer; transition: var(--transition); }
+.map-filter-btn.active, .map-filter-btn:hover { background: rgba(233,30,140,0.12); border-color: var(--primary); color: var(--primary); }
+
+.telangana-map-container {
+  flex: 1; padding: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+#telanganaMap { max-height: 100%; max-width: 100%; width: 100%; }
+
+.district-circle {
+  cursor: pointer; transition: all 0.2s ease;
+}
+.district-circle:hover { transform-origin: center; transform: scale(1.3); }
+
+.dist-info-name { font-family: 'Noto Sans Telugu'; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+.dist-info-score {
+  font-size: 2rem; font-weight: 800; margin-bottom: 8px;
+}
+.dist-info-mood { font-family: 'Noto Sans Telugu'; font-size: 0.8rem; margin-bottom: 12px; color: var(--text-muted); }
+.dist-info-issues { font-family: 'Noto Sans Telugu'; font-size: 0.78rem; }
+.dist-issue-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  background: rgba(255,255,255,0.06); margin: 2px; font-size: 0.72rem;
+}
+.dist-ai-summary { margin-top: 12px; padding: 10px; background: rgba(233,30,140,0.06); border-radius: 8px; font-family: 'Noto Sans Telugu'; font-size: 0.8rem; }
+
+/* ─── Alerts ─────────────────────────────────────────── */
+.alerts-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+}
+.alert-hero { display: flex; align-items: center; gap: 16px; }
+.alert-hero-icon { font-size: 2.5rem; }
+.alert-hero h2 { font-family: 'Noto Sans Telugu'; font-size: 1.4rem; }
+.alert-hero p { font-family: 'Noto Sans Telugu'; font-size: 0.8rem; color: var(--text-muted); }
+.pulse-red { animation: pulseRed 1.5s ease infinite; }
+@keyframes pulseRed { 0%,100% { text-shadow: 0 0 10px rgba(244,67,54,0.5); } 50% { text-shadow: 0 0 30px rgba(244,67,54,0.9); } }
+
+.alerts-list { display: flex; flex-direction: column; gap: 12px; }
+
+.alert-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 18px;
+  display: flex; align-items: flex-start; gap: 14px;
+  transition: var(--transition); position: relative; overflow: hidden;
+}
+.alert-card:hover { transform: translateX(4px); }
+.alert-card.critical { border-left: 4px solid var(--danger); }
+.alert-card.high { border-left: 4px solid var(--warning); }
+.alert-card.medium { border-left: 4px solid var(--accent); }
+.alert-card.critical::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(244,67,54,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.alert-card-icon { font-size: 1.8rem; flex-shrink: 0; }
+.alert-card-content { flex: 1; }
+.alert-card-title { font-family: 'Noto Sans Telugu'; font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+.alert-card-desc { font-family: 'Noto Sans Telugu'; font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+.alert-card-action { font-family: 'Noto Sans Telugu'; font-size: 0.78rem; color: var(--warning); display: flex; align-items: center; gap: 5px; }
+.alert-card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.alert-severity {
+  font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+}
+.sev-critical { background: rgba(244,67,54,0.15); color: var(--danger); }
+.sev-high { background: rgba(255,167,38,0.15); color: var(--warning); }
+.sev-medium { background: rgba(255,215,0,0.15); color: var(--accent); }
+.alert-district { font-size: 0.68rem; color: var(--text-dim); }
+.alert-time { font-size: 0.68rem; color: var(--text-dim); margin-left: auto; }
+
+.alert-card-actions { display: flex; flex-direction: column; gap: 6px; }
+.alert-speak-btn {
+  background: rgba(244,67,54,0.12); border: 1px solid rgba(244,67,54,0.2);
+  color: var(--danger); font-size: 0.72rem; padding: 6px 10px;
+  border-radius: 8px; cursor: pointer; transition: var(--transition);
+  white-space: nowrap; display: flex; align-items: center; gap: 4px;
+}
+.alert-speak-btn:hover { background: rgba(244,67,54,0.2); }
+
+/* ─── Impact Tracker ─────────────────────────────────── */
+.impact-header { margin-bottom: 24px; }
+.impact-header h2 { font-family: 'Noto Sans Telugu'; font-size: 1.4rem; }
+.impact-header p { font-family: 'Noto Sans Telugu'; font-size: 0.8rem; color: var(--text-muted); }
+.impact-list { display: flex; flex-direction: column; gap: 20px; }
+
+.impact-card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 20px; transition: var(--transition);
+}
+.impact-card:hover { border-color: rgba(0,230,118,0.2); }
+.impact-scheme-name { font-family: 'Noto Sans Telugu'; font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.impact-meta { font-size: 0.72rem; color: var(--text-muted); display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.impact-status-badge { padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; }
+.status-completed { background: rgba(0,230,118,0.12); color: var(--success); }
+.status-in_progress { background: rgba(255,167,38,0.12); color: var(--warning); }
+
+.before-after { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 12px; align-items: center; margin-bottom: 16px; }
+.ba-side { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px; }
+.ba-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.ba-label.before { color: var(--danger); }
+.ba-label.after { color: var(--success); }
+.ba-score { font-size: 2rem; font-weight: 800; margin-bottom: 4px; }
+.ba-score.before { color: var(--danger); }
+.ba-score.after { color: var(--success); }
+.ba-desc { font-family: 'Noto Sans Telugu'; font-size: 0.75rem; color: var(--text-muted); }
+.ba-arrow { text-align: center; font-size: 1.5rem; color: var(--success); }
+
+.impact-bar-section { margin-bottom: 14px; }
+.impact-bar-label { display: flex; justify-content: space-between; font-size: 0.75rem; font-family: 'Noto Sans Telugu'; margin-bottom: 6px; }
+.impact-bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; position: relative; }
+.impact-bar-before { position: absolute; height: 100%; border-radius: 5px; background: rgba(244,67,54,0.4); transition: width 1.2s ease; }
+.impact-bar-after { position: absolute; height: 100%; border-radius: 5px; background: rgba(0,230,118,0.7); transition: width 1.2s 0.3s ease; }
+.improvement-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 12px;
+  background: rgba(0,230,118,0.1); color: var(--success); font-size: 0.75rem; font-weight: 700;
+}
+
+/* ─── Memory ─────────────────────────────────────────── */
+.memory-header { margin-bottom: 20px; }
+.memory-header h2 { font-family: 'Noto Sans Telugu'; font-size: 1.4rem; }
+.memory-header p { font-family: 'Noto Sans Telugu'; font-size: 0.8rem; color: var(--text-muted); }
+
+.memory-add-form { margin-bottom: 20px; }
+.memory-add-form h4 { font-family: 'Noto Sans Telugu'; font-size: 0.9rem; margin-bottom: 14px; }
+.form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.glass-input {
+  flex: 1; min-width: 200px; padding: 10px 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--card-border);
+  border-radius: 8px; color: var(--text); font-size: 0.82rem; outline: none;
+  transition: var(--transition); font-family: 'Noto Sans Telugu';
+}
+.glass-input:focus { border-color: var(--primary); background: rgba(233,30,140,0.05); }
+.glass-input::placeholder { color: var(--text-dim); }
+.glass-textarea { resize: vertical; font-family: 'Noto Sans Telugu'; }
+
+.memory-list { display: flex; flex-direction: column; gap: 12px; }
+
+.memory-item {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius); padding: 16px;
+  display: flex; align-items: flex-start; gap: 14px; transition: var(--transition);
+}
+.memory-item.open { border-left: 3px solid var(--warning); }
+.memory-item.resolved { border-left: 3px solid var(--success); opacity: 0.6; }
+.memory-item:hover { transform: translateX(3px); }
+
+.memory-priority-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.priority-high { background: var(--danger); box-shadow: 0 0 8px var(--danger); animation: pulse 2s infinite; }
+.priority-medium { background: var(--warning); }
+.priority-low { background: var(--success); }
+
+.memory-content { flex: 1; }
+.memory-title { font-family: 'Noto Sans Telugu'; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+.memory-desc { font-family: 'Noto Sans Telugu'; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; }
+.memory-reminder {
+  background: rgba(255,167,38,0.08); border: 1px solid rgba(255,167,38,0.15);
+  border-radius: 6px; padding: 6px 10px;
+  font-family: 'Noto Sans Telugu'; font-size: 0.75rem; color: var(--warning);
+  display: flex; align-items: center; gap: 6px; margin-bottom: 6px;
+}
+.memory-meta { font-size: 0.68rem; color: var(--text-dim); display: flex; gap: 10px; flex-wrap: wrap; }
+.mem-resolve-btn {
+  background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.2);
+  color: var(--success); font-size: 0.72rem; padding: 4px 10px;
+  border-radius: 8px; cursor: pointer; transition: var(--transition); white-space: nowrap;
+}
+.mem-resolve-btn:hover { background: rgba(0,230,118,0.2); }
+.mem-speak-btn {
+  background: none; border: 1px solid var(--card-border);
+  color: var(--text-muted); font-size: 0.72rem; padding: 4px 8px;
+  border-radius: 8px; cursor: pointer; transition: var(--transition);
+}
+.mem-speak-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ─── Voice ──────────────────────────────────────────── */
+.voice-center {
+  display: flex; flex-direction: column; align-items: center;
+  max-width: 700px; margin: 0 auto; padding: 20px 0;
+}
+.voice-hero { text-align: center; margin-bottom: 30px; }
+.voice-orb {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(233,30,140,0.15), rgba(0,212,255,0.1));
+  border: 2px solid rgba(233,30,140,0.3);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: var(--transition);
+  position: relative; margin: 0 auto 20px;
+}
+.voice-orb:hover, .voice-orb.recording {
+  border-color: var(--primary);
+  box-shadow: 0 0 40px var(--primary-glow);
+}
+.voice-orb.recording .orb-ring { animation-play-state: running; }
+.orb-ring {
+  position: absolute; border-radius: 50%; border: 1px solid rgba(233,30,140,0.3);
+  animation: orbPulse 2s ease infinite; animation-play-state: paused;
+}
+.r1 { width: 130px; height: 130px; }
+.r2 { width: 150px; height: 150px; animation-delay: 0.3s; }
+.r3 { width: 170px; height: 170px; animation-delay: 0.6s; }
+@keyframes orbPulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 0; } }
+.orb-icon { font-size: 2.5rem; color: var(--primary); z-index: 1; }
+.voice-orb.recording .orb-icon { animation: micPulse 1s ease infinite; }
+@keyframes micPulse { 0%,100% { color: var(--primary); } 50% { color: var(--secondary); } }
+.voice-hero h2 { font-family: 'Noto Sans Telugu'; font-size: 1.2rem; font-weight: 600; margin-bottom: 6px; }
+.voice-hero p { font-family: 'Noto Sans Telugu'; font-size: 0.8rem; color: var(--text-muted); }
+
+.voice-input-row { display: flex; gap: 10px; width: 100%; margin-bottom: 20px; }
+.voice-input { width: 100%; }
+
+.voice-suggestions { width: 100%; margin-bottom: 20px; text-align: center; }
+.voice-suggestions p { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; font-family: 'Noto Sans Telugu'; }
+.sugg-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.sugg-chips span {
+  padding: 5px 14px; border-radius: 20px; cursor: pointer;
+  border: 1px solid var(--card-border); font-size: 0.75rem;
+  font-family: 'Noto Sans Telugu'; color: var(--text-muted);
+  transition: var(--transition);
+}
+.sugg-chips span:hover { border-color: var(--secondary); color: var(--secondary); background: rgba(0,212,255,0.07); }
+
+.voice-chat { width: 100%; max-height: 380px; overflow-y: auto; }
+.chat-bubble {
+  padding: 12px 16px; border-radius: 14px; margin-bottom: 12px;
+  font-family: 'Noto Sans Telugu'; font-size: 0.85rem; line-height: 1.6;
+  position: relative; max-width: 90%;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.ai-bubble {
+  background: rgba(13, 22, 55, 0.8); border: 1px solid var(--card-border);
+  margin-right: auto; border-bottom-left-radius: 4px;
+}
+.user-bubble {
+  background: rgba(233,30,140,0.1); border: 1px solid rgba(233,30,140,0.15);
+  margin-left: auto; border-bottom-right-radius: 4px;
+}
+.chat-bubble span { flex: 1; }
+.speak-mini {
+  background: none; border: none; color: var(--text-muted); cursor: pointer;
+  font-size: 0.8rem; flex-shrink: 0; padding: 2px;
+  transition: var(--transition);
+}
+.speak-mini:hover { color: var(--primary); }
+
+/* ─── Audio Bar ──────────────────────────────────────── */
+.audio-bar {
+  position: fixed; bottom: 0; left: var(--sidebar-w); right: 0;
+  background: linear-gradient(90deg, rgba(233,30,140,0.2), rgba(0,212,255,0.1));
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(233,30,140,0.2);
+  z-index: 200; padding: 10px 24px;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.audio-bar-inner { display: flex; align-items: center; gap: 14px; }
+.audio-waveform { display: flex; align-items: center; gap: 3px; height: 24px; }
+.audio-waveform span {
+  width: 3px; border-radius: 2px;
+  background: var(--primary);
+  animation: waveAnim 0.8s ease infinite;
+  height: 8px;
+}
+.audio-waveform span:nth-child(2) { animation-delay: 0.1s; }
+.audio-waveform span:nth-child(3) { animation-delay: 0.2s; height: 20px; }
+.audio-waveform span:nth-child(4) { animation-delay: 0.3s; }
+.audio-waveform span:nth-child(5) { animation-delay: 0.4s; height: 16px; }
+.audio-waveform span:nth-child(6) { animation-delay: 0.15s; }
+.audio-waveform span:nth-child(7) { animation-delay: 0.25s; height: 20px; }
+.audio-waveform span:nth-child(8) { animation-delay: 0.35s; }
+.audio-waveform span:nth-child(9) { animation-delay: 0.45s; height: 12px; }
+.audio-waveform span:nth-child(10) { animation-delay: 0.05s; }
+@keyframes waveAnim { 0%,100% { height: 8px; } 50% { height: 24px; } }
+.audio-text { font-family: 'Noto Sans Telugu'; font-size: 0.82rem; flex: 1; color: var(--text); }
+.audio-stop {
+  background: rgba(244,67,54,0.15); border: 1px solid rgba(244,67,54,0.2);
+  color: var(--danger); padding: 6px 12px; border-radius: 8px;
+  cursor: pointer; font-size: 0.8rem; transition: var(--transition);
+}
+.audio-stop:hover { background: rgba(244,67,54,0.25); }
+
+/* ─── Toast ──────────────────────────────────────────── */
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 9998; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  padding: 12px 18px; border-radius: 10px; font-size: 0.82rem;
+  font-family: 'Noto Sans Telugu';
+  min-width: 260px; max-width: 340px;
+  backdrop-filter: blur(20px);
+  animation: toastIn 0.3s ease;
+  display: flex; align-items: center; gap: 8px;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+.toast.success { background: rgba(0,230,118,0.15); border: 1px solid rgba(0,230,118,0.3); }
+.toast.error { background: rgba(244,67,54,0.15); border: 1px solid rgba(244,67,54,0.3); }
+.toast.info { background: rgba(0,212,255,0.12); border: 1px solid rgba(0,212,255,0.25); }
+
+/* ─── Mood Donut ─────────────────────────────────────── */
+.mood-chart-wrap { height: 160px; display: flex; justify-content: center; }
+.mood-legend { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 0.72rem; font-family: 'Noto Sans Telugu'; }
+.mood-leg-item { display: flex; align-items: center; gap: 4px; }
+.mood-leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ─── Pulse ──────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+  .dash-news, .dash-trend, .dash-ai { grid-column: span 2; }
+  .sentiment-district-section { grid-template-columns: 1fr; }
+}
+@media (max-width: 820px) {
+  :root { --sidebar-w: 64px; }
+  .sidebar { width: 64px; }
+  .nav-label, .sidebar-date, .logo-info, .sidebar-user .user-info { opacity: 0; width: 0; overflow: hidden; }
+  .main-content { margin-left: 64px; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dash-news, .dash-trend, .dash-ai { grid-column: span 1; }
+  .map-layout { grid-template-columns: 1fr; height: auto; }
+  .before-after { grid-template-columns: 1fr auto 1fr; }
+  .gov-controls { flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .tab-panel { padding: 14px; }
+  .topbar { padding: 0 14px; }
+  .news-grid { grid-template-columns: 1fr; }
+  .polls-container { grid-template-columns: 1fr; }
+  .gov-cards { grid-template-columns: 1fr; }
+  .topbar-time { display: none; }
+  .btn-brief span { display: none; }
+  .greeting-content { flex-direction: column; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   ELECTION RESULTS 2023
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Header ─────────────────────────────────────────── */
+.election-header {
+  margin-bottom: 24px;
+}
+.election-hero {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(21,101,192,0.12), rgba(233,30,140,0.08));
+  border: 1px solid rgba(21,101,192,0.2);
+  border-radius: var(--radius);
+}
+.election-hero-icon { font-size: 2.8rem; }
+.election-hero h2 {
+  font-family: 'Noto Sans Telugu', sans-serif;
+  font-size: 1.3rem; font-weight: 700; color: var(--text);
+  margin-bottom: 4px;
+}
+.election-hero p { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ─── Summary Row ────────────────────────────────────── */
+.election-summary-row {
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.election-chart-card, .election-bar-card, .election-stats-card { position: relative; }
+.election-donut-wrap { height: 200px; display: flex; justify-content: center; }
+.election-bar-wrap { position: relative; height: 220px; width: 100%; }
+.election-legend {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; margin-top: 10px; padding: 0 8px;
+}
+.election-leg-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; color: var(--text-muted);
+}
+.election-leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* Key Stats */
+.election-key-stats { display: flex; flex-direction: column; gap: 10px; }
+.eks-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: var(--transition);
+}
+.eks-item:hover { background: rgba(255,255,255,0.06); }
+.eks-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.eks-info { display: flex; flex-direction: column; flex: 1; }
+.eks-name { font-size: 0.72rem; color: var(--text-muted); }
+.eks-val { font-size: 1rem; font-weight: 700; font-family: 'Noto Sans Telugu', sans-serif; }
+
+/* ─── Section Title ──────────────────────────────────── */
+.election-section-title {
+  font-size: 1rem; font-weight: 600;
+  color: var(--text); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.election-section-title i { color: var(--primary); }
+
+/* ─── Party Cards ────────────────────────────────────── */
+.election-party-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.election-party-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.election-party-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--party-color, #fff) 0%, transparent 60%);
+  opacity: 0.04; pointer-events: none;
+}
+.election-party-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border-color: var(--party-color, var(--card-border));
+}
+.election-party-card.selected {
+  border-color: var(--party-color, var(--primary));
+  box-shadow: 0 0 0 2px var(--party-color, var(--primary)), 0 8px 32px rgba(0,0,0,0.3);
+}
+.epc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.epc-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.epc-info { flex: 1; min-width: 0; }
+.epc-short { font-size: 1rem; font-weight: 700; }
+.epc-name { font-size: 0.65rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.epc-seats { font-size: 1.8rem; font-weight: 800; opacity: 0.9; }
+.epc-bar-track {
+  height: 6px; background: rgba(255,255,255,0.06);
+  border-radius: 3px; overflow: hidden; margin-bottom: 10px;
+}
+.epc-bar-fill { height: 100%; border-radius: 3px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.epc-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
+.epc-stat {
+  font-size: 0.68rem; padding: 2px 8px; border-radius: 20px; font-weight: 500;
+}
+.epc-stat.neg { background: rgba(244,67,54,0.1); color: var(--danger); }
+.epc-stat.pos { background: rgba(0,230,118,0.1); color: var(--success); }
+.epc-vote { font-size: 0.68rem; color: var(--text-muted); }
+
+/* ─── Detail Panel ───────────────────────────────────── */
+.election-detail-panel {
+  margin-top: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+.edp-header {
+  padding: 20px 24px 0;
+}
+.edp-tabs {
+  display: flex; gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 24px;
+  margin-top: 16px;
+}
+.edp-tab-btn {
+  background: none; border: none; cursor: pointer;
+  padding: 10px 18px;
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--text-muted); font-family: 'Noto Sans Telugu', 'Inter', sans-serif;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+  display: flex; align-items: center; gap: 6px;
+}
+.edp-tab-btn:hover { color: var(--text); }
+.edp-tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+.edp-content {
+  padding: 20px 24px 24px;
+}
+.edp-section-title {
+  font-size: 0.9rem; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px; font-family: 'Noto Sans Telugu', sans-serif;
+}
+
+/* Constituencies grid */
+.edp-const-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+}
+.edp-const-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  border-left: 3px solid;
+  font-family: 'Noto Sans Telugu', sans-serif;
+  font-size: 0.82rem;
+  animation: fadeSlideUp 0.4s ease both;
+}
+.edp-const-num {
+  font-weight: 700; font-size: 0.7rem;
+  min-width: 18px;
+}
+.edp-const-name { color: var(--text); }
+
+/* Category blocks */
+.edp-category-block {
+  border-radius: 12px;
+  border: 1px solid;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.edp-category-block.negative {
+  background: rgba(244,67,54,0.04);
+  border-color: rgba(244,67,54,0.15);
+}
+.edp-category-block.positive {
+  background: rgba(0,230,118,0.04);
+  border-color: rgba(0,230,118,0.15);
+}
+.edp-cat-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.edp-cat-icon { font-size: 1.2rem; }
+.edp-cat-label {
+  font-family: 'Noto Sans Telugu', sans-serif;
+  font-weight: 600; font-size: 0.88rem; flex: 1;
+}
+.edp-cat-count {
+  font-size: 0.7rem; padding: 2px 8px;
+  border-radius: 20px; font-weight: 500;
+}
+.negative .edp-cat-count { background: rgba(244,67,54,0.12); color: var(--danger); }
+.positive .edp-cat-count { background: rgba(0,230,118,0.12); color: var(--success); }
+
+.edp-issues-list { display: flex; flex-direction: column; gap: 6px; }
+.edp-issue-item {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-family: 'Noto Sans Telugu', sans-serif;
+  font-size: 0.82rem; color: var(--text); line-height: 1.5;
+}
+.edp-issue-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 6px;
+}
+
+/* success-badge in nav */
+.success-badge {
+  background: rgba(0,230,118,0.2) !important;
+  color: var(--success) !important;
+  font-size: 0.6rem !important;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Election Responsive ────────────────────────────── */
+@media (max-width: 1100px) {
+  .election-summary-row { grid-template-columns: 1fr 1fr; }
+  .election-stats-card { grid-column: span 2; }
+}
+@media (max-width: 700px) {
+  .election-summary-row { grid-template-columns: 1fr; }
+  .election-stats-card { grid-column: span 1; }
+  .election-party-cards { grid-template-columns: repeat(2, 1fr); }
+  .edp-tabs { overflow-x: auto; }
+  .edp-const-grid { grid-template-columns: repeat(2, 1fr); }
+}

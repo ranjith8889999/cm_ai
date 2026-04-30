@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "severity": "critical",
+    "title": "Nizamabad Water Crisis",
+    "title_telugu": "నిజామాబాద్ నీటి సంక్షోభం",
+    "description_telugu": "నిజామాబాద్ జిల్లాలో తీవ్రమైన నీటి కొరత. 50,000 కుటుంబాలు ప్రభావితం. తక్షణ చర్య అవసరం.",
+    "district": "Nizamabad",
+    "category": "water",
+    "icon": "💧",
+    "timestamp": "2026-04-30T17:05:43Z",
+    "action_required": "20 వాటర్ ట్యాంకర్లు వెంటనే పంపాలి"
+  },
+  {
+    "id": 2,
+    "severity": "high",
+    "title": "Farmers Protest – Warangal",
+    "title_telugu": "వరంగల్ రైతుల నిరసన",
+    "description_telugu": "వరంగల్‌లో పంట బీమా పరిహారం కోసం రైతులు నిరసన చేస్తున్నారు. 2 లక్షల రైతులు ప్రభావితం.",
+    "district": "Warangal Urban",
+    "category": "protest",
+    "icon": "🚜",
+    "timestamp": "2026-04-26T10:15:00",
+    "action_required": "వ్యవసాయ శాఖతో అత్యవసర సమావేశం నిర్వహించాలి"
+  },
+  {
+    "id": 3,
+    "severity": "high",
+    "title": "Adilabad Hospital Emergency",
+    "title_telugu": "ఆదిలాబాద్ ఆసుపత్రి అత్యవసర పరిస్థితి",
+    "description_telugu": "ఆదిలాబాద్ గిరిజన ప్రాంతాల్లో 40% వైద్య పోస్టులు ఖాళీ. మలేరియా సీజన్ ముందు ప్రమాదకర పరిస్థితి.",
+    "district": "Adilabad",
+    "category": "health",
+    "icon": "🏥",
+    "timestamp": "2026-04-25T14:00:00",
+    "action_required": "50 వైద్య సిబ్బందిని తక్షణం నియమించాలి"
+  },
+  {
+    "id": 4,
+    "severity": "medium",
+    "title": "Warangal Urban Sewage Overflow",
+    "title_telugu": "వరంగల్ మురుగు నీరు ఉప్పొంగుతోంది",
+    "description_telugu": "వరంగల్ నగరంలో 15 కాలనీల్లో మురుగు రోడ్లపై ప్రవహిస్తోంది. ఆరోగ్య ప్రమాదం.",
+    "district": "Warangal Urban",
+    "category": "sanitation",
+    "icon": "⚠️",
+    "timestamp": "2026-04-26T07:00:00",
+    "action_required": "మున్సిపాలిటీ త్వరిత మరమ్మత్తు బృందాలను పంపాలి"
+  },
+  {
+    "id": 5,
+    "severity": "medium",
+    "title": "Mahabubnagar School Dropout Crisis",
+    "title_telugu": "మహబూబ్‌నగర్ బడి మానుకున్న సమస్య",
+    "description_telugu": "12,000 పిల్లలు పాఠశాలలు మానేశారు. పేదరికం ప్రధాన కారణం. బాల కార్మికత పెరుగుతోంది.",
+    "district": "Mahabubnagar",
+    "category": "education",
+    "icon": "📚",
+    "timestamp": "2026-04-24T11:00:00",
+    "action_required": "జిల్లా విద్యా అధికారికి అత్యవసర నివేదిక పంపాలి"
+  }
+]
