@@ -1,6 +1,10 @@
 from groq import Groq
 import json
 import os
+from dotenv import load_dotenv
+
+# Load .env file for local development (ignored in production where env vars are set directly)
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 # Read from environment variable.
 # Set GROQ_API_KEY in your .env file or EasyPanel environment variables.
