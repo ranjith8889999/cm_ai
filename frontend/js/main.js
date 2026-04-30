@@ -162,20 +162,103 @@ async function loadTabAnalysis(tab) {
 }
 
 function renderAnalysisPanel(tabKey, data) {
-  const loader = document.getElementById(`analysisLoader-${tabKey}`);
-  const body   = document.getElementById(`analysisBody-${tabKey}`);
-  const textEl = document.getElementById(`analysisText-${tabKey}`);
+  const loader  = document.getElementById(`analysisLoader-${tabKey}`);
+  const body    = document.getElementById(`analysisBody-${tabKey}`);
+  const textEl  = document.getElementById(`analysisText-${tabKey}`);
   const stepsEl = document.getElementById(`analysisSteps-${tabKey}`);
 
   if (loader) loader.style.display = "none";
   if (!body || !textEl || !stepsEl) return;
 
+  // Store for save-to-tracker feature
+  body._analysisData = data;
+  body._tabKey = tabKey;
+
   textEl.textContent = data.analysis_telugu || "";
-  stepsEl.innerHTML = (data.resolution_steps || [])
-    .map((step, i) => `<div class="aap-step"><span class="aap-step-num">${i + 1}</span><span>${step}</span></div>`)
+
+  const steps = data.resolution_steps || [];
+  stepsEl.innerHTML = steps
+    .map((step, i) => `
+      <div class="aap-step" id="aap-step-${tabKey}-${i}">
+        <span class="aap-step-num">${i + 1}</span>
+        <span class="aap-step-text">${step}</span>
+        <button class="aap-save-step" title="Action Tracker కు పంపండి"
+          onclick="saveStepToTracker('${tabKey}', ${i}, this)">
+          <i class="fas fa-bookmark"></i>
+        </button>
+      </div>`)
     .join("");
 
+  // Save-all button (replace if already exists)
+  const existing = body.querySelector(".aap-save-all-btn");
+  if (existing) existing.remove();
+  const saveAllBtn = document.createElement("button");
+  saveAllBtn.className = "btn-brief small aap-save-all-btn";
+  saveAllBtn.innerHTML = `<i class="fas fa-list-check"></i> అన్నీ Action Tracker కు పంపండి`;
+  saveAllBtn.onclick = () => saveAllStepsToTracker(tabKey, steps);
+  body.querySelector(".aap-speak").insertAdjacentElement("beforebegin", saveAllBtn);
+
   body.style.display = "block";
+}
+
+async function saveStepToTracker(tabKey, stepIdx, btn) {
+  const body = document.getElementById(`analysisBody-${tabKey}`);
+  const data = body?._analysisData;
+  if (!data) return;
+  const step = data.resolution_steps[stepIdx];
+  const typeLabels = { alerts: "అలర్ట్ పరిష్కారం", news: "వార్తా చర్య", map: "జిల్లా చర్య", governance: "పాలన చర్య" };
+  const item = {
+    title: step.length > 50 ? step.slice(0, 50) + "…" : step,
+    district: "",
+    priority: "high",
+    description: `AI విశ్లేషణ నుండి: ${step}\n\nసందర్భం: ${data.analysis_telugu?.slice(0, 120) || ""}`,
+    follow_up_days: 7,
+    reminder: `AI సూచించిన చర్య: ${step.slice(0, 60)}`,
+    tags: ["ai-resolution", typeLabels[tabKey] || tabKey],
+  };
+  try {
+    const r = await fetch(`${API}/memory`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(item) });
+    const d = await r.json();
+    state.memoryData.unshift(d.item);
+  } catch {
+    item.id = Date.now(); item.date = new Date().toISOString().split("T")[0]; item.status = "open";
+    state.memoryData.unshift(item);
+  }
+  btn.innerHTML = `<i class="fas fa-check"></i>`;
+  btn.classList.add("saved");
+  btn.disabled = true;
+  showToast("✅ Action Tracker కు పంపబడింది", "success");
+}
+
+async function saveAllStepsToTracker(tabKey, steps) {
+  const body = document.getElementById(`analysisBody-${tabKey}`);
+  const data = body?._analysisData;
+  if (!data || !steps.length) return;
+  const typeLabels = { alerts: "అలర్ట్ పరిష్కారం", news: "వార్తా చర్య", map: "జిల్లా చర్య", governance: "పాలన చర్య" };
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    const item = {
+      title: step.length > 50 ? step.slice(0, 50) + "…" : step,
+      district: "",
+      priority: "high",
+      description: `AI విశ్లేషణ నుండి: ${step}`,
+      follow_up_days: 7,
+      reminder: `AI సూచించిన చర్య: ${step.slice(0, 60)}`,
+      tags: ["ai-resolution", typeLabels[tabKey] || tabKey],
+    };
+    try {
+      const r = await fetch(`${API}/memory`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(item) });
+      const d = await r.json();
+      state.memoryData.unshift(d.item);
+    } catch {
+      item.id = Date.now() + i; item.date = new Date().toISOString().split("T")[0]; item.status = "open";
+      state.memoryData.unshift(item);
+    }
+    // Mark individual buttons as saved
+    const btn = document.getElementById(`aap-step-${tabKey}-${i}`)?.querySelector(".aap-save-step");
+    if (btn) { btn.innerHTML = `<i class="fas fa-check"></i>`; btn.classList.add("saved"); btn.disabled = true; }
+  }
+  showToast(`✅ ${steps.length} చర్యలు Action Tracker కు పంపబడ్డాయి`, "success");
 }
 
 function closeAnalysisPanel(tabKey) {

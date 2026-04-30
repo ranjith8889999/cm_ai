@@ -158,44 +158,50 @@ class GroqService:
         """
         context_descriptions = {
             "alerts": (
-                "You are analyzing active governance alerts across Telangana districts. "
-                "Review the alerts, identify the most critical patterns, suggest a prioritized "
-                "resolution strategy in Telugu, and provide 4-5 concrete action steps."
+                "You are a senior governance analyst for Telangana Chief Minister's Office. "
+                "Analyze the provided active alerts across districts. Identify patterns, "
+                "root causes, and the most critical issues. Respond ONLY with valid JSON."
             ),
             "districts": (
-                "You are analyzing district-level sentiment and governance scores across Telangana. "
-                "Review the data, identify which districts need the most attention, and provide "
-                "a resolution plan in Telugu with 4-5 concrete steps."
+                "You are a district performance analyst for Telangana Chief Minister's Office. "
+                "Analyze district sentiment scores, trends, and issues. Identify which districts "
+                "need priority intervention. Respond ONLY with valid JSON."
             ),
             "news": (
-                "You are analyzing recent news trends in Telangana governance. "
-                "Review the news sentiment patterns, identify root causes of negative news, "
-                "and suggest how to amplify positive outcomes. Answer in Telugu with 4-5 steps."
+                "You are a media intelligence analyst for Telangana Chief Minister's Office. "
+                "Analyze news sentiment patterns across districts. Identify root causes of "
+                "negative news and suggest how to improve public perception. Respond ONLY with valid JSON."
             ),
             "governance": (
-                "You are analyzing pending governance issues and AI suggestions for Telangana. "
-                "Review the patterns, identify systemic problems, and provide a comprehensive "
-                "resolution roadmap in Telugu with 4-5 concrete policy steps."
+                "You are a policy strategy advisor for Telangana Chief Minister's Office. "
+                "Analyze pending governance issues and AI suggestions. Identify systemic gaps "
+                "and provide a policy roadmap. Respond ONLY with valid JSON."
             ),
         }
         system_prompt = context_descriptions.get(
             context_type,
-            "You are a governance analyst for Telangana. Provide analysis and resolution in Telugu.",
+            "You are a governance analyst for Telangana. Respond ONLY with valid JSON.",
         )
         messages = [
             {"role": "system", "content": system_prompt},
             {
                 "role": "user",
                 "content": (
-                    f"Here is the current data summary:\n{summary}\n\n"
-                    "Return a JSON object with exactly two keys:\n"
-                    '1. "analysis_telugu": a 2-3 sentence Telugu paragraph analyzing the current situation and historical patterns\n'
-                    '2. "resolution_steps": a JSON array of 4-5 short Telugu strings, each being one actionable step\n'
-                    "Return valid JSON only, no extra text."
+                    f"Current data:\n{summary}\n\n"
+                    "Return a JSON object with EXACTLY these two keys:\n"
+                    '1. "analysis_telugu": a 2-3 sentence Telugu paragraph analyzing the '
+                    "current situation, patterns, and urgency level.\n"
+                    '2. "resolution_steps": a JSON array of exactly 5 strings. Each string must:\n'
+                    "   - Be in Telugu\n"
+                    "   - Name the responsible department (e.g., జల్ జీవన్ మిషన్, వ్యవసాయ శాఖ, NDRF, NHM)\n"
+                    "   - Include a specific timeline (e.g., 24 గంటల్లో, 7 రోజుల్లో, 30 రోజుల్లో)\n"
+                    "   - State a concrete measurable action\n"
+                    "   Example format: 'జల్ జీవన్ మిషన్: 48 గంటల్లో 20 వాటర్ ట్యాంకర్లు నిజామాబాద్ పంపాలి'\n"
+                    "Return ONLY valid JSON, no extra text or markdown."
                 ),
             },
         ]
-        raw = self._chat(messages, temperature=0.5, max_tokens=800)
+        raw = self._chat(messages, temperature=0.4, max_tokens=1000)
         try:
             start = raw.find("{")
             end = raw.rfind("}") + 1
@@ -208,5 +214,11 @@ class GroqService:
         # Fallback if JSON parsing fails
         return {
             "analysis_telugu": raw[:400] if raw and not raw.startswith("Error") else "విశ్లేషణ అందుబాటులో లేదు. తర్వాత మళ్ళీ ప్రయత్నించండి.",
-            "resolution_steps": ["సంబంధిత శాఖలతో అత్యవసర సమావేశం నిర్వహించాలి", "30 రోజుల యాక్షన్ ప్లాన్ రూపొందించాలి", "జిల్లా కలెక్టర్లకు స్పష్టమైన లక్ష్యాలు నిర్ణయించాలి", "పురోగతిని వారానికొకసారి సమీక్షించాలి"],
+            "resolution_steps": [
+                "సంబంధిత శాఖలతో అత్యవసర సమావేశం 24 గంటల్లో నిర్వహించాలి",
+                "జిల్లా కలెక్టర్లకు 48 గంటల్లో స్పష్టమైన లక్ష్యాలు నిర్ణయించాలి",
+                "CMO: 7 రోజుల్లో యాక్షన్ ప్లాన్ రూపొందించాలి",
+                "పురోగతిని వారానికొకసారి సమీక్షించాలి",
+                "30 రోజుల్లో పూర్తి నివేదిక సమర్పించాలి",
+            ],
         }
