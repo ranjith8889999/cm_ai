@@ -233,7 +233,7 @@ function renderDashboard() {
 function updateDashStats() {
   const pos = state.newsData.filter((n) => n.sentiment === "positive").length;
   const neg = state.newsData.filter((n) => n.sentiment === "negative").length;
-  document.getElementById("gs-alerts").textContent = state.alertsData.length;
+  document.getElementById("gs-alerts").textContent = state.alertsData.filter((a) => a.type === "red").length;
   document.getElementById("gs-positive").textContent = pos;
   document.getElementById("gs-suggestions").textContent = state.govSuggestions.length || 3;
 }
@@ -699,23 +699,42 @@ async function showDistrictInfo(d) {
 }
 
 /* ─── Alerts ─────────────────────────────────────────── */
+const SEVERITY_ORDER = { critical: 0, high: 1, medium: 2, positive: 3 };
+let alertFilter = "all"; // all | red | green
+
+function setAlertFilter(f) {
+  alertFilter = f;
+  document.querySelectorAll(".alert-filter-btn").forEach((b) => {
+    b.classList.toggle("active", b.dataset.filter === f);
+  });
+  renderAlerts();
+}
+
 function renderAlerts() {
   const el = document.getElementById("alertsList");
   if (!el) return;
-  el.innerHTML = state.alertsData.map((a) => alertCard(a)).join("");
+  let data = [...state.alertsData];
+  if (alertFilter === "red")   data = data.filter((a) => a.type === "red");
+  if (alertFilter === "green") data = data.filter((a) => a.type === "green");
+  data.sort((a, b) => (SEVERITY_ORDER[a.severity] ?? 9) - (SEVERITY_ORDER[b.severity] ?? 9));
+  el.innerHTML = data.map((a) => alertCard(a)).join("");
 }
 
 function alertCard(a) {
   const time = new Date(a.timestamp).toLocaleTimeString("te-IN", { hour: "2-digit", minute: "2-digit" });
+  const isGreen = a.severity === "positive";
+  const actionPrefix = isGreen ? "✅" : "⚡";
+  const actionClass = isGreen ? "alert-card-action green-action" : "alert-card-action";
+  const sevLabel = isGreen ? "POSITIVE ✅" : a.severity.toUpperCase();
   return `
   <div class="alert-card ${a.severity}">
     <span class="alert-card-icon">${a.icon}</span>
     <div class="alert-card-content">
       <div class="alert-card-title">${a.title_telugu}</div>
       <div class="alert-card-desc">${a.description_telugu}</div>
-      <div class="alert-card-action">⚡ ${a.action_required}</div>
+      <div class="${actionClass}">${actionPrefix} ${a.action_required}</div>
       <div class="alert-card-meta" style="margin-top:8px">
-        <span class="alert-severity sev-${a.severity}">${a.severity.toUpperCase()}</span>
+        <span class="alert-severity sev-${a.severity}">${sevLabel}</span>
         <span class="alert-district">📍 ${a.district}</span>
         <span class="alert-time">🕐 ${time}</span>
       </div>
@@ -729,7 +748,8 @@ function alertCard(a) {
 }
 
 function playAlertBriefing() {
-  const text = state.alertsData.map((a) => `అలర్ట్: ${a.title_telugu}. ${a.action_required}`).join(". ");
+  const redAlerts = state.alertsData.filter((a) => a.type === "red");
+  const text = redAlerts.map((a) => `అలర్ట్: ${a.title_telugu}. ${a.action_required}`).join(". ");
   speakText("తక్షణం దృష్టి అవసరం. " + text);
 }
 

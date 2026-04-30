@@ -369,13 +369,19 @@
         <div class="alert-hero">
           <div class="alert-hero-icon pulse-red">🚨</div>
           <div>
-            <h2>రెడ్ అలర్ట్ సిస్టమ్</h2>
-            <p>తక్షణ దృష్టి అవసరమయ్యే సమస్యలు</p>
+            <h2>అలర్ట్ సిస్టమ్ — తెలంగాణ అన్ని జిల్లాలు</h2>
+            <p>🔴 రెడ్ అలర్ట్ = తక్షణ చర్య అవసరం &nbsp;|&nbsp; 🟢 గ్రీన్ అలర్ట్ = మంచి వార్తలు &amp; విజయాలు</p>
           </div>
         </div>
         <button class="btn-brief danger" onclick="playAlertBriefing()">
-          <i class="fas fa-volume-high"></i> అన్ని అలర్ట్లు వినండి
+          <i class="fas fa-volume-high"></i> రెడ్ అలర్ట్లు వినండి
         </button>
+      </div>
+
+      <div class="alert-filter-tabs">
+        <button class="alert-filter-btn active" data-filter="all"  onclick="setAlertFilter('all')">🔔 అన్నీ</button>
+        <button class="alert-filter-btn red"   data-filter="red"   onclick="setAlertFilter('red')">🔴 రెడ్ అలర్ట్లు</button>
+        <button class="alert-filter-btn green" data-filter="green" onclick="setAlertFilter('green')">🟢 గ్రీన్ అలర్ట్లు</button>
       </div>
 
       <div id="alertsList" class="alerts-list"></div>
