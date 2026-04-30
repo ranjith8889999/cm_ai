@@ -163,19 +163,19 @@
             <p id="greetingDate"></p>
           </div>
           <div class="greeting-stats">
-            <div class="gs-stat">
+            <div class="gs-stat clickable" onclick="statNavTo('map')" title="జిల్లా మ్యాప్ చూడండి">
               <span class="gs-num" id="gs-districts">33</span>
               <span class="gs-label">జిల్లాలు</span>
             </div>
-            <div class="gs-stat">
+            <div class="gs-stat clickable" onclick="statNavTo('alerts')" title="అలర్ట్లు విశ్లేషణ చూడండి">
               <span class="gs-num danger" id="gs-alerts">5</span>
               <span class="gs-label">అలర్ట్లు</span>
             </div>
-            <div class="gs-stat">
+            <div class="gs-stat clickable" onclick="statNavTo('news')" title="వార్తలు విశ్లేషణ చూడండి">
               <span class="gs-num success" id="gs-positive">7</span>
               <span class="gs-label">పాజిటివ్ వార్తలు</span>
             </div>
-            <div class="gs-stat">
+            <div class="gs-stat clickable" onclick="statNavTo('governance')" title="AI సూచనలు చూడండి">
               <span class="gs-num warning" id="gs-suggestions">3</span>
               <span class="gs-label">AI సూచనలు</span>
             </div>
@@ -249,6 +249,24 @@
 
     <!-- ═══ TAB: NEWS ═══ -->
     <div id="tab-news" class="tab-panel">
+      <!-- AI Analysis Panel (shown on stat-click navigation) -->
+      <div class="ai-analysis-panel" id="analysisPanel-news" style="display:none">
+        <div class="aap-header">
+          <span class="aap-badge"><i class="fas fa-brain"></i> AI చరిత్ర విశ్లేషణ</span>
+          <button class="aap-close" onclick="closeAnalysisPanel('news')">✕</button>
+        </div>
+        <div class="aap-loader" id="analysisLoader-news">
+          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+          <span>వార్తల చరిత్రను విశ్లేషిస్తున్నాం...</span>
+        </div>
+        <div class="aap-body" id="analysisBody-news" style="display:none">
+          <div class="aap-analysis" id="analysisText-news"></div>
+          <div class="aap-steps" id="analysisSteps-news"></div>
+          <button class="btn-speak aap-speak" id="analysisSpeakBtn-news" onclick="speakAnalysis('news')">
+            <i class="fas fa-volume-high"></i> విశ్లేషణ వినండి
+          </button>
+        </div>
+      </div>
       <div class="tab-toolbar">
         <div class="filter-tabs" id="newsFilter">
           <button class="filter-btn active" data-cat="all">అన్నీ</button>
@@ -304,6 +322,24 @@
 
     <!-- ═══ TAB: AI GOVERNANCE ═══ -->
     <div id="tab-governance" class="tab-panel">
+      <!-- AI Analysis Panel (shown on stat-click navigation) -->
+      <div class="ai-analysis-panel" id="analysisPanel-governance" style="display:none">
+        <div class="aap-header">
+          <span class="aap-badge"><i class="fas fa-brain"></i> AI చరిత్ర విశ్లేషణ</span>
+          <button class="aap-close" onclick="closeAnalysisPanel('governance')">✕</button>
+        </div>
+        <div class="aap-loader" id="analysisLoader-governance">
+          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+          <span>గవర్నెన్స్ డేటాను విశ్లేషిస్తున్నాం...</span>
+        </div>
+        <div class="aap-body" id="analysisBody-governance" style="display:none">
+          <div class="aap-analysis" id="analysisText-governance"></div>
+          <div class="aap-steps" id="analysisSteps-governance"></div>
+          <button class="btn-speak aap-speak" id="analysisSpeakBtn-governance" onclick="speakAnalysis('governance')">
+            <i class="fas fa-volume-high"></i> విశ్లేషణ వినండి
+          </button>
+        </div>
+      </div>
       <div class="gov-header">
         <h2><i class="fas fa-robot"></i> AI గవర్నెన్స్ సూచనలు</h2>
         <div class="gov-controls">
@@ -328,6 +364,24 @@
 
     <!-- ═══ TAB: MAP ═══ -->
     <div id="tab-map" class="tab-panel">
+      <!-- AI Analysis Panel (shown on stat-click navigation) -->
+      <div class="ai-analysis-panel" id="analysisPanel-map" style="display:none">
+        <div class="aap-header">
+          <span class="aap-badge"><i class="fas fa-brain"></i> AI జిల్లా విశ్లేషణ</span>
+          <button class="aap-close" onclick="closeAnalysisPanel('map')">✕</button>
+        </div>
+        <div class="aap-loader" id="analysisLoader-map">
+          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+          <span>33 జిల్లాల డేటాను విశ్లేషిస్తున్నాం...</span>
+        </div>
+        <div class="aap-body" id="analysisBody-map" style="display:none">
+          <div class="aap-analysis" id="analysisText-map"></div>
+          <div class="aap-steps" id="analysisSteps-map"></div>
+          <button class="btn-speak aap-speak" id="analysisSpeakBtn-map" onclick="speakAnalysis('map')">
+            <i class="fas fa-volume-high"></i> విశ్లేషణ వినండి
+          </button>
+        </div>
+      </div>
       <div class="map-layout">
         <div class="map-sidebar">
           <h3>జిల్లా వివరాలు</h3>
@@ -376,6 +430,25 @@
         <button class="btn-brief danger" onclick="playAlertBriefing()">
           <i class="fas fa-volume-high"></i> రెడ్ అలర్ట్లు వినండి
         </button>
+      </div>
+
+      <!-- AI Analysis Panel (shown on stat-click navigation) -->
+      <div class="ai-analysis-panel" id="analysisPanel-alerts" style="display:none">
+        <div class="aap-header">
+          <span class="aap-badge danger"><i class="fas fa-brain"></i> AI అలర్ట్ విశ్లేషణ</span>
+          <button class="aap-close" onclick="closeAnalysisPanel('alerts')">✕</button>
+        </div>
+        <div class="aap-loader" id="analysisLoader-alerts">
+          <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
+          <span>అలర్ట్ చరిత్రను విశ్లేషిస్తున్నాం...</span>
+        </div>
+        <div class="aap-body" id="analysisBody-alerts" style="display:none">
+          <div class="aap-analysis" id="analysisText-alerts"></div>
+          <div class="aap-steps" id="analysisSteps-alerts"></div>
+          <button class="btn-speak aap-speak" id="analysisSpeakBtn-alerts" onclick="speakAnalysis('alerts')">
+            <i class="fas fa-volume-high"></i> విశ్లేషణ వినండి
+          </button>
+        </div>
       </div>
 
       <div class="alert-filter-tabs">

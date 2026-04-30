@@ -115,7 +115,83 @@ function toggleSidebar() {
   document.getElementById("mainContent").classList.toggle("sidebar-collapsed", state.sidebarCollapsed);
 }
 
-/* ─── Load All Data ──────────────────────────────────── */
+/* ─── Stat Navigation → AI Analysis ─────────────────── */
+// Map from tab → API context type and data getter
+const STAT_TAB_MAP = {
+  alerts:     { type: "alerts",     getData: () => state.alertsData },
+  news:       { type: "news",       getData: () => state.newsData },
+  map:        { type: "districts",  getData: () => state.districtData },
+  governance: { type: "governance", getData: () => state.govSuggestions.length ? state.govSuggestions : getDemoSuggestions() },
+};
+
+function statNavTo(tab) {
+  switchTab(tab);
+  // Slight delay so the tab is visible before we show the panel
+  setTimeout(() => loadTabAnalysis(tab), 300);
+}
+
+async function loadTabAnalysis(tab) {
+  const cfg = STAT_TAB_MAP[tab];
+  if (!cfg) return;
+
+  const panelKey = tab === "map" ? "map" : tab;
+  const panel   = document.getElementById(`analysisPanel-${panelKey}`);
+  const loader  = document.getElementById(`analysisLoader-${panelKey}`);
+  const body    = document.getElementById(`analysisBody-${panelKey}`);
+  if (!panel) return;
+
+  panel.style.display = "block";
+  loader.style.display = "flex";
+  body.style.display = "none";
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  try {
+    const res = await fetch(`${API}/analyze`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: cfg.type, items: cfg.getData() }),
+    });
+    const data = await res.json();
+    renderAnalysisPanel(panelKey, data);
+  } catch (e) {
+    renderAnalysisPanel(panelKey, {
+      analysis_telugu: "విశ్లేషణ అందుబాటులో లేదు. AI సర్వర్‌తో కనెక్షన్ తనిఖీ చేయండి.",
+      resolution_steps: ["నెట్‌వర్క్ కనెక్షన్ తనిఖీ చేయండి", "GROQ_API_KEY సెట్ అయిందో చూడండి", "తర్వాత మళ్ళీ ప్రయత్నించండి"],
+    });
+  }
+}
+
+function renderAnalysisPanel(tabKey, data) {
+  const loader = document.getElementById(`analysisLoader-${tabKey}`);
+  const body   = document.getElementById(`analysisBody-${tabKey}`);
+  const textEl = document.getElementById(`analysisText-${tabKey}`);
+  const stepsEl = document.getElementById(`analysisSteps-${tabKey}`);
+
+  if (loader) loader.style.display = "none";
+  if (!body || !textEl || !stepsEl) return;
+
+  textEl.textContent = data.analysis_telugu || "";
+  stepsEl.innerHTML = (data.resolution_steps || [])
+    .map((step, i) => `<div class="aap-step"><span class="aap-step-num">${i + 1}</span><span>${step}</span></div>`)
+    .join("");
+
+  body.style.display = "block";
+}
+
+function closeAnalysisPanel(tabKey) {
+  const panel = document.getElementById(`analysisPanel-${tabKey}`);
+  if (panel) panel.style.display = "none";
+}
+
+function speakAnalysis(tabKey) {
+  const textEl  = document.getElementById(`analysisText-${tabKey}`);
+  const stepsEl = document.getElementById(`analysisSteps-${tabKey}`);
+  if (!textEl) return;
+  const stepsText = stepsEl ? stepsEl.innerText.replace(/\n/g, ". ") : "";
+  speakText(`విశ్లేషణ: ${textEl.textContent}. పరిష్కార దశలు: ${stepsText}`);
+}
+
+
 async function loadAllData() {
   try {
     const [news, districts, polls, alerts, impact, memory] = await Promise.all([

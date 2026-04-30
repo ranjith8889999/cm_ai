@@ -125,6 +125,32 @@ def get_alerts():
     return jsonify(load_json("alerts.json"))
 
 
+# ─── AI Analysis & Resolution ─────────────────────────────────────────────────
+@app.route("/api/analyze", methods=["POST"])
+def analyze_and_resolve():
+    data = request.get_json()
+    context_type = data.get("type", "alerts")   # alerts | districts | news | governance
+    items        = data.get("items", [])
+
+    # Build a compact summary string to stay within token limits
+    if context_type == "alerts":
+        lines = [f"[{a.get('severity','').upper()}] {a.get('title','')} — {a.get('district','')} — Action: {a.get('action_required','')}"
+                 for a in items[:20]]
+    elif context_type == "districts":
+        lines = [f"{d.get('name','')} score={d.get('score','')} mood={d.get('mood','')} trend={d.get('trend','')} issues={','.join(d.get('issues',[]))}"
+                 for d in items[:33]]
+    elif context_type == "news":
+        lines = [f"[{n.get('sentiment','').upper()}] {n.get('title','')} — {n.get('district','')} — {n.get('category','')}"
+                 for n in items[:20]]
+    else:  # governance
+        lines = [f"Problem: {s.get('problem_telugu','')} | Priority: {s.get('priority','')}"
+                 for s in items[:10]]
+
+    summary = "\n".join(lines) if lines else "No data available."
+    result = groq.analyze_and_resolve(context_type, summary)
+    return jsonify(result)
+
+
 # ─── Impact Tracker ───────────────────────────────────────────────────────────
 @app.route("/api/impact")
 def get_impact():

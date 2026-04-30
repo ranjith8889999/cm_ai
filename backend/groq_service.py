@@ -150,3 +150,63 @@ class GroqService:
             },
         ]
         return self._chat(messages, max_tokens=150)
+
+    def analyze_and_resolve(self, context_type: str, summary: str) -> dict:
+        """
+        Analyze historical data for a given context (alerts/districts/news/governance)
+        and return a Telugu analysis + actionable resolution steps as JSON.
+        """
+        context_descriptions = {
+            "alerts": (
+                "You are analyzing active governance alerts across Telangana districts. "
+                "Review the alerts, identify the most critical patterns, suggest a prioritized "
+                "resolution strategy in Telugu, and provide 4-5 concrete action steps."
+            ),
+            "districts": (
+                "You are analyzing district-level sentiment and governance scores across Telangana. "
+                "Review the data, identify which districts need the most attention, and provide "
+                "a resolution plan in Telugu with 4-5 concrete steps."
+            ),
+            "news": (
+                "You are analyzing recent news trends in Telangana governance. "
+                "Review the news sentiment patterns, identify root causes of negative news, "
+                "and suggest how to amplify positive outcomes. Answer in Telugu with 4-5 steps."
+            ),
+            "governance": (
+                "You are analyzing pending governance issues and AI suggestions for Telangana. "
+                "Review the patterns, identify systemic problems, and provide a comprehensive "
+                "resolution roadmap in Telugu with 4-5 concrete policy steps."
+            ),
+        }
+        system_prompt = context_descriptions.get(
+            context_type,
+            "You are a governance analyst for Telangana. Provide analysis and resolution in Telugu.",
+        )
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {
+                "role": "user",
+                "content": (
+                    f"Here is the current data summary:\n{summary}\n\n"
+                    "Return a JSON object with exactly two keys:\n"
+                    '1. "analysis_telugu": a 2-3 sentence Telugu paragraph analyzing the current situation and historical patterns\n'
+                    '2. "resolution_steps": a JSON array of 4-5 short Telugu strings, each being one actionable step\n'
+                    "Return valid JSON only, no extra text."
+                ),
+            },
+        ]
+        raw = self._chat(messages, temperature=0.5, max_tokens=800)
+        try:
+            start = raw.find("{")
+            end = raw.rfind("}") + 1
+            if start != -1 and end > start:
+                parsed = json.loads(raw[start:end])
+                if "analysis_telugu" in parsed and "resolution_steps" in parsed:
+                    return parsed
+        except Exception:
+            pass
+        # Fallback if JSON parsing fails
+        return {
+            "analysis_telugu": raw[:400] if raw and not raw.startswith("Error") else "విశ్లేషణ అందుబాటులో లేదు. తర్వాత మళ్ళీ ప్రయత్నించండి.",
+            "resolution_steps": ["సంబంధిత శాఖలతో అత్యవసర సమావేశం నిర్వహించాలి", "30 రోజుల యాక్షన్ ప్లాన్ రూపొందించాలి", "జిల్లా కలెక్టర్లకు స్పష్టమైన లక్ష్యాలు నిర్ణయించాలి", "పురోగతిని వారానికొకసారి సమీక్షించాలి"],
+        }

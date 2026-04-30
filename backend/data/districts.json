@@ -6,9 +6,9 @@
     "x": 38,
     "y": 52,
     "sentiment": "negative",
-    "score": 38,
+    "score": 37,
     "mood": "angry",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "petrol shortage",
       "traffic",
@@ -26,7 +26,7 @@
     "x": 32,
     "y": 63,
     "sentiment": "positive",
-    "score": 67,
+    "score": 68,
     "mood": "happy",
     "trend": "stable",
     "issues": [
@@ -44,7 +44,7 @@
     "x": 44,
     "y": 47,
     "sentiment": "positive",
-    "score": 62,
+    "score": 61,
     "mood": "happy",
     "trend": "stable",
     "issues": [
@@ -62,7 +62,7 @@
     "x": 22,
     "y": 48,
     "sentiment": "neutral",
-    "score": 53,
+    "score": 55,
     "mood": "neutral",
     "trend": "improving",
     "issues": [
@@ -80,7 +80,7 @@
     "x": 28,
     "y": 43,
     "sentiment": "neutral",
-    "score": 49,
+    "score": 47,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -98,9 +98,9 @@
     "x": 22,
     "y": 24,
     "sentiment": "negative",
-    "score": 29,
+    "score": 32,
     "mood": "angry",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "water shortage",
       "unemployment"
@@ -116,7 +116,7 @@
     "x": 28,
     "y": 33,
     "sentiment": "neutral",
-    "score": 47,
+    "score": 44,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -134,7 +134,7 @@
     "x": 60,
     "y": 30,
     "sentiment": "positive",
-    "score": 72,
+    "score": 73,
     "mood": "happy",
     "trend": "stable",
     "issues": [
@@ -152,7 +152,7 @@
     "x": 58,
     "y": 18,
     "sentiment": "neutral",
-    "score": 52,
+    "score": 49,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -170,9 +170,9 @@
     "x": 64,
     "y": 24,
     "sentiment": "positive",
-    "score": 61,
+    "score": 60,
     "mood": "happy",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "coal mines",
       "employment"
@@ -190,7 +190,7 @@
     "sentiment": "positive",
     "score": 62,
     "mood": "happy",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "textile industry",
       "development"
@@ -206,9 +206,9 @@
     "x": 72,
     "y": 46,
     "sentiment": "negative",
-    "score": 33,
+    "score": 36,
     "mood": "angry",
-    "trend": "declining",
+    "trend": "improving",
     "issues": [
       "sewage",
       "roads",
@@ -225,7 +225,7 @@
     "x": 65,
     "y": 53,
     "sentiment": "neutral",
-    "score": 41,
+    "score": 42,
     "mood": "neutral",
     "trend": "stable",
     "issues": [
@@ -243,7 +243,7 @@
     "x": 65,
     "y": 43,
     "sentiment": "neutral",
-    "score": 49,
+    "score": 47,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -261,7 +261,7 @@
     "x": 38,
     "y": 38,
     "sentiment": "positive",
-    "score": 72,
+    "score": 75,
     "mood": "happy",
     "trend": "improving",
     "issues": [
@@ -279,9 +279,9 @@
     "x": 58,
     "y": 50,
     "sentiment": "positive",
-    "score": 65,
+    "score": 68,
     "mood": "happy",
-    "trend": "declining",
+    "trend": "improving",
     "issues": [
       "temple development",
       "roads"
@@ -297,9 +297,9 @@
     "x": 55,
     "y": 60,
     "sentiment": "neutral",
-    "score": 58,
+    "score": 56,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "declining",
     "issues": [
       "fluoride water",
       "employment"
@@ -317,7 +317,7 @@
     "sentiment": "neutral",
     "score": 54,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
     "issues": [
       "agriculture",
       "connectivity"
@@ -333,9 +333,9 @@
     "x": 75,
     "y": 68,
     "sentiment": "positive",
-    "score": 60,
+    "score": 62,
     "mood": "happy",
-    "trend": "stable",
+    "trend": "improving",
     "issues": [
       "flood relief",
       "agriculture"
@@ -351,7 +351,7 @@
     "x": 82,
     "y": 64,
     "sentiment": "neutral",
-    "score": 47,
+    "score": 45,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -371,7 +371,7 @@
     "sentiment": "neutral",
     "score": 45,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "tribal development",
       "education"
@@ -387,7 +387,7 @@
     "x": 80,
     "y": 40,
     "sentiment": "neutral",
-    "score": 50,
+    "score": 49,
     "mood": "neutral",
     "trend": "stable",
     "issues": [
@@ -405,9 +405,9 @@
     "x": 72,
     "y": 33,
     "sentiment": "positive",
-    "score": 62,
+    "score": 65,
     "mood": "happy",
-    "trend": "declining",
+    "trend": "improving",
     "issues": [
       "Kaleshwaram benefits",
       "tribal welfare"
@@ -423,9 +423,9 @@
     "x": 65,
     "y": 11,
     "sentiment": "neutral",
-    "score": 50,
+    "score": 51,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "coal industry",
       "pollution"
@@ -441,9 +441,9 @@
     "x": 35,
     "y": 8,
     "sentiment": "negative",
-    "score": 35,
+    "score": 34,
     "mood": "angry",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "hospital staff shortage",
       "tribal issues",
@@ -460,7 +460,7 @@
     "x": 52,
     "y": 5,
     "sentiment": "neutral",
-    "score": 51,
+    "score": 53,
     "mood": "neutral",
     "trend": "improving",
     "issues": [
@@ -478,9 +478,9 @@
     "x": 28,
     "y": 17,
     "sentiment": "neutral",
-    "score": 50,
+    "score": 49,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "education",
       "water"
@@ -496,7 +496,7 @@
     "x": 24,
     "y": 68,
     "sentiment": "neutral",
-    "score": 47,
+    "score": 45,
     "mood": "neutral",
     "trend": "declining",
     "issues": [
@@ -514,9 +514,9 @@
     "x": 35,
     "y": 75,
     "sentiment": "neutral",
-    "score": 53,
+    "score": 51,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
       "Srisailam project",
       "roads"
@@ -532,9 +532,9 @@
     "x": 38,
     "y": 81,
     "sentiment": "neutral",
-    "score": 51,
+    "score": 49,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
       "agriculture",
       "employment"
@@ -549,10 +549,10 @@
     "name_telugu": "మహబూబ్‌నగర్",
     "x": 28,
     "y": 84,
-    "sentiment": "neutral",
-    "score": 41,
-    "mood": "neutral",
-    "trend": "improving",
+    "sentiment": "negative",
+    "score": 39,
+    "mood": "angry",
+    "trend": "declining",
     "issues": [
       "school dropouts",
       "unemployment",
@@ -569,9 +569,9 @@
     "x": 22,
     "y": 77,
     "sentiment": "neutral",
-    "score": 45,
+    "score": 46,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "stable",
     "issues": [
       "border connectivity",
       "agriculture"
@@ -587,9 +587,9 @@
     "x": 22,
     "y": 88,
     "sentiment": "neutral",
-    "score": 51,
+    "score": 48,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
     "issues": [
       "agriculture",
       "water"
