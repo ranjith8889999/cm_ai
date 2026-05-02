@@ -14,6 +14,7 @@ BackgroundScheduler so no extra process/container is needed.
 
 import logging
 import random
+import tempfile
 from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
@@ -43,9 +44,20 @@ def _load(filename: str):
 
 
 def _save(filename: str, data):
+    """Write atomically: dump to a temp file then rename so readers never see a half-written file."""
     path = os.path.join(DATA_DIR, filename)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    dir_path = os.path.dirname(path)
+    fd, tmp_path = tempfile.mkstemp(dir=dir_path, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        os.replace(tmp_path, path)  # atomic on POSIX; best-effort on Windows
+    except Exception:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
 
 def _now_iso() -> str:

@@ -15,6 +15,7 @@ import atexit
 _TTS_CACHE: OrderedDict = OrderedDict()
 _TTS_CACHE_MAX = 200
 import logging
+import time
 
 logging.basicConfig(level=logging.INFO)
 
@@ -34,8 +35,18 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 
 def load_json(filename):
-    with open(os.path.join(DATA_DIR, filename), "r", encoding="utf-8") as f:
-        return json.load(f)
+    path = os.path.join(DATA_DIR, filename)
+    for attempt in range(3):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+            if content.strip():
+                return json.loads(content)
+        except (json.JSONDecodeError, OSError):
+            pass
+        if attempt < 2:
+            time.sleep(0.05)
+    raise ValueError(f"Could not read valid JSON from {filename} after 3 attempts")
 
 
 def save_json(filename, data):

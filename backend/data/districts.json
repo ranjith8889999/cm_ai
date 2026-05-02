@@ -3,599 +3,495 @@
     "id": 1,
     "name": "Hyderabad",
     "name_telugu": "హైదరాబాద్",
-    "x": 38,
-    "y": 52,
-    "sentiment": "neutral",
-    "score": 43,
-    "mood": "neutral",
-    "trend": "declining",
+    "score": 64,
+    "sentiment": "positive",
+    "mood": "happy",
+    "trend": "improving",
+    "population": 3943323,
     "issues": [
+      "traffic congestion",
       "petrol shortage",
-      "traffic",
-      "pollution",
-      "water supply"
-    ],
-    "population": 4000000,
-    "positive_news": 2,
-    "negative_news": 3
+      "housing"
+    ]
   },
   {
     "id": 2,
     "name": "Rangareddy",
     "name_telugu": "రంగారెడ్డి",
-    "x": 32,
-    "y": 63,
-    "sentiment": "positive",
-    "score": 70,
-    "mood": "happy",
-    "trend": "improving",
+    "score": 59,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "stable",
+    "population": 5296396,
     "issues": [
-      "urban expansion",
-      "infrastructure"
-    ],
-    "population": 2500000,
-    "positive_news": 2,
-    "negative_news": 1
+      "water supply",
+      "road quality",
+      "employment"
+    ]
   },
   {
     "id": 3,
     "name": "Medchal-Malkajgiri",
     "name_telugu": "మేడ్చల్-మల్కాజ్‌గిరి",
-    "x": 44,
-    "y": 47,
-    "sentiment": "positive",
-    "score": 61,
-    "mood": "happy",
-    "trend": "declining",
+    "score": 55,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "stable",
+    "population": 2669513,
     "issues": [
+      "urban infrastructure",
       "traffic",
-      "development"
-    ],
-    "population": 1800000,
-    "positive_news": 2,
-    "negative_news": 1
+      "solid waste"
+    ]
   },
   {
     "id": 4,
-    "name": "Sangareddy",
-    "name_telugu": "సంగారెడ్డి",
-    "x": 22,
-    "y": 48,
+    "name": "Warangal Urban",
+    "name_telugu": "వరంగల్ అర్బన్",
+    "score": 43,
     "sentiment": "neutral",
-    "score": 53,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "improving",
+    "population": 909163,
     "issues": [
-      "water",
-      "roads"
-    ],
-    "population": 800000,
-    "positive_news": 1,
-    "negative_news": 1
+      "sewage overflow",
+      "farmer protests",
+      "unemployment"
+    ]
   },
   {
     "id": 5,
-    "name": "Medak",
-    "name_telugu": "మెదక్",
-    "x": 28,
-    "y": 43,
+    "name": "Karimnagar",
+    "name_telugu": "కరీంనగర్",
+    "score": 58,
     "sentiment": "neutral",
-    "score": 56,
     "mood": "neutral",
     "trend": "declining",
+    "population": 1025390,
     "issues": [
-      "employment",
-      "education"
-    ],
-    "population": 900000,
-    "positive_news": 1,
-    "negative_news": 2
+      "road repairs",
+      "power supply",
+      "drinking water"
+    ]
   },
   {
     "id": 6,
     "name": "Nizamabad",
     "name_telugu": "నిజామాబాద్",
-    "x": 22,
-    "y": 24,
-    "sentiment": "negative",
     "score": 36,
+    "sentiment": "negative",
     "mood": "angry",
     "trend": "stable",
+    "population": 960396,
     "issues": [
-      "water shortage",
-      "unemployment"
-    ],
-    "population": 1100000,
-    "positive_news": 0,
-    "negative_news": 3
+      "water crisis",
+      "farmer suicides",
+      "crop damage"
+    ]
   },
   {
     "id": 7,
-    "name": "Kamareddy",
-    "name_telugu": "కామారెడ్డి",
-    "x": 28,
-    "y": 33,
+    "name": "Khammam",
+    "name_telugu": "ఖమ్మం",
+    "score": 56,
     "sentiment": "neutral",
-    "score": 42,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
+    "population": 1401639,
     "issues": [
-      "roads",
-      "healthcare"
-    ],
-    "population": 700000,
-    "positive_news": 1,
-    "negative_news": 1
+      "flood risk",
+      "forest encroachment",
+      "road connectivity"
+    ]
   },
   {
     "id": 8,
-    "name": "Karimnagar",
-    "name_telugu": "కరీంనగర్",
-    "x": 60,
-    "y": 30,
-    "sentiment": "positive",
-    "score": 70,
-    "mood": "happy",
-    "trend": "stable",
+    "name": "Nalgonda",
+    "name_telugu": "నల్గొండ",
+    "score": 49,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "improving",
+    "population": 1715693,
     "issues": [
-      "road improvement done",
-      "agriculture"
-    ],
-    "population": 1100000,
-    "positive_news": 3,
-    "negative_news": 1
+      "fluoride water",
+      "drought",
+      "agriculture support"
+    ]
   },
   {
     "id": 9,
-    "name": "Jagtial",
-    "name_telugu": "జగిత్యాల",
-    "x": 58,
-    "y": 18,
-    "sentiment": "neutral",
-    "score": 48,
-    "mood": "neutral",
+    "name": "Mahbubnagar",
+    "name_telugu": "మహబూబ్‌నగర్",
+    "score": 37,
+    "sentiment": "negative",
+    "mood": "angry",
     "trend": "stable",
+    "population": 1930284,
     "issues": [
-      "agriculture",
-      "water"
-    ],
-    "population": 600000,
-    "positive_news": 1,
-    "negative_news": 1
+      "drought",
+      "migration",
+      "lack of irrigation"
+    ]
   },
   {
     "id": 10,
-    "name": "Peddapalli",
-    "name_telugu": "పెద్దపల్లి",
-    "x": 64,
-    "y": 24,
-    "sentiment": "positive",
-    "score": 61,
-    "mood": "happy",
-    "trend": "improving",
+    "name": "Adilabad",
+    "name_telugu": "ఆదిలాబాద్",
+    "score": 32,
+    "sentiment": "negative",
+    "mood": "angry",
+    "trend": "stable",
+    "population": 711538,
     "issues": [
-      "coal mines",
-      "employment"
-    ],
-    "population": 700000,
-    "positive_news": 1,
-    "negative_news": 1
+      "hospital staff shortage",
+      "tribal welfare",
+      "road connectivity"
+    ]
   },
   {
     "id": 11,
-    "name": "Rajanna Sircilla",
-    "name_telugu": "రాజన్న సిరిసిల్ల",
-    "x": 50,
-    "y": 24,
+    "name": "Sangareddy",
+    "name_telugu": "సంగారెడ్డి",
+    "score": 61,
     "sentiment": "positive",
-    "score": 64,
     "mood": "happy",
-    "trend": "improving",
+    "trend": "stable",
+    "population": 1370761,
     "issues": [
-      "textile industry",
-      "development"
-    ],
-    "population": 550000,
-    "positive_news": 2,
-    "negative_news": 0
+      "industrial growth",
+      "water supply",
+      "education"
+    ]
   },
   {
     "id": 12,
-    "name": "Warangal Urban",
-    "name_telugu": "వరంగల్ అర్బన్",
-    "x": 72,
-    "y": 46,
-    "sentiment": "neutral",
-    "score": 42,
-    "mood": "neutral",
+    "name": "Siddipet",
+    "name_telugu": "సిద్దిపేట",
+    "score": 68,
+    "sentiment": "positive",
+    "mood": "happy",
     "trend": "improving",
+    "population": 1007635,
     "issues": [
-      "sewage",
-      "roads",
-      "water"
-    ],
-    "population": 900000,
-    "positive_news": 0,
-    "negative_news": 3
+      "infrastructure development",
+      "health services",
+      "employment"
+    ]
   },
   {
     "id": 13,
-    "name": "Warangal Rural",
-    "name_telugu": "వరంగల్ రూరల్",
-    "x": 65,
-    "y": 53,
-    "sentiment": "negative",
-    "score": 37,
-    "mood": "angry",
-    "trend": "stable",
+    "name": "Medak",
+    "name_telugu": "మెదక్",
+    "score": 49,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "declining",
+    "population": 767428,
     "issues": [
-      "crop insurance",
-      "roads"
-    ],
-    "population": 600000,
-    "positive_news": 0,
-    "negative_news": 2
+      "water supply",
+      "road quality",
+      "farmer support"
+    ]
   },
   {
     "id": 14,
-    "name": "Jangaon",
-    "name_telugu": "జనగాం",
-    "x": 65,
-    "y": 43,
+    "name": "Kamareddy",
+    "name_telugu": "కామారెడ్డి",
+    "score": 50,
     "sentiment": "neutral",
-    "score": 52,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "stable",
+    "population": 970097,
     "issues": [
-      "connectivity",
-      "agriculture"
-    ],
-    "population": 550000,
-    "positive_news": 1,
-    "negative_news": 1
+      "drinking water",
+      "agriculture loans",
+      "connectivity"
+    ]
   },
   {
     "id": 15,
-    "name": "Siddipet",
-    "name_telugu": "సిద్దిపేట",
-    "x": 38,
-    "y": 38,
-    "sentiment": "positive",
-    "score": 76,
-    "mood": "happy",
-    "trend": "improving",
+    "name": "Warangal Rural",
+    "name_telugu": "వరంగల్ రూరల్",
+    "score": 42,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "declining",
+    "population": 794174,
     "issues": [
-      "development schemes",
-      "water"
-    ],
-    "population": 700000,
-    "positive_news": 2,
-    "negative_news": 0
+      "crop insurance delay",
+      "irrigation",
+      "rural roads"
+    ]
   },
   {
     "id": 16,
-    "name": "Yadadri Bhuvanagiri",
-    "name_telugu": "యాదాద్రి భువనగిరి",
-    "x": 58,
-    "y": 50,
-    "sentiment": "positive",
-    "score": 64,
-    "mood": "happy",
-    "trend": "stable",
+    "name": "Mancherial",
+    "name_telugu": "మంచిర్యాల",
+    "score": 48,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "declining",
+    "population": 808136,
     "issues": [
-      "temple development",
-      "roads"
-    ],
-    "population": 700000,
-    "positive_news": 2,
-    "negative_news": 0
+      "mining pollution",
+      "power supply",
+      "health facilities"
+    ]
   },
   {
     "id": 17,
-    "name": "Nalgonda",
-    "name_telugu": "నల్గొండ",
-    "x": 55,
-    "y": 60,
+    "name": "Peddapalli",
+    "name_telugu": "పెద్దపల్లి",
+    "score": 54,
     "sentiment": "neutral",
-    "score": 53,
     "mood": "neutral",
     "trend": "stable",
+    "population": 795332,
     "issues": [
-      "fluoride water",
-      "employment"
-    ],
-    "population": 1100000,
-    "positive_news": 2,
-    "negative_news": 1
+      "coal mine safety",
+      "road connectivity",
+      "water quality"
+    ]
   },
   {
     "id": 18,
-    "name": "Suryapet",
-    "name_telugu": "సూర్యాపేట",
-    "x": 62,
-    "y": 66,
-    "sentiment": "neutral",
-    "score": 49,
-    "mood": "neutral",
-    "trend": "stable",
+    "name": "Jagitial",
+    "name_telugu": "జగిత్యాల",
+    "score": 60,
+    "sentiment": "positive",
+    "mood": "happy",
+    "trend": "improving",
+    "population": 983354,
     "issues": [
-      "agriculture",
-      "connectivity"
-    ],
-    "population": 700000,
-    "positive_news": 1,
-    "negative_news": 1
+      "cotton crop damage",
+      "power cuts",
+      "healthcare"
+    ]
   },
   {
     "id": 19,
-    "name": "Khammam",
-    "name_telugu": "ఖమ్మం",
-    "x": 75,
-    "y": 68,
-    "sentiment": "positive",
+    "name": "Rajanna Sircilla",
+    "name_telugu": "రాజన్న సిరిసిల్ల",
     "score": 60,
+    "sentiment": "positive",
     "mood": "happy",
     "trend": "declining",
+    "population": 549904,
     "issues": [
-      "flood relief",
-      "agriculture"
-    ],
-    "population": 900000,
-    "positive_news": 2,
-    "negative_news": 1
+      "textile workers welfare",
+      "water supply",
+      "employment"
+    ]
   },
   {
     "id": 20,
-    "name": "Bhadradri Kothagudem",
-    "name_telugu": "భద్రాద్రి కొత్తగూడెం",
-    "x": 82,
-    "y": 64,
-    "sentiment": "neutral",
-    "score": 47,
-    "mood": "neutral",
-    "trend": "stable",
+    "name": "Hanamkonda",
+    "name_telugu": "హనుమకొండ",
+    "score": 61,
+    "sentiment": "positive",
+    "mood": "happy",
+    "trend": "improving",
+    "population": 787930,
     "issues": [
-      "tribal welfare",
-      "mining"
-    ],
-    "population": 700000,
-    "positive_news": 1,
-    "negative_news": 1
+      "urban development",
+      "road quality",
+      "education"
+    ]
   },
   {
     "id": 21,
-    "name": "Mahabubabad",
-    "name_telugu": "మహబూబాబాద్",
-    "x": 74,
-    "y": 58,
+    "name": "Jangaon",
+    "name_telugu": "జనగాం",
+    "score": 50,
     "sentiment": "neutral",
-    "score": 48,
     "mood": "neutral",
     "trend": "improving",
+    "population": 614004,
     "issues": [
-      "tribal development",
-      "education"
-    ],
-    "population": 600000,
-    "positive_news": 1,
-    "negative_news": 1
+      "irrigation",
+      "agriculture",
+      "road connectivity"
+    ]
   },
   {
     "id": 22,
-    "name": "Mulugu",
-    "name_telugu": "ములుగు",
-    "x": 80,
-    "y": 40,
+    "name": "Bhadradri Kothagudem",
+    "name_telugu": "భద్రాద్రి కొత్తగూడెం",
+    "score": 43,
     "sentiment": "neutral",
-    "score": 45,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
+    "population": 1087975,
     "issues": [
-      "tribal area development",
-      "connectivity"
-    ],
-    "population": 250000,
-    "positive_news": 1,
-    "negative_news": 0
+      "tribal welfare",
+      "forest rights",
+      "health services"
+    ]
   },
   {
     "id": 23,
-    "name": "Jayashankar Bhupalpally",
-    "name_telugu": "జయశంకర్ భూపాలపల్లి",
-    "x": 72,
-    "y": 33,
-    "sentiment": "positive",
-    "score": 65,
-    "mood": "happy",
-    "trend": "stable",
+    "name": "Suryapet",
+    "name_telugu": "సూర్యాపేట",
+    "score": 48,
+    "sentiment": "neutral",
+    "mood": "neutral",
+    "trend": "declining",
+    "population": 1099560,
     "issues": [
-      "Kaleshwaram benefits",
-      "tribal welfare"
-    ],
-    "population": 450000,
-    "positive_news": 2,
-    "negative_news": 0
+      "flood management",
+      "drinking water",
+      "agriculture support"
+    ]
   },
   {
     "id": 24,
-    "name": "Mancherial",
-    "name_telugu": "మంచిర్యాల",
-    "x": 65,
-    "y": 11,
+    "name": "Nagarkurnool",
+    "name_telugu": "నాగర్‌కర్నూల్",
+    "score": 41,
     "sentiment": "neutral",
-    "score": 47,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "declining",
+    "population": 897546,
     "issues": [
-      "coal industry",
-      "pollution"
-    ],
-    "population": 600000,
-    "positive_news": 1,
-    "negative_news": 1
+      "drought",
+      "tribal welfare",
+      "healthcare"
+    ]
   },
   {
     "id": 25,
-    "name": "Adilabad",
-    "name_telugu": "ఆదిలాబాద్",
-    "x": 35,
-    "y": 8,
+    "name": "Wanaparthy",
+    "name_telugu": "వనపర్తి",
+    "score": 48,
     "sentiment": "neutral",
-    "score": 44,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "improving",
+    "population": 727001,
     "issues": [
-      "hospital staff shortage",
-      "tribal issues",
-      "roads"
-    ],
-    "population": 750000,
-    "positive_news": 0,
-    "negative_news": 2
+      "irrigation",
+      "farmer loans",
+      "road quality"
+    ]
   },
   {
     "id": 26,
-    "name": "Kumuram Bheem Asifabad",
-    "name_telugu": "కుమురం భీమ్ ఆసిఫాబాద్",
-    "x": 52,
-    "y": 5,
+    "name": "Jogulamba Gadwal",
+    "name_telugu": "జోగులాంబ గద్వాల",
+    "score": 43,
     "sentiment": "neutral",
-    "score": 58,
     "mood": "neutral",
-    "trend": "declining",
+    "trend": "improving",
+    "population": 598668,
     "issues": [
-      "forest rights",
-      "tribal welfare"
-    ],
-    "population": 400000,
-    "positive_news": 1,
-    "negative_news": 1
+      "water scarcity",
+      "unemployment",
+      "road connectivity"
+    ]
   },
   {
     "id": 27,
-    "name": "Nirmal",
-    "name_telugu": "నిర్మల్",
-    "x": 28,
-    "y": 17,
-    "sentiment": "neutral",
-    "score": 43,
-    "mood": "neutral",
+    "name": "Narayanpet",
+    "name_telugu": "నారాయణపేట",
+    "score": 36,
+    "sentiment": "negative",
+    "mood": "angry",
     "trend": "stable",
+    "population": 495159,
     "issues": [
-      "education",
-      "water"
-    ],
-    "population": 700000,
-    "positive_news": 1,
-    "negative_news": 1
+      "drought",
+      "migration",
+      "lack of employment"
+    ]
   },
   {
     "id": 28,
     "name": "Vikarabad",
     "name_telugu": "వికారాబాద్",
-    "x": 24,
-    "y": 68,
+    "score": 53,
     "sentiment": "neutral",
-    "score": 46,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
+    "population": 939966,
     "issues": [
-      "roads",
+      "connectivity",
+      "drinking water",
       "agriculture"
-    ],
-    "population": 600000,
-    "positive_news": 1,
-    "negative_news": 1
+    ]
   },
   {
     "id": 29,
-    "name": "Nagarkurnool",
-    "name_telugu": "నాగర్‌కర్నూల్",
-    "x": 35,
-    "y": 75,
-    "sentiment": "neutral",
+    "name": "Nirmal",
+    "name_telugu": "నిర్మల్",
     "score": 51,
+    "sentiment": "neutral",
     "mood": "neutral",
     "trend": "stable",
+    "population": 709418,
     "issues": [
-      "Srisailam project",
-      "roads"
-    ],
-    "population": 700000,
-    "positive_news": 1,
-    "negative_news": 1
+      "power supply",
+      "water quality",
+      "healthcare"
+    ]
   },
   {
     "id": 30,
-    "name": "Wanaparthy",
-    "name_telugu": "వనపర్తి",
-    "x": 38,
-    "y": 81,
-    "sentiment": "neutral",
-    "score": 54,
-    "mood": "neutral",
+    "name": "Kumurambheem Asifabad",
+    "name_telugu": "కుమురంభీం ఆసిఫాబాద్",
+    "score": 39,
+    "sentiment": "negative",
+    "mood": "angry",
     "trend": "improving",
+    "population": 620388,
     "issues": [
-      "agriculture",
-      "employment"
-    ],
-    "population": 550000,
-    "positive_news": 1,
-    "negative_news": 0
+      "tribal welfare",
+      "road connectivity",
+      "health facilities"
+    ]
   },
   {
     "id": 31,
-    "name": "Mahabubnagar",
-    "name_telugu": "మహబూబ్‌నగర్",
-    "x": 28,
-    "y": 84,
+    "name": "Jayashankar Bhupalpally",
+    "name_telugu": "జయశంకర్ భూపాలపల్లి",
+    "score": 44,
     "sentiment": "neutral",
-    "score": 45,
     "mood": "neutral",
-    "trend": "stable",
+    "trend": "improving",
+    "population": 573280,
     "issues": [
-      "school dropouts",
-      "unemployment",
-      "water"
-    ],
-    "population": 900000,
-    "positive_news": 0,
-    "negative_news": 3
+      "forest rights",
+      "tribal welfare",
+      "connectivity"
+    ]
   },
   {
     "id": 32,
-    "name": "Narayanpet",
-    "name_telugu": "నారాయణపేట",
-    "x": 22,
-    "y": 77,
-    "sentiment": "neutral",
+    "name": "Mulugu",
+    "name_telugu": "ములుగు",
     "score": 44,
+    "sentiment": "neutral",
     "mood": "neutral",
     "trend": "stable",
+    "population": 248194,
     "issues": [
-      "border connectivity",
-      "agriculture"
-    ],
-    "population": 450000,
-    "positive_news": 1,
-    "negative_news": 0
+      "flood risk",
+      "tribal welfare",
+      "road connectivity"
+    ]
   },
   {
     "id": 33,
-    "name": "Jogulamba Gadwal",
-    "name_telugu": "జోగులాంబ గద్వాల్",
-    "x": 22,
-    "y": 88,
+    "name": "Mahabubabad",
+    "name_telugu": "మహబూబాబాద్",
+    "score": 47,
     "sentiment": "neutral",
-    "score": 51,
     "mood": "neutral",
-    "trend": "improving",
+    "trend": "stable",
+    "population": 769752,
     "issues": [
+      "tribal welfare",
       "agriculture",
-      "water"
-    ],
-    "population": 600000,
-    "positive_news": 1,
-    "negative_news": 1
+      "connectivity"
+    ]
   }
 ]

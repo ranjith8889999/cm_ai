@@ -9,7 +9,7 @@ let state = {
   currentTab: "dashboard",
   newsData: [],
   districtData: [],
-  pollsData: [],
+  pollsData: [], 
   alertsData: [],
   impactData: [],
   memoryData: [],
@@ -70,7 +70,6 @@ async function startApp() {
   setupNewsFilter();
   await loadAllData();
   initAlertBanner();
-  setupVoiceRecognition();
   startAutoRefresh();
 }
 
@@ -297,34 +296,47 @@ function speakAnalysis(tabKey) {
 
 
 async function loadAllData() {
-  try {
-    const [news, districts, polls, alerts, impact, memory] = await Promise.all([
-      fetchJSON("/news"),
-      fetchJSON("/districts"),
-      fetchJSON("/polls"),
-      fetchJSON("/alerts"),
-      fetchJSON("/impact"),
-      fetchJSON("/memory"),
-    ]);
-    state.newsData = news;
-    state.districtData = districts;
-    state.pollsData = polls;
-    state.alertsData = alerts;
-    state.impactData = impact;
-    state.memoryData = memory;
+  // Fetch each endpoint independently — one failure must not blank the whole page.
+  const safe = async (path) => {
+    try {
+      const r = await fetch(API + path);
+      if (!r.ok) throw new Error(r.status);
+      return await r.json();
+    } catch (e) {
+      console.warn("Failed to load", path, e);
+      return null;
+    }
+  };
 
-    renderDashboard();
-    renderNews("all");
-    renderPolls();
-    renderAlerts();
-    renderImpact();
-    renderMemory();
-    populateDistrictSelects();
-  } catch (e) {
-    console.error("Data load error:", e);
-    showToast("ℹ️ Sample data youthundi. Backend start cheyyandi.", "info");
-    loadMockFallback();
+  const [news, districts, polls, alerts, impact, memory] = await Promise.all([
+    safe("/news"),
+    safe("/districts"),
+    safe("/polls"),
+    safe("/alerts"),
+    safe("/impact"),
+    safe("/memory"),
+  ]);
+
+  if (news)     state.newsData      = news;
+  if (districts) state.districtData = districts;
+  if (polls)    state.pollsData     = polls;
+  if (alerts)   state.alertsData    = alerts;
+  if (impact)   state.impactData    = impact;
+  if (memory)   state.memoryData    = memory;
+
+  const anyLoaded = news || districts || polls || alerts || impact || memory;
+  if (!anyLoaded) {
+    showToast("⚠️ డేటా లోడ్ కాలేదు. రిఫ్రెష్ బటన్ నొక్కండి.", "error");
+    return;
   }
+
+  renderDashboard();
+  renderNews("all");
+  renderPolls();
+  renderAlerts();
+  renderImpact();
+  renderMemory();
+  populateDistrictSelects();
 }
 
 async function fetchJSON(path) {
@@ -1085,6 +1097,7 @@ function toggleVoiceRecording() {
 }
 
 function startRecording() {
+  if (!state.recognition) setupVoiceRecognition();
   if (!state.recognition) { showToast("⚠️ ఈ బ్రౌజర్‌లో వాయిస్ అందుబాటులో లేదు", "error"); return; }
   state.isRecording = true;
   document.getElementById("voiceOrb").classList.add("recording");
