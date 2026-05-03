@@ -190,6 +190,24 @@ def get_policies():
         policies = sorted(policies, key=lambda p: p.get("influence_score", 0), reverse=True)
     return jsonify(policies)
 
+@app.route("/api/state-policies")
+def get_state_policies():
+    sort_by = request.args.get("sort", "influence")   # "influence" | "beneficiaries" | "year"
+    state   = request.args.get("state", "")
+    party   = request.args.get("party", "")
+    policies = load_json("state_policies.json")
+    if state:
+        policies = [p for p in policies if p.get("state") == state]
+    if party:
+        policies = [p for p in policies if p.get("party") == party]
+    if sort_by == "beneficiaries":
+        policies = sorted(policies, key=lambda p: p.get("beneficiaries_millions", 0), reverse=True)
+    elif sort_by == "year":
+        policies = sorted(policies, key=lambda p: p.get("year", 0), reverse=True)
+    else:
+        policies = sorted(policies, key=lambda p: p.get("influence_score", 0), reverse=True)
+    return jsonify(policies)
+
 
 # ─── Memory System ────────────────────────────────────────────────────────────
 @app.route("/api/memory")

@@ -34,6 +34,9 @@ function toggleLang() {
   const lbl = document.getElementById("langLabel");
   if (lbl) lbl.textContent = state.lang === "en" ? "EN" : "TE";
   if (btn) btn.classList.toggle("en-active", state.lang === "en");
+  // Force policy cards to re-render with new language
+  if (policiesCache) renderPolicies(getFilteredPolicies(policiesCache));
+  if (spCache) renderStatePolicies(spFilteredPolicies(spCache));
   // Re-render all data views
   renderDashNews();
   renderDashAlerts();
@@ -330,6 +333,7 @@ async function loadAllData() {
   // Reset policies cache so the tab re-fetches on next visit
   state.policiesLoaded = false;
   policiesCache = null;
+  spCache = null;
   if (!anyLoaded) {
     showToast("⚠️ డేటా లోడ్ కాలేదు. రిఫ్రెష్ బటన్ నొక్కండి.", "error");
     return;
@@ -2462,10 +2466,10 @@ function policyCard(p, rank) {
         <span class="policy-full-name">${p.name}</span>
       </h3>
       <p class="policy-ministry"><i class="fas fa-building-columns"></i> ${p.ministry}</p>
-      <p class="policy-desc">${p.description}</p>
+      <p class="policy-desc">${t(p.description_te, p.description)}</p>
       ${stateCtx}
       <div class="policy-achievements">
-        ${p.key_achievements.slice(0, 3).map(a => `<span class="policy-ach"><i class="fas fa-check-circle"></i> ${a}</span>`).join("")}
+        ${(state.lang==="te" ? (p.key_achievements_te||p.key_achievements) : p.key_achievements).slice(0,3).map(a=>`<span class="policy-ach"><i class="fas fa-check-circle"></i> ${a}</span>`).join("")}
       </div>
       <div class="policy-footer">
         <div class="policy-influence-bar">
@@ -2476,6 +2480,172 @@ function policyCard(p, rank) {
         <div class="policy-meta-stats">
           <span><i class="fas fa-users"></i> ${benefStr}</span>
           <span><i class="fas fa-map"></i> ${p.states_covered} రాష్ట్రాలు</span>
+          ${p.annual_budget_crore > 0 ? `<span><i class="fas fa-indian-rupee-sign"></i> ${budgetStr}</span>` : ""}
+        </div>
+        <a href="${p.website}" target="_blank" rel="noopener" class="source-badge policy-link">
+          <i class="fas fa-arrow-up-right-from-square"></i> అధికారిక వెబ్‌సైట్
+        </a>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATE POLICIES TAB
+   ═══════════════════════════════════════════════════════ */
+
+let currentPolicyView = "central";   // "central" | "state"
+
+function switchPolicyView(view) {
+  currentPolicyView = view;
+  document.getElementById("centralPoliciesPanel").style.display = view === "central" ? "" : "none";
+  document.getElementById("statePoliciesPanel").style.display   = view === "state"   ? "" : "none";
+  document.getElementById("subtabCentral").classList.toggle("active", view === "central");
+  document.getElementById("subtabState").classList.toggle("active",   view === "state");
+  if (view === "state") loadStatePolicies();
+}
+
+/* ── State policies state ── */
+let spCache  = null;
+let spSort   = "influence";
+let spState  = "";
+let spParty  = "";
+
+function setStatePolicySort(mode) {
+  spSort = mode;
+  ["influence","beneficiaries","year"].forEach(m => {
+    document.getElementById("spSort" + m.charAt(0).toUpperCase() + m.slice(1))
+      ?.classList.toggle("active", m === mode);
+  });
+  if (spCache) renderStatePolicies(spFilteredPolicies(spCache));
+  else loadStatePolicies();
+}
+
+function setSpStateFilter(state) {
+  spState = state;
+  if (spCache) renderStatePolicies(spFilteredPolicies(spCache));
+  else loadStatePolicies();
+}
+
+function setSpPartyFilter(party) {
+  spParty = party;
+  if (spCache) renderStatePolicies(spFilteredPolicies(spCache));
+  else loadStatePolicies();
+}
+
+function spFilteredPolicies(all) {
+  let list = [...all];
+  if (spState) list = list.filter(p => p.state === spState);
+  if (spParty) list = list.filter(p => p.party === spParty);
+  if (spSort === "beneficiaries") list.sort((a, b) => b.beneficiaries_millions - a.beneficiaries_millions);
+  else if (spSort === "year")     list.sort((a, b) => b.year - a.year);
+  else                            list.sort((a, b) => b.influence_score - a.influence_score);
+  return list;
+}
+
+async function loadStatePolicies() {
+  const container = document.getElementById("statePoliciesList");
+  if (!container) return;
+  if (spCache) { renderStatePolicies(spFilteredPolicies(spCache)); return; }
+  container.innerHTML = `<div class="skeleton-list">
+    <div class="skeleton-item" style="height:120px"></div>
+    <div class="skeleton-item" style="height:120px"></div>
+    <div class="skeleton-item" style="height:120px"></div>
+  </div>`;
+  try {
+    const r = await fetch(`${API}/state-policies`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    if (!Array.isArray(data) || data.length === 0) throw new Error("Empty response");
+    spCache = data;
+    renderStatePolicies(spFilteredPolicies(spCache));
+  } catch (e) {
+    console.error("loadStatePolicies error:", e);
+    container.innerHTML = `
+      <div class="policies-error">
+        <i class="fas fa-exclamation-circle" style="font-size:2.5rem;color:#ef5350"></i>
+        <p>రాష్ట్ర పాలసీ డేటా లోడ్ కాలేదు</p>
+        <small>Error: ${e.message}</small>
+        <button class="btn-primary" onclick="spCache=null;loadStatePolicies()" style="margin-top:8px;padding:8px 22px;border-radius:20px;cursor:pointer">
+          <i class="fas fa-rotate-right"></i> మళ్ళీ ప్రయత్నించు
+        </button>
+      </div>`;
+  }
+}
+
+function renderStatePolicies(policies) {
+  const container = document.getElementById("statePoliciesList");
+  if (!container) return;
+  if (!policies || !policies.length) {
+    container.innerHTML = `<div class="policies-error"><i class="fas fa-file-contract"></i><p>ఈ ఫిల్టర్‌కు పాలసీలు అందుబాటులో లేవు</p></div>`;
+    return;
+  }
+  const cards = policies.map((p, i) => {
+    try { return statePolicyCard(p, i + 1); }
+    catch (e) { console.error("statePolicyCard error", p.id, e); return ""; }
+  });
+  container.innerHTML = cards.join("");
+}
+
+function statePolicyCard(p, rank) {
+  const cat = POLICY_CATEGORY_LABELS[p.category] || { label: p.category, icon: "fa-file", color: "#90a4ae" };
+  const benefStr = p.beneficiaries_millions >= 100
+    ? `${(p.beneficiaries_millions / 100).toFixed(1)} కోట్లు`
+    : `${p.beneficiaries_millions} లక్షలు`;
+  const budgetStr = p.annual_budget_crore > 0
+    ? `₹${(p.annual_budget_crore / 100).toFixed(0)} కోట్ల+`
+    : "–";
+  const influenceBar = Math.round(p.influence_score);
+  const rankBadgeClass = rank === 1 ? "rank-gold" : rank === 2 ? "rank-silver" : rank === 3 ? "rank-bronze" : "rank-normal";
+
+  const partyColor = p.party_color || "#90a4ae";
+  const sortLabel = spSort === "beneficiaries"
+    ? `<span class="policy-highlight-stat"><i class="fas fa-users"></i> ${benefStr} లబ్ధిదారులు</span>`
+    : spSort === "year"
+    ? `<span class="policy-highlight-stat"><i class="fas fa-calendar-days"></i> ${p.year} లో ప్రారంభం</span>`
+    : `<span class="policy-highlight-stat"><i class="fas fa-star"></i> ప్రభావం: ${p.influence_score}/100</span>`;
+
+  const statusBadge = p.status === "active"
+    ? `<span class="sp-status-badge sp-active"><i class="fas fa-circle-check"></i> అమలులో ఉంది</span>`
+    : `<span class="sp-status-badge sp-modified"><i class="fas fa-circle-half-stroke"></i> సవరించబడింది</span>`;
+
+  return `
+  <div class="policy-card glass-card sp-card">
+    <div class="policy-rank-col">
+      <div class="policy-rank-badge ${rankBadgeClass}">#${rank}</div>
+    </div>
+    <div class="policy-body">
+      <div class="policy-top-row">
+        <div class="policy-cat-badge" style="background:${cat.color}22;color:${cat.color};border-color:${cat.color}44">
+          <i class="fas ${cat.icon}"></i> ${cat.label}
+        </div>
+        <span class="policy-year">${p.year}</span>
+        <span class="sp-state-badge"><i class="fas fa-location-dot"></i> ${p.state_te}</span>
+        <span class="sp-party-badge" style="background:${partyColor}22;color:${partyColor};border-color:${partyColor}55">
+          <i class="fas fa-flag"></i> ${p.party}
+        </span>
+        ${sortLabel}
+      </div>
+      <h3 class="policy-name">${p.name_short}
+        <span class="policy-full-name">${p.name}</span>
+      </h3>
+      <div class="sp-govt-row">
+        <span class="sp-cm-info"><i class="fas fa-user-tie"></i> సీఎం: ${p.cm}</span>
+        <span class="sp-govt-info"><i class="fas fa-building-columns"></i> ${p.government}</span>
+        ${statusBadge}
+      </div>
+      <p class="policy-desc">${t(p.description_te, p.description)}</p>
+      <div class="policy-achievements">
+        ${(state.lang==="te" ? (p.key_achievements_te||p.key_achievements) : p.key_achievements).slice(0,3).map(a=>`<span class="policy-ach"><i class="fas fa-check-circle"></i> ${a}</span>`).join("")}
+      </div>
+      <div class="policy-footer">
+        <div class="policy-influence-bar">
+          <span class="pib-label">ప్రభావం</span>
+          <div class="pib-track"><div class="pib-fill" style="width:${influenceBar}%;background:${cat.color}"></div></div>
+          <span class="pib-val">${influenceBar}%</span>
+        </div>
+        <div class="policy-meta-stats">
+          <span><i class="fas fa-users"></i> ${benefStr}</span>
           ${p.annual_budget_crore > 0 ? `<span><i class="fas fa-indian-rupee-sign"></i> ${budgetStr}</span>` : ""}
         </div>
         <a href="${p.website}" target="_blank" rel="noopener" class="source-badge policy-link">

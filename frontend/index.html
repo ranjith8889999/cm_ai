@@ -650,53 +650,140 @@
 
     <!-- ═══ TAB: POLICIES ═══ -->
     <div id="tab-policies" class="tab-panel">
-      <div class="policies-header">
-        <div class="policies-hero">
-          <div class="policies-hero-icon">📜</div>
-          <div>
-            <h2>భారత ప్రభుత్వ పాలసీలు</h2>
-            <p>కేంద్ర ప్రభుత్వం ద్వారా జాతీయ స్థాయిలో అమలవుతున్న శ్రేష్ఠ పాలసీలు</p>
+
+      <!-- ── View switcher sub-tabs ── -->
+      <div class="policies-subtabs">
+        <button class="pol-subtab active" id="subtabCentral" onclick="switchPolicyView('central')">
+          <i class="fas fa-landmark"></i> కేంద్ర పాలసీలు
+        </button>
+        <button class="pol-subtab" id="subtabState" onclick="switchPolicyView('state')">
+          <i class="fas fa-map"></i> రాష్ట్ర పాలసీలు
+        </button>
+      </div>
+
+      <!-- ── Central Policies Panel ── -->
+      <div id="centralPoliciesPanel">
+        <div class="policies-header">
+          <div class="policies-hero">
+            <div class="policies-hero-icon">📜</div>
+            <div>
+              <h2>భారత ప్రభుత్వ పాలసీలు</h2>
+              <p>కేంద్ర ప్రభుత్వం ద్వారా జాతీయ స్థాయిలో అమలవుతున్న శ్రేష్ఠ పాలసీలు</p>
+            </div>
+          </div>
+          <div class="policies-sort-row">
+            <span class="sort-label">క్రమపరచు:</span>
+            <div class="policy-sort-btns">
+              <button class="policy-sort-btn active" id="sortInfluence" onclick="setPolicySort('influence')">
+                <i class="fas fa-star"></i> అత్యంత ప్రభావవంతం
+              </button>
+              <button class="policy-sort-btn" id="sortBeneficiaries" onclick="setPolicySort('beneficiaries')">
+                <i class="fas fa-users"></i> అత్యధిక వినియోగదారులు
+              </button>
+            </div>
+            <div class="policy-state-filter">
+              <i class="fas fa-location-dot"></i>
+              <select id="policyStateSelect" class="glass-select" onchange="setPolicyState(this.value)">
+                <option value="">🇮🇳 అన్ని భారత్</option>
+                <option value="telangana">తెలంగాణ</option>
+                <option value="andhra">ఆంధ్ర ప్రదేశ్</option>
+                <option value="maharashtra">మహారాష్ట్ర</option>
+                <option value="uttar_pradesh">ఉత్తర ప్రదేశ్</option>
+                <option value="bihar">బీహార్</option>
+                <option value="rajasthan">రాజస్థాన్</option>
+                <option value="madhya_pradesh">మధ్య ప్రదేశ్</option>
+                <option value="karnataka">కర్ణాటక</option>
+                <option value="tamil_nadu">తమిళనాడు</option>
+                <option value="gujarat">గుజరాత్</option>
+                <option value="west_bengal">పశ్చిమ బెంగాల్</option>
+                <option value="kerala">కేరళ</option>
+                <option value="punjab">పంజాబ్</option>
+                <option value="odisha">ఒడిశా</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="policies-sort-row">
-          <span class="sort-label">క్రమపరచు:</span>
-          <div class="policy-sort-btns">
-            <button class="policy-sort-btn active" id="sortInfluence" onclick="setPolicySort('influence')">
-              <i class="fas fa-star"></i> అత్యంత ప్రభావవంతం
-            </button>
-            <button class="policy-sort-btn" id="sortBeneficiaries" onclick="setPolicySort('beneficiaries')">
-              <i class="fas fa-users"></i> అత్యధిక వినియోగదారులు
-            </button>
-          </div>
-          <div class="policy-state-filter">
-            <i class="fas fa-location-dot"></i>
-            <select id="policyStateSelect" class="glass-select" onchange="setPolicyState(this.value)">
-              <option value="">🇮🇳 అన్ని భారత్</option>
-              <option value="telangana">తెలంగాణ</option>
-              <option value="andhra">ఆంధ్ర ప్రదేశ్</option>
-              <option value="maharashtra">మహారాష్ట్ర</option>
-              <option value="uttar_pradesh">ఉత్తర ప్రదేశ్</option>
-              <option value="bihar">బీహార్</option>
-              <option value="rajasthan">రాజస్థాన్</option>
-              <option value="madhya_pradesh">మధ్య ప్రదేశ్</option>
-              <option value="karnataka">కర్ణాటక</option>
-              <option value="tamil_nadu">తమిళనాడు</option>
-              <option value="gujarat">గుజరాత్</option>
-              <option value="west_bengal">పశ్చిమ బెంగాల్</option>
-              <option value="kerala">కేరళ</option>
-              <option value="punjab">పంజాబ్</option>
-              <option value="odisha">ఒడిశా</option>
-            </select>
+        <div id="policiesList" class="policies-list">
+          <div class="skeleton-list">
+            <div class="skeleton-item" style="height:120px"></div>
+            <div class="skeleton-item" style="height:120px"></div>
+            <div class="skeleton-item" style="height:120px"></div>
           </div>
         </div>
       </div>
-      <div id="policiesList" class="policies-list">
-        <div class="skeleton-list">
-          <div class="skeleton-item" style="height:120px"></div>
-          <div class="skeleton-item" style="height:120px"></div>
-          <div class="skeleton-item" style="height:120px"></div>
+
+      <!-- ── State Policies Panel ── -->
+      <div id="statePoliciesPanel" style="display:none">
+        <div class="policies-header">
+          <div class="policies-hero">
+            <div class="policies-hero-icon">🗺️</div>
+            <div>
+              <h2>రాష్ట్ర ప్రభుత్వ పాలసీలు</h2>
+              <p>వివిధ రాష్ట్ర ప్రభుత్వాలు రూపొందించిన ముఖ్యమైన పాలసీలు — ప్రభుత్వం, పార్టీ, సీఎం వివరాలతో</p>
+            </div>
+          </div>
+          <div class="policies-sort-row">
+            <span class="sort-label">క్రమపరచు:</span>
+            <div class="policy-sort-btns">
+              <button class="policy-sort-btn active" id="spSortInfluence" onclick="setStatePolicySort('influence')">
+                <i class="fas fa-star"></i> అత్యంత ప్రభావవంతం
+              </button>
+              <button class="policy-sort-btn" id="spSortBeneficiaries" onclick="setStatePolicySort('beneficiaries')">
+                <i class="fas fa-users"></i> అత్యధిక వినియోగదారులు
+              </button>
+              <button class="policy-sort-btn" id="spSortYear" onclick="setStatePolicySort('year')">
+                <i class="fas fa-calendar-days"></i> తాజా పాలసీలు
+              </button>
+            </div>
+            <div class="policy-state-filter">
+              <i class="fas fa-location-dot"></i>
+              <select id="spStateSelect" class="glass-select" onchange="setSpStateFilter(this.value)">
+                <option value="">🗺️ అన్ని రాష్ట్రాలు</option>
+                <option value="telangana">తెలంగాణ</option>
+                <option value="andhra_pradesh">ఆంధ్ర ప్రదేశ్</option>
+                <option value="karnataka">కర్ణాటక</option>
+                <option value="tamil_nadu">తమిళనాడు</option>
+                <option value="maharashtra">మహారాష్ట్ర</option>
+                <option value="kerala">కేరళ</option>
+                <option value="west_bengal">పశ్చిమ బెంగాల్</option>
+                <option value="odisha">ఒడిశా</option>
+                <option value="delhi">ఢిల్లీ</option>
+                <option value="gujarat">గుజరాత్</option>
+                <option value="rajasthan">రాజస్థాన్</option>
+                <option value="madhya_pradesh">మధ్య ప్రదేశ్</option>
+                <option value="bihar">బీహార్</option>
+                <option value="punjab">పంజాబ్</option>
+                <option value="jharkhand">జార్ఖండ్</option>
+              </select>
+            </div>
+            <div class="policy-state-filter">
+              <i class="fas fa-flag"></i>
+              <select id="spPartySelect" class="glass-select" onchange="setSpPartyFilter(this.value)">
+                <option value="">🏳️ అన్ని పార్టీలు</option>
+                <option value="BJP">BJP</option>
+                <option value="Congress">Congress</option>
+                <option value="AAP">AAP</option>
+                <option value="TMC">TMC</option>
+                <option value="BRS">BRS</option>
+                <option value="YSRCP">YSRCP</option>
+                <option value="DMK">DMK</option>
+                <option value="BJD">BJD</option>
+                <option value="LDF">LDF / CPI-M</option>
+                <option value="JMM">JMM</option>
+                <option value="JDU">JDU</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="statePoliciesList" class="policies-list">
+          <div class="skeleton-list">
+            <div class="skeleton-item" style="height:120px"></div>
+            <div class="skeleton-item" style="height:120px"></div>
+            <div class="skeleton-item" style="height:120px"></div>
+          </div>
         </div>
       </div>
+
     </div>
 
   </main>

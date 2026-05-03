@@ -13,9 +13,21 @@
     "states_covered": 36,
     "influence_score": 99,
     "impact": "Transformed rural livelihoods, reduced distress migration, empowered women (55% of beneficiaries), built durable community assets.",
-    "key_achievements": ["150 million active job cards", "7.3 billion person-days of employment per year", "55% women participation", "Rs 73,000 crore annual outlay"],
+    "key_achievements": [
+      "150 million active job cards",
+      "7.3 billion person-days of employment per year",
+      "55% women participation",
+      "Rs 73,000 crore annual outlay"
+    ],
     "website": "https://nrega.nic.in",
-    "source": "Ministry of Rural Development"
+    "source": "Ministry of Rural Development",
+    "description_te": "ప్రతి గ్రామీణ కుటుంబానికి సంవత్సరానికి 100 రోజుల వేతన ఉపాధి హామీ — నైపుణ్యం లేని శారీరక శ్రమ చేయడానికి ముందుకు వచ్చిన వయోజనులకు కేంద్ర ప్రభుత్వం అందించే ఉపాధి హమీ పథకం.",
+    "key_achievements_te": [
+      "15 కోట్ల చురుకైన జాబ్ కార్డులు",
+      "సంవత్సరానికి 730 కోట్ల పని-రోజులు",
+      "55% మహిళా భాగస్వామ్యం",
+      "సంవత్సరానికి ₹73,000 కోట్ల బడ్జెట్"
+    ]
   },
   {
     "id": 2,
@@ -31,9 +43,21 @@
     "states_covered": 36,
     "influence_score": 98,
     "impact": "Brought over 52 crore unbanked Indians into the formal banking system, enabled direct benefit transfers, reduced leakages.",
-    "key_achievements": ["52 crore bank accounts opened", "Rs 2.33 lakh crore balance in accounts", "Direct benefit transfers enabled", "34 crore RuPay debit cards issued"],
+    "key_achievements": [
+      "52 crore bank accounts opened",
+      "Rs 2.33 lakh crore balance in accounts",
+      "Direct benefit transfers enabled",
+      "34 crore RuPay debit cards issued"
+    ],
     "website": "https://www.pmjdy.gov.in",
-    "source": "Ministry of Finance"
+    "source": "Ministry of Finance",
+    "description_te": "బ్యాంకు సేవలు అందుబాటులో లేని వారికి ఆర్థిక చేరికను నిర్ధారించే జాతీయ మిషన్ — పొదుపు ఖాతాలు, రుణం, బీమా మరియు పెన్షన్ అందించడం.",
+    "key_achievements_te": [
+      "52 కోట్ల బ్యాంకు ఖాతాలు తెరవబడ్డాయి",
+      "ఖాతాల్లో ₹2.33 లక్షల కోట్ల నిల్వ",
+      "నేరుగా సబ్సిడీ బదిలీ సాధ్యమైంది",
+      "34 కోట్ల RuPay డెబిట్ కార్డులు జారీ"
+    ]
   },
   {
     "id": 3,
@@ -49,9 +73,21 @@
     "states_covered": 36,
     "influence_score": 97,
     "impact": "Exposed corruption, improved governance, empowered citizens. Over 60 lakh RTI applications filed annually.",
-    "key_achievements": ["60 lakh RTI applications per year", "Reduced corruption in public offices", "Landmark judgments on transparency", "Global benchmark for RTI legislation"],
+    "key_achievements": [
+      "60 lakh RTI applications per year",
+      "Reduced corruption in public offices",
+      "Landmark judgments on transparency",
+      "Global benchmark for RTI legislation"
+    ],
     "website": "https://rtionline.gov.in",
-    "source": "Central Information Commission"
+    "source": "Central Information Commission",
+    "description_te": "పౌరులు ఏ ప్రభుత్వ సంస్థ నుండైనా సమాచారం కోరే హక్కు కల్పించడం — ప్రభుత్వ పారదర్శకత మరియు జవాబుదారీతనాన్ని పెంపొందించే చట్టం.",
+    "key_achievements_te": [
+      "సంవత్సరానికి 60 లక్షల RTI దరఖాస్తులు",
+      "ప్రభుత్వ కార్యాలయాల్లో అవినీతి తగ్గింది",
+      "పారదర్శకతపై మైలురాయి తీర్పులు",
+      "RTI చట్టానికి ప్రపంచ ప్రమాణం"
+    ]
   },
   {
     "id": 4,
@@ -67,9 +103,21 @@
     "states_covered": 36,
     "influence_score": 96,
     "impact": "Over 4 crore houses sanctioned and 3 crore completed, addressing urban slum rehabilitation and rural housing deficit.",
-    "key_achievements": ["4 crore houses sanctioned", "3 crore houses completed", "Urban slum rehabilitation", "Rs 48,000 crore budget outlay"],
+    "key_achievements": [
+      "4 crore houses sanctioned",
+      "3 crore houses completed",
+      "Urban slum rehabilitation",
+      "Rs 48,000 crore budget outlay"
+    ],
     "website": "https://pmay-urban.gov.in",
-    "source": "Ministry of Housing and Urban Affairs"
+    "source": "Ministry of Housing and Urban Affairs",
+    "description_te": "2024 నాటికి 'అందరికీ ఇల్లు' మిషన్ కింద పట్టణ పేద వర్గాలు మరియు గ్రామీణ కుటుంబాలకు సుప్రధాన గృహ నిర్మాణ పథకం.",
+    "key_achievements_te": [
+      "4 కోట్ల ఇళ్ళు మంజూరు",
+      "3 కోట్ల ఇళ్ళు నిర్మితమయ్యాయి",
+      "పట్టణ మురుగువాడ పునరావాసం",
+      "₹48,000 కోట్ల బడ్జెట్ కేటాయింపు"
+    ]
   },
   {
     "id": 5,
@@ -85,9 +133,21 @@
     "states_covered": 34,
     "influence_score": 96,
     "impact": "Over 5.5 crore hospital admissions covered, saving millions from catastrophic health expenditure.",
-    "key_achievements": ["55 crore beneficiaries (10.74 crore families)", "5.5 crore hospitalisations covered", "Rs 5 lakh per family per year cover", "29,000+ empanelled hospitals"],
+    "key_achievements": [
+      "55 crore beneficiaries (10.74 crore families)",
+      "5.5 crore hospitalisations covered",
+      "Rs 5 lakh per family per year cover",
+      "29,000+ empanelled hospitals"
+    ],
     "website": "https://pmjay.gov.in",
-    "source": "National Health Authority"
+    "source": "National Health Authority",
+    "description_te": "ద్వితీయ మరియు తృతీయ ఆసుపత్రి చికిత్సకు కుటుంబానికి సంవత్సరానికి ₹5 లక్షల కవరేజ్ అందించే ప్రపంచంలోనే అతి పెద్ద ప్రభుత్వ ఆరోగ్య బీమా పథకం.",
+    "key_achievements_te": [
+      "55 కోట్ల లబ్ధిదారులు (10.74 కోట్ల కుటుంబాలు)",
+      "5.5 కోట్ల ఆసుపత్రి ప్రవేశాలు",
+      "కుటుంబానికి ₹5 లక్షల సంవత్సర కవరేజ్",
+      "29,000+ పాల్గొనే ఆసుపత్రులు"
+    ]
   },
   {
     "id": 6,
@@ -103,9 +163,21 @@
     "states_covered": 36,
     "influence_score": 95,
     "impact": "Dramatically improved school attendance especially for girls, reduced dropout rates, addressed child malnutrition.",
-    "key_achievements": ["12 crore children covered", "School enrollment increased by 25%", "Girl child retention improved", "Reduced child anaemia and malnutrition"],
+    "key_achievements": [
+      "12 crore children covered",
+      "School enrollment increased by 25%",
+      "Girl child retention improved",
+      "Reduced child anaemia and malnutrition"
+    ],
     "website": "https://pmposhan.education.gov.in",
-    "source": "Ministry of Education"
+    "source": "Ministry of Education",
+    "description_te": "విద్యార్థుల నమోదు, హాజరు, నిలుపుదల మరియు పోషకాహార స్థాయిలను మెరుగుపరచడానికి ప్రభుత్వ పాఠశాలల్లో పిల్లలకు ఉచిత పోషకాహార భోజనం అందించే పథకం.",
+    "key_achievements_te": [
+      "12 కోట్ల పిల్లలకు భోజనం అందుతోంది",
+      "పాఠశాల నమోదు 25% పెరిగింది",
+      "బాలిక నిలుపుదల మెరుగుపడింది",
+      "పిల్లల రక్తహీనత మరియు పోషకాహార లోపం తగ్గింది"
+    ]
   },
   {
     "id": 7,
@@ -121,9 +193,21 @@
     "states_covered": 36,
     "influence_score": 94,
     "impact": "Freed 9.5 crore women from indoor air pollution, reduced respiratory diseases, improved women's dignity.",
-    "key_achievements": ["9.5 crore LPG connections", "Reduced indoor air pollution by 60%", "Health benefits for 5 crore+ families", "Saved 5 lakh+ lives from smoke inhalation"],
+    "key_achievements": [
+      "9.5 crore LPG connections",
+      "Reduced indoor air pollution by 60%",
+      "Health benefits for 5 crore+ families",
+      "Saved 5 lakh+ lives from smoke inhalation"
+    ],
     "website": "https://pmuy.gov.in",
-    "source": "Ministry of Petroleum and Natural Gas"
+    "source": "Ministry of Petroleum and Natural Gas",
+    "description_te": "BPL కుటుంబాల మహిళలకు ఉచిత LPG కనెక్షన్‌లు అందించి కలుషితమైన వంట ఇంధనాలను భర్తీ చేసి మహిళల ఆరోగ్యాన్ని మెరుగుపరచే పథకం.",
+    "key_achievements_te": [
+      "9.5 కోట్ల LPG కనెక్షన్‌లు",
+      "ఇంటి వాయు కాలుష్యం 60% తగ్గింది",
+      "5 కోట్ల+ కుటుంబాలకు ఆరోగ్య లాభాలు",
+      "పొగ పీల్చడం వల్ల 5 లక్షల+ జీవాలు రక్షించబడ్డాయి"
+    ]
   },
   {
     "id": 8,
@@ -139,9 +223,21 @@
     "states_covered": 36,
     "influence_score": 93,
     "impact": "Built over 11 crore toilets, achieved Open Defecation Free (ODF) status in 6 lakh villages, dramatically improved public health.",
-    "key_achievements": ["11 crore toilets built", "6 lakh ODF villages", "100% ODF rural India declared 2019", "Child diarrhoea deaths reduced by 30%"],
+    "key_achievements": [
+      "11 crore toilets built",
+      "6 lakh ODF villages",
+      "100% ODF rural India declared 2019",
+      "Child diarrhoea deaths reduced by 30%"
+    ],
     "website": "https://swachhbharat.mygov.in",
-    "source": "Ministry of Jal Shakti"
+    "source": "Ministry of Jal Shakti",
+    "description_te": "బహిరంగ మలవిసర్జన నిర్మూలన మరియు గ్రామీణ-పట్టణ భారతదేశంలో మరుగుదొడ్లు నిర్మించడం ద్వారా 'స్వచ్ఛ భారతాన్ని' సాధించడానికి ప్రారంభించిన జాతీయ పారిశుద్ధ్య మిషన్.",
+    "key_achievements_te": [
+      "11 కోట్ల మరుగుదొడ్లు నిర్మించబడ్డాయి",
+      "6 లక్షల ODF గ్రామాలు",
+      "గ్రామీణ భారత్ 2019లో 100% ODF ప్రకటన",
+      "శిశు విరేచనాల మరణాలు 30% తగ్గాయి"
+    ]
   },
   {
     "id": 9,
@@ -157,9 +253,21 @@
     "states_covered": 36,
     "influence_score": 98,
     "impact": "Prevented widespread starvation and malnutrition. During COVID, provided free rations to 80 crore people under PM Garib Kalyan Yojana.",
-    "key_achievements": ["80 crore beneficiaries", "Rs 2–3/kg subsidised food grain", "COVID free ration to 80 crore people", "Aadhaar-linked e-POS for transparency"],
+    "key_achievements": [
+      "80 crore beneficiaries",
+      "Rs 2–3/kg subsidised food grain",
+      "COVID free ration to 80 crore people",
+      "Aadhaar-linked e-POS for transparency"
+    ],
     "website": "https://dfpd.gov.in",
-    "source": "Ministry of Consumer Affairs"
+    "source": "Ministry of Consumer Affairs",
+    "description_te": "PDS కింద ₹1–3/కిలో రాయితీ ధాన్యాలకు గ్రామీణ జనాభాలో 75% వరకు మరియు పట్టణ జనాభాలో 50% వరకు చట్టపరమైన హక్కు కల్పించే జాతీయ ఆహార భద్రత చట్టం.",
+    "key_achievements_te": [
+      "80 కోట్ల లబ్ధిదారులు",
+      "₹2–3/కిలో రాయితీ ఆహార ధాన్యాలు",
+      "COVID సందర్భంగా 80 కోట్ల మందికి ఉచిత రేషన్",
+      "పారదర్శకత కోసం ఆధార్ అనుసంధానిత e-POS"
+    ]
   },
   {
     "id": 10,
@@ -175,9 +283,21 @@
     "states_covered": 36,
     "influence_score": 93,
     "impact": "Directly transferred over Rs 2.8 lakh crore to 11 crore farmers, reducing dependence on moneylenders.",
-    "key_achievements": ["11 crore farmer beneficiaries", "Rs 6,000 per year direct transfer", "Rs 2.8 lakh crore total disbursed", "Zero intermediary leakage via DBT"],
+    "key_achievements": [
+      "11 crore farmer beneficiaries",
+      "Rs 6,000 per year direct transfer",
+      "Rs 2.8 lakh crore total disbursed",
+      "Zero intermediary leakage via DBT"
+    ],
     "website": "https://pmkisan.gov.in",
-    "source": "Ministry of Agriculture and Farmers Welfare"
+    "source": "Ministry of Agriculture and Farmers Welfare",
+    "description_te": "చిన్న, మధ్యతరహా రైతుల బ్యాంకు ఖాతాలకు మూడు సమాన వాయిదాల్లో సంవత్సరానికి ₹6,000 ఆదాయ సహాయం నేరుగా బదిలీ చేసే కేంద్ర పథకం.",
+    "key_achievements_te": [
+      "11 కోట్ల రైతు లబ్ధిదారులు",
+      "సంవత్సరానికి ₹6,000 నేరుగా బదిలీ",
+      "మొత్తం ₹2.8 లక్షల కోట్లు పంపిణీ అయ్యాయి",
+      "DBT ద్వారా మధ్యవర్తుల వ్యవస్థ నిర్మూలన"
+    ]
   },
   {
     "id": 11,
@@ -193,9 +313,21 @@
     "states_covered": 36,
     "influence_score": 92,
     "impact": "Connected 14 crore+ rural homes with tap water, replacing dependence on contaminated sources.",
-    "key_achievements": ["14.6 crore tap connections installed", "35 lakh+ km of pipelines laid", "Rs 3.6 lakh crore total investment", "Water quality testing in all villages"],
+    "key_achievements": [
+      "14.6 crore tap connections installed",
+      "35 lakh+ km of pipelines laid",
+      "Rs 3.6 lakh crore total investment",
+      "Water quality testing in all villages"
+    ],
     "website": "https://jaljeevanmission.gov.in",
-    "source": "Ministry of Jal Shakti"
+    "source": "Ministry of Jal Shakti",
+    "description_te": "2024 నాటికి అన్ని గ్రామీణ కుటుంబాలకు సురక్షితమైన మరియు తగినంత తాగునీటిని అందించేలా క్రియాత్మక గృహ కుళాయి కనెక్షన్‌లు అందించే జాతీయ నీటి మిషన్.",
+    "key_achievements_te": [
+      "14.6 కోట్ల కుళాయి కనెక్షన్లు ఏర్పాటు",
+      "35 లక్షల+ కి.మీ పైప్‌లైన్లు వేయబడ్డాయి",
+      "₹3.6 లక్షల కోట్ల పెట్టుబడి",
+      "అన్ని గ్రామాల్లో నీటి నాణ్యత పరీక్ష"
+    ]
   },
   {
     "id": 12,
@@ -211,9 +343,21 @@
     "states_covered": 36,
     "influence_score": 94,
     "impact": "Achieved near universal elementary enrolment (96.9%), abolished corporal punishment, mandated private school 25% EWS reservation.",
-    "key_achievements": ["96.9% elementary enrollment rate", "25% EWS quota in private schools", "Abolished corporal punishment", "250 million children in schools"],
+    "key_achievements": [
+      "96.9% elementary enrollment rate",
+      "25% EWS quota in private schools",
+      "Abolished corporal punishment",
+      "250 million children in schools"
+    ],
     "website": "https://moe.gov.in",
-    "source": "Ministry of Education"
+    "source": "Ministry of Education",
+    "description_te": "6–14 సంవత్సరాల పిల్లలందరికీ ఉచిత మరియు నిర్బంధ విద్యను మూలభూత హక్కుగా చేసి పాఠశాలలకు కనిష్ట ప్రమాణాలు నిర్ధారించే చట్టం.",
+    "key_achievements_te": [
+      "96.9% ప్రాథమిక నమోదు రేటు",
+      "ప్రైవేటు పాఠశాలల్లో 25% EWS కోటా",
+      "శారీరక దండన రద్దు చేయబడింది",
+      "25 కోట్ల పిల్లలు పాఠశాలల్లో ఉన్నారు"
+    ]
   },
   {
     "id": 13,
@@ -229,9 +373,21 @@
     "states_covered": 36,
     "influence_score": 91,
     "impact": "Over 46 crore loans totalling Rs 26 lakh crore disbursed, empowering micro-entrepreneurs especially women and SC/ST communities.",
-    "key_achievements": ["46 crore loans sanctioned", "Rs 26 lakh crore disbursed", "68% women beneficiaries", "51% SC/ST/OBC beneficiaries"],
+    "key_achievements": [
+      "46 crore loans sanctioned",
+      "Rs 26 lakh crore disbursed",
+      "68% women beneficiaries",
+      "51% SC/ST/OBC beneficiaries"
+    ],
     "website": "https://mudra.org.in",
-    "source": "MUDRA Ltd."
+    "source": "MUDRA Ltd.",
+    "description_te": "చిన్న మరియు మైక్రో వ్యాపారాలకు వ్యవస్థాపకతను ప్రోత్సహించడానికి ₹10 లక్షల వరకు ఎటువంటి హామీ లేకుండా రుణాలు అందించే పారిశ్రామికవేత్తల పథకం.",
+    "key_achievements_te": [
+      "46 కోట్ల రుణాలు మంజూరు అయ్యాయి",
+      "₹26 లక్షల కోట్లు పంపిణీ అయ్యాయి",
+      "68% మహిళా లబ్ధిదారులు",
+      "51% SC/ST/OBC లబ్ధిదారులు"
+    ]
   },
   {
     "id": 14,
@@ -247,9 +403,21 @@
     "states_covered": 36,
     "influence_score": 95,
     "impact": "Eliminated cascading taxes, created one national market, formalised 14 lakh new businesses, monthly collections cross Rs 1.7 lakh crore.",
-    "key_achievements": ["Rs 1.7 lakh crore+ monthly collections", "1.4 crore registered taxpayers", "Eliminated 17 central and state taxes", "Unified India into a single market"],
+    "key_achievements": [
+      "Rs 1.7 lakh crore+ monthly collections",
+      "1.4 crore registered taxpayers",
+      "Eliminated 17 central and state taxes",
+      "Unified India into a single market"
+    ],
     "website": "https://gst.gov.in",
-    "source": "GSTN / Ministry of Finance"
+    "source": "GSTN / Ministry of Finance",
+    "description_te": "ఒకే జాతీయ మార్కెట్ సృష్టించడానికి భారతదేశం యొక్క జటిలమైన బహుళ-స్తర పరోక్ష పన్ను వ్యవస్థను ఏకీకృత, క్రమబద్ధమైన పన్ను విధానంగా మార్చిన సంస్కరణ.",
+    "key_achievements_te": [
+      "నెలవారీ ₹1.7 లక్షల కోట్ల+ వసూళ్ళు",
+      "1.4 కోట్ల నమోదిత పన్ను చెల్లింపుదారులు",
+      "17 కేంద్ర మరియు రాష్ట్ర పన్నులు రద్దు",
+      "భారత్‌ను ఒకే మార్కెట్‌గా ఏకీకృతం చేశారు"
+    ]
   },
   {
     "id": 15,
@@ -265,9 +433,21 @@
     "states_covered": 36,
     "influence_score": 96,
     "impact": "138 crore Aadhaar issued, saved Rs 2.23 lakh crore in government subsidy leakages by eliminating ghost beneficiaries.",
-    "key_achievements": ["138 crore Aadhaar enrolled", "Rs 2.23 lakh crore leakage savings", "Enabled DBT for 319 schemes", "Foundation of India Stack"],
+    "key_achievements": [
+      "138 crore Aadhaar enrolled",
+      "Rs 2.23 lakh crore leakage savings",
+      "Enabled DBT for 319 schemes",
+      "Foundation of India Stack"
+    ],
     "website": "https://uidai.gov.in",
-    "source": "UIDAI"
+    "source": "UIDAI",
+    "description_te": "భారతదేశంలోని ప్రతి నివాసికి ప్రత్యేకమైన 12 అంకెల గుర్తింపు సంఖ్యను అందించే ప్రపంచంలోనే అతిపెద్ద బయోమెట్రిక్ డిజిటల్ గుర్తింపు వ్యవస్థ.",
+    "key_achievements_te": [
+      "138 కోట్ల ఆధార్ నమోదు అయ్యాయి",
+      "₹2.23 లక్షల కోట్ల సబ్సిడీ దుర్వినియోగం ఆదా",
+      "319 పథకాలకు DBT సక్రియం చేశారు",
+      "ఇండియా స్టాక్‌కు పునాది అయింది"
+    ]
   },
   {
     "id": 16,
@@ -283,9 +463,21 @@
     "states_covered": 36,
     "influence_score": 87,
     "impact": "Assets under management cross Rs 11 lakh crore, covering 6.5 crore subscribers including government employees and voluntary members.",
-    "key_achievements": ["6.5 crore subscribers", "Rs 11 lakh crore AUM", "Government employee mandatory coverage", "Atal Pension Yojana — 5.25 crore unorganised sector workers"],
+    "key_achievements": [
+      "6.5 crore subscribers",
+      "Rs 11 lakh crore AUM",
+      "Government employee mandatory coverage",
+      "Atal Pension Yojana — 5.25 crore unorganised sector workers"
+    ],
     "website": "https://npstrust.org.in",
-    "source": "PFRDA"
+    "source": "PFRDA",
+    "description_te": "18–70 సంవత్సరాల భారత పౌరులందరికీ అందుబాటులో ఉండే స్వచ్ఛంద, నిర్వచిత-సహకార పింఛను పథకం — పదవీ విరమణ తర్వాత ఆర్థిక భద్రత కోసం.",
+    "key_achievements_te": [
+      "6.5 కోట్ల చందాదారులు",
+      "₹11 లక్షల కోట్ల AUM (నిర్వహణలో ఆస్తులు)",
+      "ప్రభుత్వ ఉద్యోగులకు నిర్బంధ కవరేజ్",
+      "అటల్ పెన్షన్ యోజన — 5.25 కోట్ల అసంఘటిత కార్మికులు"
+    ]
   },
   {
     "id": 17,
@@ -301,9 +493,21 @@
     "states_covered": 36,
     "influence_score": 93,
     "impact": "1.6 billion+ UPI transactions per month, 5.5 lakh CSCs, rural broadband via BharatNet, digital payments revolution.",
-    "key_achievements": ["UPI: 16 billion transactions/month", "5.5 lakh Common Service Centres", "BharatNet: 6.5 lakh km of OFC", "1.27 billion DigiLocker users"],
+    "key_achievements": [
+      "UPI: 16 billion transactions/month",
+      "5.5 lakh Common Service Centres",
+      "BharatNet: 6.5 lakh km of OFC",
+      "1.27 billion DigiLocker users"
+    ],
     "website": "https://digitalindia.gov.in",
-    "source": "Ministry of Electronics and IT"
+    "source": "Ministry of Electronics and IT",
+    "description_te": "బ్రాడ్‌బ్యాండ్ విస్తరణ, డిజిటల్ అక్షరాస్యత మరియు ఇ-గవర్నెన్స్ సేవల ద్వారా భారత్‌ను డిజిటల్‌గా సాధికారత కల్గిన సమాజంగా మార్చే కేంద్ర కార్యక్రమం.",
+    "key_achievements_te": [
+      "UPI: నెలకు 1,600 కోట్ల లావాదేవీలు",
+      "5.5 లక్షల కామన్ సర్వీస్ సెంటర్లు",
+      "BharatNet: 6.5 లక్షల కి.మీ OFC",
+      "1.27 కోట్ల DigiLocker వినియోగదారులు"
+    ]
   },
   {
     "id": 18,
@@ -319,9 +523,21 @@
     "states_covered": 36,
     "influence_score": 91,
     "impact": "Constructed 7.5 lakh km of rural roads connecting 1.72 lakh habitations, transforming rural market access and healthcare reach.",
-    "key_achievements": ["7.5 lakh km roads constructed", "1.72 lakh habitations connected", "Reduced rural-urban travel time by 60%", "Improved rural market access"],
+    "key_achievements": [
+      "7.5 lakh km roads constructed",
+      "1.72 lakh habitations connected",
+      "Reduced rural-urban travel time by 60%",
+      "Improved rural market access"
+    ],
     "website": "https://pmgsy.nic.in",
-    "source": "Ministry of Rural Development"
+    "source": "Ministry of Rural Development",
+    "description_te": "500+ జనాభా ఉన్న (కొండ/గిరిజన ప్రాంతాల్లో 250+) అనుసంధానం లేని వాసస్థలాలకు అన్ని వాతావరణ పరిస్థితుల్లోనూ రోడ్డు కనెక్టివిటీ అందించే పథకం.",
+    "key_achievements_te": [
+      "7.5 లక్షల కి.మీ రోడ్లు నిర్మించబడ్డాయి",
+      "1.72 లక్షల వాసస్థలాలు అనుసంధానం అయ్యాయి",
+      "గ్రామీణ-పట్టణ ప్రయాణ సమయం 60% తగ్గింది",
+      "గ్రామీణ మార్కెట్ అందుబాటు మెరుగుపడింది"
+    ]
   },
   {
     "id": 19,
@@ -337,9 +553,21 @@
     "states_covered": 36,
     "influence_score": 92,
     "impact": "Reduced infant mortality, improved child nutrition, 15.8 crore beneficiaries through 13.8 lakh Anganwadi centres.",
-    "key_achievements": ["15.8 crore beneficiaries", "13.8 lakh Anganwadi centres", "Infant mortality reduced by 40%", "Pre-school education for 7 crore children"],
+    "key_achievements": [
+      "15.8 crore beneficiaries",
+      "13.8 lakh Anganwadi centres",
+      "Infant mortality reduced by 40%",
+      "Pre-school education for 7 crore children"
+    ],
     "website": "https://wcd.nic.in",
-    "source": "Ministry of Women and Child Development"
+    "source": "Ministry of Women and Child Development",
+    "description_te": "6 సంవత్సరాల లోపు పిల్లలకు మరియు గర్భిణి/పాలిచ్చే తల్లులకు పోషణ, ప్రీ-స్కూల్ విద్య మరియు ఆరోగ్య సేవలు అందించే ప్రపంచంలోనే అతిపెద్ద బాల్య వికాస కార్యక్రమం.",
+    "key_achievements_te": [
+      "15.8 కోట్ల లబ్ధిదారులు",
+      "13.8 లక్షల అంగన్‌వాడీ కేంద్రాలు",
+      "శిశు మరణాల రేటు 40% తగ్గింది",
+      "7 కోట్ల పిల్లలకు ప్రీ-స్కూల్ విద్య"
+    ]
   },
   {
     "id": 20,
@@ -355,8 +583,20 @@
     "states_covered": 36,
     "influence_score": 85,
     "impact": "14 crore covered under ESIC, protecting organised sector workers and their families from medical expenses.",
-    "key_achievements": ["14 crore ESIC beneficiaries", "Cashless treatment at 1,500+ hospitals", "Expanded to gig workers 2021", "Maternity and disability benefits"],
+    "key_achievements": [
+      "14 crore ESIC beneficiaries",
+      "Cashless treatment at 1,500+ hospitals",
+      "Expanded to gig workers 2021",
+      "Maternity and disability benefits"
+    ],
     "website": "https://esic.in",
-    "source": "ESIC / Ministry of Labour"
+    "source": "ESIC / Ministry of Labour",
+    "description_te": "BPL కార్మికులకు ఆరోగ్య బీమా మరియు సంఘటిత రంగ ఉద్యోగులకు నగదు రహిత వైద్య కవరేజ్ అందించే ESIC పథకం.",
+    "key_achievements_te": [
+      "14 కోట్ల ESIC లబ్ధిదారులు",
+      "1,500+ ఆసుపత్రుల్లో నగదు రహిత చికిత్స",
+      "2021లో గిగ్ కార్మికులకు విస్తరణ",
+      "ప్రసూతి మరియు వైకల్య ప్రయోజనాలు"
+    ]
   }
 ]
