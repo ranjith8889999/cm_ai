@@ -118,6 +118,7 @@ function switchTab(tab) {
     memory: ["జ్ఞాపక వ్యవస్థ", "పెండింగ్ సమస్యలు & ఫాలో-అప్"],
     voice: ["వాయిస్ AI", "తెలుగులో మాట్లాడండి"],
     election: ["ఎన్నికల ఫలితాలు 2023", "తెలంగాణ అసెంబ్లీ ఎన్నికలు – పార్టీల విజయాలు & సమస్యలు"],
+    policies: ["భారత పాలసీలు", "కేంద్ర ప్రభుత్వ ముఖ్య పథకాలు & విధానాలు"],
   };
   const [title, sub] = titles[tab] || ["", ""];
   document.getElementById("pageTitle").textContent = title;
@@ -128,6 +129,7 @@ function switchTab(tab) {
   if (tab === "map") renderDistrictMap();
   if (tab === "polls") animatePollBars();
   if (tab === "election") renderElectionResults();
+  if (tab === "policies") loadPolicies();
 }
 
 function toggleSidebar() {
@@ -325,6 +327,9 @@ async function loadAllData() {
   if (memory)   state.memoryData    = memory;
 
   const anyLoaded = news || districts || polls || alerts || impact || memory;
+  // Reset policies cache so the tab re-fetches on next visit
+  state.policiesLoaded = false;
+  policiesCache = null;
   if (!anyLoaded) {
     showToast("⚠️ డేటా లోడ్ కాలేదు. రిఫ్రెష్ బటన్ నొక్కండి.", "error");
     return;
@@ -385,27 +390,33 @@ async function manualRefresh() {
   const btn = document.getElementById("refreshBtn");
   if (!btn) return;
 
-  // Show spinning state
   btn.classList.add("spinning");
-  btn.querySelector("span").textContent = "లోడ్ అవుతోంది…";
+  btn.querySelector("span").textContent = "అప్డేట్ అవుతోంది…";
 
   try {
-    // Reload all data from backend
+    // Step 1: Tell the backend to run a fresh data cycle immediately
+    // Without this the frontend just re-fetches the same stale JSON files
+    const refreshRes = await fetch(API + "/refresh", { method: "POST" });
+    if (!refreshRes.ok) {
+      console.warn("Backend refresh cycle returned", refreshRes.status);
+    }
+
+    // Step 2: Re-fetch all the freshly updated data
     await loadAllData();
 
-    // Refresh current tab's dynamic content
+    // Step 3: Re-render any tab-specific dynamic content
     if (state.currentTab === "map") renderDistrictMap();
     if (state.currentTab === "governance") {
       state.govSuggestions = [];
       await loadGovernanceSuggestions();
     }
 
-    showToast("✅ అన్ని డేటా అప్‌డేట్ అయింది!", "success");
+    const now = new Date().toLocaleTimeString("te-IN", { hour: "2-digit", minute: "2-digit" });
+    showToast(`✅ డేటా అప్‌డేట్ అయింది! (${now})`, "success");
   } catch (e) {
     console.error("Manual refresh failed:", e);
     showToast("⚠️ రిఫ్రెష్ విఫలమైంది. మళ్ళీ ప్రయత్నించండి.", "error");
   } finally {
-    // Restore button
     btn.classList.remove("spinning");
     btn.querySelector("span").textContent = "రిఫ్రెష్";
   }
@@ -598,7 +609,10 @@ function newsCard(n) {
       ${n.what_this_means}
     </div>
     <div class="news-footer">
-      <span class="news-meta">📍 ${n.district} • 📅 ${n.date}</span>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="news-meta">📍 ${n.district} • 📅 ${n.date}</span>
+        ${sourceLink(n)}
+      </div>
       <div class="news-actions">
         <button class="news-btn" onclick="speakNewsCard(event, '${speakContent}')">🔊 ${listenLabel}</button>
         <button class="news-btn" onclick="aiSummarizeCard(event, '${escQ(t(n.title_telugu, n.title) + " " + n.summary)}')">🤖 AI</button>
@@ -940,6 +954,7 @@ function alertCard(a) {
         <span class="alert-severity sev-${a.severity}">${sevLabel}</span>
         <span class="alert-district">📍 ${a.district}</span>
         <span class="alert-time">🕐 ${time}</span>
+        ${sourceLink(a)}
       </div>
     </div>
     <div class="alert-card-actions">
@@ -1180,7 +1195,8 @@ function initAlertBanner() {
     const banner = document.getElementById("alertBanner");
     document.getElementById("alertBannerText").textContent = "🚨 తక్షణం దృష్టి అవసరం: " + critical[0].title_telugu;
     banner.style.display = "flex";
-    speakText("తక్షణం దృష్టి అవసరం: " + critical[0].title_telugu);
+    // NOTE: Do NOT auto-play audio here — browsers block audio without user interaction first.
+    // User can click the speaker icon on the banner to hear it.
   }
 }
 
@@ -1253,7 +1269,17 @@ function speakText(text) {
         setBriefBtnPlaying(false);
         _speakFallback(text);
       };
-      _ttsAudio.play();
+      _ttsAudio.play().catch((err) => {
+        // NotAllowedError: browser requires user interaction before playing audio.
+        // Silently fall back to Web Speech API instead.
+        URL.revokeObjectURL(url);
+        _ttsAudio = null;
+        hideAudioBar();
+        setBriefBtnPlaying(false);
+        if (err.name !== "NotAllowedError") {
+          _speakFallback(text);
+        }
+      });
     })
     .catch(() => {
       // Fallback to browser Web Speech if backend unavailable
@@ -1386,6 +1412,93 @@ function initParticles() {
 function catLabel(cat) {
   const m = { infrastructure: "మౌలిక సదుపాయాలు", politics: "రాజకీయాలు", public_complaints: "ప్రజా ఫిర్యాదులు", economy: "ఆర్థిక వ్యవస్థ" };
   return m[cat] || cat;
+}
+
+/* ─── Source URL lookup tables ───────────────────────── */
+const SOURCE_URLS = {
+  "HPCL": "https://www.hindustanpetroleum.com",
+  "HPCL / ప్రజా ఫిర్యాదులు": "https://www.hindustanpetroleum.com",
+  "HMWSSB": "https://www.hyderabadwater.gov.in",
+  "NHM Telangana": "https://nhmtelangana.gov.in",
+  "Agri Dept": "https://agri.telangana.gov.in",
+  "CDMA": "https://cdma.telangana.gov.in",
+  "SDMA Telangana": "https://tsdma.gov.in",
+  "DEO Report": "https://schooledu.telangana.gov.in",
+  "DME Telangana": "https://dme.telangana.gov.in",
+  "Tribal Welfare Dept": "https://tribal.telangana.gov.in",
+  "TGROADS": "https://tgroads.telangana.gov.in",
+  "TSTWREIS": "https://tstwreis.telangana.gov.in",
+  "R&B Dept": "https://roads.telangana.gov.in",
+  "DSE Telangana": "https://schooledu.telangana.gov.in",
+  "DBET Telangana": "https://tsdbet.telangana.gov.in",
+  "Irrigation Dept": "https://irrigation.telangana.gov.in",
+  "Jal Jeevan Mission": "https://jaljeevanmission.gov.in",
+  "PHED Telangana": "https://rwd.telangana.gov.in",
+  "TSPCB": "https://tspcb.cgg.gov.in",
+  "BharatNet": "https://bharatnet.gov.in",
+  "TSRHB": "https://tsrhb.telangana.gov.in",
+  "HMRL": "https://www.ltmetro.com",
+  "SERP Telangana": "https://serp.telangana.gov.in",
+  "Tourism Dept": "https://tourism.telangana.gov.in",
+  "Industries Dept": "https://industries.telangana.gov.in",
+  "Revenue Dept": "https://revenue.telangana.gov.in",
+  "TGIT Department": "https://it.telangana.gov.in",
+  "తెలంగాణ ప్రభుత్వం": "https://telangana.gov.in",
+  "జిల్లా సర్వే": "https://telangana.gov.in",
+  "రైతు సంఘాలు": "https://agri.telangana.gov.in",
+  "రైతు సంఘాలు": "https://agri.telangana.gov.in",
+  "తెలంగాణ రాజకీయ వార్తలు": "https://www.thehindu.com/news/national/telangana/",
+  "WUA Complaints": "https://cdma.telangana.gov.in",
+  "TSTRANSCO": "https://tstransco.cgg.gov.in",
+  "జిల్లా సర్వే": "https://telangana.gov.in",
+};
+
+const CATEGORY_SOURCE = {
+  fuel:          { source: "HPCL",               url: "https://www.hindustanpetroleum.com" },
+  water:         { source: "HMWSSB",             url: "https://www.hyderabadwater.gov.in" },
+  protest:       { source: "Agri Dept",           url: "https://agri.telangana.gov.in" },
+  health:        { source: "NHM Telangana",       url: "https://nhmtelangana.gov.in" },
+  sanitation:    { source: "CDMA",               url: "https://cdma.telangana.gov.in" },
+  disaster:      { source: "SDMA Telangana",      url: "https://tsdma.gov.in" },
+  education:     { source: "DSE Telangana",       url: "https://schooledu.telangana.gov.in" },
+  agriculture:   { source: "Agri Dept",           url: "https://agri.telangana.gov.in" },
+  safety:        { source: "DME Telangana",       url: "https://dme.telangana.gov.in" },
+  tribal:        { source: "Tribal Welfare Dept", url: "https://tribal.telangana.gov.in" },
+  infrastructure:{ source: "TGROADS",             url: "https://tgroads.telangana.gov.in" },
+  welfare:       { source: "TSTWREIS",            url: "https://tstwreis.telangana.gov.in" },
+  employment:    { source: "DBET Telangana",      url: "https://tsdbet.telangana.gov.in" },
+  irrigation:    { source: "Irrigation Dept",     url: "https://irrigation.telangana.gov.in" },
+  pollution:     { source: "TSPCB",              url: "https://tspcb.cgg.gov.in" },
+  technology:    { source: "BharatNet",           url: "https://bharatnet.gov.in" },
+  disaster_relief:{ source: "Revenue Dept",       url: "https://revenue.telangana.gov.in" },
+  economy:       { source: "Industries Dept",     url: "https://industries.telangana.gov.in" },
+  governance:    { source: "తెలంగాణ ప్రభుత్వం",  url: "https://telangana.gov.in" },
+  tourism:       { source: "Tourism Dept",        url: "https://tourism.telangana.gov.in" },
+  politics:      { source: "తెలంగాణ ప్రభుత్వం",  url: "https://telangana.gov.in" },
+};
+
+// Returns { source, url } for a news item or alert
+function getSourceInfo(item) {
+  // For news items (have explicit source field)
+  if (item.source) {
+    const url = SOURCE_URLS[item.source] || null;
+    return { source: item.source, url };
+  }
+  // For alerts (derive from category)
+  if (item.category && CATEGORY_SOURCE[item.category]) {
+    return CATEGORY_SOURCE[item.category];
+  }
+  return { source: "తెలంగాణ ప్రభుత్వం", url: "https://telangana.gov.in" };
+}
+
+function sourceLink(item) {
+  const { source, url } = getSourceInfo(item);
+  if (!source) return "";
+  const inner = `<i class="fas fa-link" style="font-size:0.6rem"></i> ${source}`;
+  if (url) {
+    return `<a class="source-badge" href="${url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${inner}</a>`;
+  }
+  return `<span class="source-badge">${inner}</span>`;
 }
 
 function priLabel(p) {
@@ -2044,4 +2157,331 @@ function renderEdpContent() {
           </div>
         </div>`).join("")}`;
   }
+}
+
+/* ═══════════════════════════════════════════════════════
+   POLICIES TAB
+   ═══════════════════════════════════════════════════════ */
+
+const POLICY_CATEGORY_LABELS = {
+  employment:        { label: "ఉపాధి",            icon: "fa-briefcase",       color: "#ffa726" },
+  financial_inclusion:{ label: "ఆర్థిక చేరిక",  icon: "fa-piggy-bank",      color: "#42a5f5" },
+  governance:        { label: "పాలన",              icon: "fa-landmark",        color: "#7e57c2" },
+  housing:           { label: "గృహ నిర్మాణం",    icon: "fa-house",           color: "#26a69a" },
+  health:            { label: "ఆరోగ్యం",          icon: "fa-heart-pulse",     color: "#ef5350" },
+  education:         { label: "విద్య",             icon: "fa-graduation-cap",  color: "#66bb6a" },
+  women_empowerment: { label: "మహిళా సాధికారత",  icon: "fa-venus",           color: "#ec407a" },
+  sanitation:        { label: "పరిశుభ్రత",        icon: "fa-hand-sparkles",   color: "#8d6e63" },
+  food_security:     { label: "ఆహార భద్రత",       icon: "fa-wheat-awn",       color: "#ffca28" },
+  agriculture:       { label: "వ్యవసాయం",         icon: "fa-seedling",        color: "#81c784" },
+  water:             { label: "నీటి సరఫరా",       icon: "fa-droplet",         color: "#29b6f6" },
+  taxation:          { label: "పన్నుల వ్యవస్థ",   icon: "fa-receipt",         color: "#78909c" },
+  digital_identity:  { label: "డిజిటల్ గుర్తింపు",icon: "fa-fingerprint",     color: "#00e5ff" },
+  social_security:   { label: "సామాజిక భద్రత",    icon: "fa-shield-halved",   color: "#ab47bc" },
+  digital:           { label: "డిజిటల్",           icon: "fa-mobile-screen",   color: "#00b0ff" },
+  infrastructure:    { label: "మౌలిక సదుపాయాలు",  icon: "fa-road",            color: "#ff7043" },
+  child_welfare:     { label: "శిశు సంక్షేమం",    icon: "fa-child",           color: "#ffee58" },
+  entrepreneurship:  { label: "పారిశ్రామికత",      icon: "fa-rocket",          color: "#26c6da" },
+};
+
+/* State → top policy IDs + context (IDs match policies.json) */
+const STATE_POLICY_RELEVANCE = {
+  telangana: {
+    label: "Telangana", label_te: "తెలంగాణ",
+    top_ids: [5, 9, 2, 11, 10, 7, 4, 1, 8, 15, 17, 13],
+    context: {
+      5:  "తెలంగాణలో 90 లక్షల కుటుంబాలకు PM-JAY కవరేజ్",
+      9:  "3.8 కోట్ల మందికి రేషన్ కార్డులు అందుతున్నాయి",
+      2:  "2.1 కోట్ల కొత్త బ్యాంక్ ఖాతాలు తెరవబడ్డాయి",
+      11: "33 జిల్లాల్లో 50 లక్షల కుళాయి కనెక్షన్లు (JJM)",
+      10: "35 లక్షల మంది రైతులకు PM-KISAN సహాయం",
+      7:  "60 లక్షల మంది మహిళలకు ఉచిత LPG కనెక్షన్",
+      4:  "2.3 లక్షల ఇళ్ళు PMAY కింద నిర్మించబడ్డాయి",
+      1:  "తెలంగాణలో 48 లక్షల మంది MGNREGA కింద పని పొందుతున్నారు",
+      8:  "95% గ్రామాలు ODF స్థితి సాధించాయి",
+      15: "3.5 కోట్ల ఆధార్ కార్డులు జారీ చేయబడ్డాయి",
+      17: "హైదరాబాద్ Digital India కేంద్రంగా వెలుగొందుతోంది",
+      13: "55 లక్షల వ్యాపారవేత్తలకు Mudra రుణాలు"
+    }
+  },
+  andhra: {
+    label: "Andhra Pradesh", label_te: "ఆంధ్ర ప్రదేశ్",
+    top_ids: [5, 9, 10, 11, 2, 7, 4, 1, 8, 15, 6, 19],
+    context: {
+      5:  "ఆంధ్రలో 1.2 కోట్ల కుటుంబాలకు PM-JAY కవరేజ్",
+      9:  "4.2 కోట్ల మందికి PDS సబ్సిడీ ఆహారం",
+      10: "51 లక్షల రైతులకు PM-KISAN డైరెక్ట్ ట్రాన్స్ఫర్",
+      11: "1.1 కోట్ల కుళాయి కనెక్షన్లు Jal Jeevan Mission కింద"
+    }
+  },
+  maharashtra: {
+    label: "Maharashtra", label_te: "మహారాష్ట్ర",
+    top_ids: [14, 13, 5, 20, 2, 17, 15, 4, 10, 7, 3, 9],
+    context: {
+      14: "దేశంలో 15% GST వసూళ్ళు మహారాష్ట్ర నుండే",
+      13: "1.2 కోట్ల పారిశ్రామికవేత్తలకు Mudra రుణాలు",
+      5:  "ముంబై, పుణేలో PM-JAY నెట్‌వర్క్ 1.5 కోట్ల కుటుంబాలు",
+      20: "ESIC ద్వారా 1.8 కోట్ల కార్మికులకు ఆరోగ్య రక్షణ"
+    }
+  },
+  uttar_pradesh: {
+    label: "Uttar Pradesh", label_te: "ఉత్తర ప్రదేశ్",
+    top_ids: [1, 9, 6, 8, 4, 11, 10, 5, 12, 19, 18, 7],
+    context: {
+      1:  "1.5 కోట్ల మంది MGNREGA కింద పని పొందుతున్నారు",
+      9:  "15 కోట్ల మందికి PDS సబ్సిడీ ఆహారం",
+      6:  "2 కోట్ల పిల్లలకు PM POSHAN మధ్యాహ్న భోజనం",
+      8:  "2.6 కోట్ల మరుగుదొడ్లు నిర్మించబడ్డాయి"
+    }
+  },
+  bihar: {
+    label: "Bihar", label_te: "బీహార్",
+    top_ids: [1, 9, 6, 8, 18, 4, 11, 10, 12, 19, 7, 5],
+    context: {
+      1:  "MGNREGA ద్వారా 80 లక్షల మంది ఉపాధి పొందుతున్నారు",
+      9:  "9 కోట్ల మందికి PDS ఆహార భద్రత",
+      18: "PMGSY ద్వారా 50,000 కిమీ రోడ్లు నిర్మించబడ్డాయి",
+      8:  "3.7 కోట్ల మరుగుదొడ్లు నిర్మించబడ్డాయి"
+    }
+  },
+  rajasthan: {
+    label: "Rajasthan", label_te: "రాజస్థాన్",
+    top_ids: [1, 11, 4, 8, 9, 10, 7, 5, 6, 19, 18, 3],
+    context: {
+      1:  "MGNREGA పుట్టుకకు కారణమైన రాష్ట్రం — 65 లక్షల లబ్ధిదారులు",
+      11: "Jal Jeevan Mission ద్వారా 1.3 కోట్ల కుళాయి కనెక్షన్లు",
+      7:  "60 లక్షల మంది మహిళలకు Ujjwala గ్యాస్ కనెక్షన్"
+    }
+  },
+  karnataka: {
+    label: "Karnataka", label_te: "కర్ణాటక",
+    top_ids: [17, 5, 14, 13, 2, 15, 4, 11, 10, 3, 20, 7],
+    context: {
+      17: "బెంగళూరు Digital India హబ్‌గా అగ్రస్థానంలో ఉంది",
+      5:  "85 లక్షల కుటుంబాలకు PM-JAY కవరేజ్",
+      13: "90 లక్షల మంది Mudra రుణ లబ్ధిదారులు"
+    }
+  },
+  tamil_nadu: {
+    label: "Tamil Nadu", label_te: "తమిళనాడు",
+    top_ids: [9, 6, 5, 19, 12, 17, 2, 15, 7, 11, 13, 3],
+    context: {
+      9:  "దేశంలో అత్యుత్తమ PDS అమలు — 3.7 కోట్ల లబ్ధిదారులు",
+      6:  "PM POSHAN కింద 50 లక్షల పిల్లలకు పోషకాహారం",
+      5:  "PM-JAY కింద 1.1 కోట్ల కుటుంబాల రక్షణ"
+    }
+  },
+  gujarat: {
+    label: "Gujarat", label_te: "గుజరాత్",
+    top_ids: [14, 13, 17, 4, 2, 15, 5, 10, 20, 11, 8, 9],
+    context: {
+      14: "GST అమలులో గుజరాత్ మోడల్ దేశానికి ఆదర్శం",
+      13: "80 లక్షల మంది పారిశ్రామికవేత్తలకు Mudra రుణాలు",
+      17: "Digital Gujarat పథకం Digital India తో సమన్వయం"
+    }
+  },
+  west_bengal: {
+    label: "West Bengal", label_te: "పశ్చిమ బెంగాల్",
+    top_ids: [1, 9, 6, 10, 5, 2, 19, 4, 8, 12, 7, 11],
+    context: {
+      1:  "1.2 కోట్ల మంది MGNREGA కింద ఉపాధి పొందుతున్నారు",
+      9:  "7.5 కోట్ల మందికి PDS సబ్సిడీ ఆహారం",
+      6:  "PM POSHAN కింద 80 లక్షల పిల్లలకు మధ్యాహ్న భోజనం"
+    }
+  },
+  kerala: {
+    label: "Kerala", label_te: "కేరళ",
+    top_ids: [3, 5, 12, 6, 17, 2, 16, 15, 19, 13, 11, 4],
+    context: {
+      3:  "RTI అమలులో కేరళ దేశంలో అగ్రస్థానం",
+      5:  "PM-JAY కింద 50 లక్షల కుటుంబాల రక్షణ",
+      12: "96%+ సాక్షరత రేటు — RTE చట్టం బలంగా అమలు"
+    }
+  },
+  punjab: {
+    label: "Punjab", label_te: "పంజాబ్",
+    top_ids: [10, 9, 7, 5, 4, 2, 15, 17, 20, 14, 13, 8],
+    context: {
+      10: "PM-KISAN ద్వారా 28 లక్షల రైతులకు సహాయం",
+      9:  "2.8 కోట్ల మందికి PDS సబ్సిడీ ఆహారం",
+      7:  "28 లక్షల మంది మహిళలకు Ujjwala గ్యాస్ కనెక్షన్"
+    }
+  },
+  madhya_pradesh: {
+    label: "Madhya Pradesh", label_te: "మధ్య ప్రదేశ్",
+    top_ids: [1, 9, 10, 8, 11, 4, 6, 19, 5, 18, 7, 12],
+    context: {
+      1:  "MP లో 1.1 కోట్ల మంది MGNREGA లబ్ధిదారులు",
+      9:  "6.8 కోట్ల మందికి PDS సబ్సిడీ ఆహారం",
+      10: "75 లక్షల రైతులకు PM-KISAN డైరెక్ట్ ట్రాన్స్ఫర్"
+    }
+  },
+  odisha: {
+    label: "Odisha", label_te: "ఒడిశా",
+    top_ids: [1, 9, 10, 11, 4, 18, 8, 5, 6, 19, 7, 12],
+    context: {
+      1:  "MGNREGA ద్వారా 65 లక్షల మంది ఉపాధి పొందుతున్నారు",
+      9:  "3.6 కోట్ల మందికి PDS సబ్సిడీ ఆహారం",
+      11: "Jal Jeevan Mission ద్వారా 90 లక్షల కుళాయి కనెక్షన్లు"
+    }
+  }
+};
+
+let policyCurrentSort = "influence";
+let policyCurrentState = "";
+let policiesCache = null;
+
+function setPolicySort(mode) {
+  policyCurrentSort = mode;
+  document.getElementById("sortInfluence").classList.toggle("active", mode === "influence");
+  document.getElementById("sortBeneficiaries").classList.toggle("active", mode === "beneficiaries");
+  if (policiesCache) renderPolicies(getFilteredPolicies(policiesCache));
+  else loadPolicies();
+}
+
+function setPolicyState(state) {
+  policyCurrentState = state;
+  if (policiesCache) renderPolicies(getFilteredPolicies(policiesCache));
+  else loadPolicies();
+}
+
+function getFilteredPolicies(all) {
+  const sd = policyCurrentState ? STATE_POLICY_RELEVANCE[policyCurrentState] : null;
+  let list;
+  if (sd) {
+    const topSet = new Set(sd.top_ids);
+    const top = sd.top_ids.map(id => all.find(p => p.id === id)).filter(Boolean);
+    const rest = all.filter(p => !topSet.has(p.id));
+    if (policyCurrentSort === "beneficiaries") rest.sort((a, b) => b.beneficiaries_millions - a.beneficiaries_millions);
+    else rest.sort((a, b) => b.influence_score - a.influence_score);
+    list = [...top, ...rest];
+  } else {
+    list = [...all];
+    if (policyCurrentSort === "beneficiaries") list.sort((a, b) => b.beneficiaries_millions - a.beneficiaries_millions);
+    else list.sort((a, b) => b.influence_score - a.influence_score);
+  }
+  return list;
+}
+
+async function loadPolicies() {
+  const container = document.getElementById("policiesList");
+  if (!container) return;
+  if (policiesCache) { renderPolicies(getFilteredPolicies(policiesCache)); return; }
+  container.innerHTML = `<div class="skeleton-list">
+    <div class="skeleton-item" style="height:120px"></div>
+    <div class="skeleton-item" style="height:120px"></div>
+    <div class="skeleton-item" style="height:120px"></div>
+  </div>`;
+  try {
+    const r = await fetch(`${API}/policies?sort=influence`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    if (!Array.isArray(data) || data.length === 0) throw new Error("Empty response");
+    policiesCache = data;
+    renderPolicies(getFilteredPolicies(policiesCache));
+  } catch (e) {
+    console.error("loadPolicies error:", e);
+    container.innerHTML = `
+      <div class="policies-error" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px 20px;color:var(--text-muted);text-align:center">
+        <i class="fas fa-exclamation-circle" style="font-size:2.5rem;color:#ef5350"></i>
+        <p style="font-size:1rem;color:var(--text)">పాలసీ డేటా లోడ్ కాలేదు</p>
+        <small style="font-size:0.78rem">సర్వర్ నడుస్తోందా? Error: ${e.message}</small>
+        <button class="btn-primary" onclick="policiesCache=null;loadPolicies()" style="margin-top:8px;padding:8px 22px;border-radius:20px;cursor:pointer">
+          <i class="fas fa-rotate-right"></i> మళ్ళీ ప్రయత్నించు
+        </button>
+      </div>`;
+  }
+}
+
+function renderPolicies(policies) {
+  const container = document.getElementById("policiesList");
+  if (!container) return;
+  if (!policies || !policies.length) {
+    container.innerHTML = `<div class="policies-error"><i class="fas fa-file-contract"></i><p>పాలసీలు అందుబాటులో లేవు</p></div>`;
+    return;
+  }
+  const sd = policyCurrentState ? STATE_POLICY_RELEVANCE[policyCurrentState] : null;
+  let header = "";
+  if (sd) {
+    header = `<div class="policies-state-header">
+      <i class="fas fa-location-dot"></i>
+      <div class="psh-text">
+        <strong>${sd.label_te} కోసం అత్యంత ప్రాధాన్యమైన పాలసీలు</strong>
+        <span>${sd.top_ids.length} పాలసీలు నేరుగా రాష్ట్రాన్ని ప్రభావితం చేస్తున్నాయి</span>
+      </div>
+    </div>`;
+  }
+  const cards = [];
+  policies.forEach((p, i) => {
+    try { cards.push(policyCard(p, i + 1)); }
+    catch (e) { console.error("policyCard error for", p.id, e); }
+  });
+  container.innerHTML = header + cards.join("");
+}
+
+function policyCard(p, rank) {
+  const cat = POLICY_CATEGORY_LABELS[p.category] || { label: p.category, icon: "fa-file", color: "#90a4ae" };
+  const benefStr = p.beneficiaries_millions >= 100
+    ? `${(p.beneficiaries_millions / 100).toFixed(1)} కోట్లు`
+    : `${p.beneficiaries_millions} లక్షలు`;
+  const budgetStr = p.annual_budget_crore > 0
+    ? `₹${(p.annual_budget_crore / 100).toFixed(0)} కోట్ల+`
+    : "–";
+  const influenceBar = Math.round(p.influence_score);
+  const rankBadgeClass = rank === 1 ? "rank-gold" : rank === 2 ? "rank-silver" : rank === 3 ? "rank-bronze" : "rank-normal";
+
+  const sd = policyCurrentState ? STATE_POLICY_RELEVANCE[policyCurrentState] : null;
+  const isTopState = sd && Array.isArray(sd.top_ids) && sd.top_ids.includes(p.id);
+  const stateCtxText = sd && sd.context && sd.context[p.id] ? sd.context[p.id] : null;
+  const stateCtx = stateCtxText
+    ? `<div class="policy-state-ctx"><i class="fas fa-location-dot"></i> ${stateCtxText}</div>`
+    : "";
+  const stateBadge = isTopState && sd
+    ? `<span class="policy-state-badge"><i class="fas fa-location-dot"></i> ${sd.label_te}</span>`
+    : "";
+
+  const sortLabel = policyCurrentSort === "beneficiaries"
+    ? `<span class="policy-highlight-stat"><i class="fas fa-users"></i> ${benefStr} లబ్ధిదారులు</span>`
+    : `<span class="policy-highlight-stat"><i class="fas fa-star"></i> ప్రభావం: ${p.influence_score}/100</span>`;
+
+  return `
+  <div class="policy-card glass-card${isTopState ? " policy-state-top" : ""}">
+    <div class="policy-rank-col">
+      <div class="policy-rank-badge ${rankBadgeClass}">#${rank}</div>
+    </div>
+    <div class="policy-body">
+      <div class="policy-top-row">
+        <div class="policy-cat-badge" style="background:${cat.color}22;color:${cat.color};border-color:${cat.color}44">
+          <i class="fas ${cat.icon}"></i> ${cat.label}
+        </div>
+        <span class="policy-year">${p.year}</span>
+        ${stateBadge}
+        ${sortLabel}
+      </div>
+      <h3 class="policy-name">${p.name_short}
+        <span class="policy-full-name">${p.name}</span>
+      </h3>
+      <p class="policy-ministry"><i class="fas fa-building-columns"></i> ${p.ministry}</p>
+      <p class="policy-desc">${p.description}</p>
+      ${stateCtx}
+      <div class="policy-achievements">
+        ${p.key_achievements.slice(0, 3).map(a => `<span class="policy-ach"><i class="fas fa-check-circle"></i> ${a}</span>`).join("")}
+      </div>
+      <div class="policy-footer">
+        <div class="policy-influence-bar">
+          <span class="pib-label">ప్రభావం</span>
+          <div class="pib-track"><div class="pib-fill" style="width:${influenceBar}%;background:${cat.color}"></div></div>
+          <span class="pib-val">${influenceBar}%</span>
+        </div>
+        <div class="policy-meta-stats">
+          <span><i class="fas fa-users"></i> ${benefStr}</span>
+          <span><i class="fas fa-map"></i> ${p.states_covered} రాష్ట్రాలు</span>
+          ${p.annual_budget_crore > 0 ? `<span><i class="fas fa-indian-rupee-sign"></i> ${budgetStr}</span>` : ""}
+        </div>
+        <a href="${p.website}" target="_blank" rel="noopener" class="source-badge policy-link">
+          <i class="fas fa-arrow-up-right-from-square"></i> అధికారిక వెబ్‌సైట్
+        </a>
+      </div>
+    </div>
+  </div>`;
 }

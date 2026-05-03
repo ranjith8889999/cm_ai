@@ -7,6 +7,7 @@ import hashlib
 from collections import OrderedDict
 from datetime import datetime
 from groq_service import GroqService
+from db_service import DBService
 from gtts import gTTS
 from scheduler import start_scheduler, stop_scheduler, get_status as scheduler_status
 import atexit
@@ -22,7 +23,9 @@ logging.basicConfig(level=logging.INFO)
 app = Flask(__name__, static_folder="../frontend", static_url_path="")
 CORS(app)
 
-groq = GroqService()
+# Initialize PostgreSQL + pgvector service first, then pass to Groq for KB context and caching
+db = DBService()
+groq = GroqService(db_service=db)
 
 # Start the scheduler here so it works under both `python app.py`
 # AND gunicorn (which never reaches __main__).
@@ -30,6 +33,7 @@ groq = GroqService()
 if not os.environ.get("WERKZEUG_RUN_MAIN"):
     start_scheduler()
     atexit.register(stop_scheduler)
+    atexit.register(db.close)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
@@ -175,6 +179,18 @@ def get_impact():
     return jsonify(load_json("impact.json"))
 
 
+# ─── Policies ─────────────────────────────────────────────────────────────────
+@app.route("/api/policies")
+def get_policies():
+    sort_by = request.args.get("sort", "influence")  # "influence" | "beneficiaries"
+    policies = load_json("policies.json")
+    if sort_by == "beneficiaries":
+        policies = sorted(policies, key=lambda p: p.get("beneficiaries_millions", 0), reverse=True)
+    else:
+        policies = sorted(policies, key=lambda p: p.get("influence_score", 0), reverse=True)
+    return jsonify(policies)
+
+
 # ─── Memory System ────────────────────────────────────────────────────────────
 @app.route("/api/memory")
 def get_memory():
@@ -246,6 +262,22 @@ def tts():
                          as_attachment=False, download_name="tts.mp3")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# ─── Manual Refresh (triggered by the frontend Refresh button) ────────────────
+@app.route("/api/refresh", methods=["POST"])
+def manual_refresh():
+    """
+    Immediately run the full scheduler refresh cycle.
+    Called by the frontend Refresh button so users get up-to-date data
+    without waiting for the 4-hour automatic cycle.
+    """
+    try:
+        from scheduler import run_all_refreshes
+        run_all_refreshes()
+        return jsonify({"status": "ok", "timestamp": datetime.now().isoformat()})
+    except Exception as e:
+        logging.error("Manual refresh error: %s", e)
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 
 # ─── Scheduler Status ─────────────────────────────────────────────────────────

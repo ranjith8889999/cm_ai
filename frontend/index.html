@@ -114,6 +114,11 @@
         <span class="nav-label">ఎన్నికల ఫలితాలు</span>
         <span class="nav-badge success-badge" id="badge-election">2023</span>
       </li>
+      <li class="nav-item" data-tab="policies">
+        <span class="nav-icon"><i class="fas fa-file-contract"></i></span>
+        <span class="nav-label">పాలసీలు</span>
+        <span class="nav-badge" id="badge-policies">20</span>
+      </li>
     </ul>
 
     <div class="sidebar-footer">
@@ -640,6 +645,57 @@
           </button>
         </div>
         <div id="edpContent" class="edp-content"></div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB: POLICIES ═══ -->
+    <div id="tab-policies" class="tab-panel">
+      <div class="policies-header">
+        <div class="policies-hero">
+          <div class="policies-hero-icon">📜</div>
+          <div>
+            <h2>భారత ప్రభుత్వ పాలసీలు</h2>
+            <p>కేంద్ర ప్రభుత్వం ద్వారా జాతీయ స్థాయిలో అమలవుతున్న శ్రేష్ఠ పాలసీలు</p>
+          </div>
+        </div>
+        <div class="policies-sort-row">
+          <span class="sort-label">క్రమపరచు:</span>
+          <div class="policy-sort-btns">
+            <button class="policy-sort-btn active" id="sortInfluence" onclick="setPolicySort('influence')">
+              <i class="fas fa-star"></i> అత్యంత ప్రభావవంతం
+            </button>
+            <button class="policy-sort-btn" id="sortBeneficiaries" onclick="setPolicySort('beneficiaries')">
+              <i class="fas fa-users"></i> అత్యధిక వినియోగదారులు
+            </button>
+          </div>
+          <div class="policy-state-filter">
+            <i class="fas fa-location-dot"></i>
+            <select id="policyStateSelect" class="glass-select" onchange="setPolicyState(this.value)">
+              <option value="">🇮🇳 అన్ని భారత్</option>
+              <option value="telangana">తెలంగాణ</option>
+              <option value="andhra">ఆంధ్ర ప్రదేశ్</option>
+              <option value="maharashtra">మహారాష్ట్ర</option>
+              <option value="uttar_pradesh">ఉత్తర ప్రదేశ్</option>
+              <option value="bihar">బీహార్</option>
+              <option value="rajasthan">రాజస్థాన్</option>
+              <option value="madhya_pradesh">మధ్య ప్రదేశ్</option>
+              <option value="karnataka">కర్ణాటక</option>
+              <option value="tamil_nadu">తమిళనాడు</option>
+              <option value="gujarat">గుజరాత్</option>
+              <option value="west_bengal">పశ్చిమ బెంగాల్</option>
+              <option value="kerala">కేరళ</option>
+              <option value="punjab">పంజాబ్</option>
+              <option value="odisha">ఒడిశా</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="policiesList" class="policies-list">
+        <div class="skeleton-list">
+          <div class="skeleton-item" style="height:120px"></div>
+          <div class="skeleton-item" style="height:120px"></div>
+          <div class="skeleton-item" style="height:120px"></div>
+        </div>
       </div>
     </div>
 

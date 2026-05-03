@@ -592,6 +592,18 @@ body {
 .news-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .news-meta { font-size: 0.68rem; color: var(--text-dim); }
 .news-actions { display: flex; gap: 6px; }
+
+/* Source reference badge */
+.source-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.63rem; font-weight: 600; padding: 2px 7px;
+  border-radius: 10px; text-decoration: none;
+  background: rgba(100, 130, 255, 0.12); color: #7aa2ff;
+  border: 1px solid rgba(100, 130, 255, 0.25);
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+a.source-badge:hover { background: rgba(100, 130, 255, 0.25); color: #aac4ff; }
 .news-btn {
   background: none; border: 1px solid var(--card-border);
   color: var(--text-muted); font-size: 0.7rem; padding: 3px 8px;
@@ -1350,4 +1362,208 @@ body {
   .election-party-cards { grid-template-columns: repeat(2, 1fr); }
   .edp-tabs { overflow-x: auto; }
   .edp-const-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   POLICIES TAB
+   ═══════════════════════════════════════════════════════ */
+
+/* Policy error / empty state */
+.policies-error {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 60px 20px;
+  color: var(--text-muted); text-align: center;
+}
+.policies-error i { font-size: 2.5rem; color: var(--danger); opacity: 0.7; }
+.policies-error p { font-size: 1rem; }
+.policies-error small { font-size: 0.75rem; color: var(--text-dim); }
+
+/* State filter dropdown */
+.policy-state-filter {
+  display: flex; align-items: center; gap: 8px; margin-left: auto;
+}
+.policy-state-filter > i { color: var(--primary); font-size: 0.85rem; }
+.policy-state-filter .glass-select {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text); font-size: 0.82rem; padding: 6px 10px;
+  border-radius: 8px; cursor: pointer; outline: none; max-width: 200px;
+}
+.policy-state-filter .glass-select:focus { border-color: var(--primary); }
+
+/* State header banner */
+.policies-state-header {
+  display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  background: rgba(233,30,140,0.07); border: 1px solid rgba(233,30,140,0.2);
+  border-radius: var(--radius-sm); margin-bottom: 14px;
+}
+.policies-state-header > i { color: var(--primary); font-size: 1.1rem; flex-shrink: 0; }
+.psh-text { display: flex; flex-direction: column; gap: 2px; }
+.psh-text strong { color: var(--primary); font-size: 0.88rem; font-weight: 600; }
+.psh-text span { color: var(--text-muted); font-size: 0.75rem; }
+
+/* State context chip inside card */
+.policy-state-ctx {
+  display: flex; align-items: center; gap: 6px; font-size: 0.77rem;
+  color: var(--secondary); background: rgba(0,212,255,0.07);
+  border: 1px solid rgba(0,212,255,0.18); border-radius: 8px;
+  padding: 5px 11px; margin: 6px 0;
+}
+.policy-state-ctx i { font-size: 0.7rem; opacity: 0.8; }
+
+/* State top-pick badge */
+.policy-state-badge {
+  font-size: 0.67rem; font-weight: 700; padding: 2px 8px; border-radius: 10px;
+  color: var(--primary); background: rgba(233,30,140,0.12);
+  border: 1px solid rgba(233,30,140,0.28); white-space: nowrap;
+}
+
+/* Highlighted card when it's a state top pick */
+.policy-card.policy-state-top { border-color: rgba(233,30,140,0.25); }
+
+/* Header */
+.policies-header {
+  display: flex; flex-direction: column; gap: 16px;
+  margin-bottom: 24px;
+}
+.policies-hero {
+  display: flex; align-items: center; gap: 18px;
+}
+.policies-hero-icon {
+  font-size: 2.8rem; line-height: 1;
+  filter: drop-shadow(0 0 14px rgba(100,150,255,0.5));
+}
+.policies-hero h2 {
+  font-size: 1.5rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.policies-hero p { color: var(--text-muted); font-size: 0.88rem; margin-top: 4px; }
+
+/* Sort row */
+.policies-sort-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm); padding: 10px 16px;
+}
+.sort-label { color: var(--text-muted); font-size: 0.82rem; white-space: nowrap; }
+.policy-sort-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.policy-sort-btn {
+  padding: 6px 16px; border-radius: 20px; border: 1px solid var(--card-border);
+  background: transparent; color: var(--text-muted); cursor: pointer;
+  font-size: 0.82rem; display: flex; align-items: center; gap: 6px;
+  transition: var(--transition);
+}
+.policy-sort-btn:hover { border-color: var(--secondary); color: var(--secondary); }
+.policy-sort-btn.active {
+  background: linear-gradient(135deg, rgba(0,212,255,0.18), rgba(233,30,140,0.18));
+  border-color: var(--secondary); color: var(--secondary); font-weight: 600;
+}
+
+/* Policy list */
+.policies-list { display: flex; flex-direction: column; gap: 14px; }
+
+/* Policy card */
+.policy-card {
+  display: flex; gap: 0; overflow: hidden;
+  padding: 0; border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.policy-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,212,255,0.12);
+}
+
+/* Rank column */
+.policy-rank-col {
+  width: 58px; min-width: 58px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.25);
+  border-right: 1px solid var(--card-border);
+}
+.policy-rank-badge {
+  font-size: 1rem; font-weight: 800; letter-spacing: -0.5px;
+  padding: 8px 4px; text-align: center;
+}
+.rank-gold   { color: #ffd700; text-shadow: 0 0 12px rgba(255,215,0,0.6); }
+.rank-silver { color: #c0c0c0; text-shadow: 0 0 10px rgba(192,192,192,0.5); }
+.rank-bronze { color: #cd7f32; text-shadow: 0 0 10px rgba(205,127,50,0.5); }
+.rank-normal { color: var(--text-muted); }
+
+/* Policy body */
+.policy-body { flex: 1; padding: 16px 18px; min-width: 0; }
+
+.policy-top-row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 8px;
+}
+.policy-cat-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; font-weight: 600; padding: 3px 10px;
+  border-radius: 12px; border: 1px solid;
+}
+.policy-year {
+  font-size: 0.72rem; color: var(--text-dim); background: var(--bg3);
+  border-radius: 8px; padding: 2px 8px;
+}
+.policy-highlight-stat {
+  margin-left: auto; font-size: 0.78rem; font-weight: 700;
+  color: var(--secondary); display: flex; align-items: center; gap: 5px;
+}
+
+.policy-name {
+  font-size: 1.05rem; font-weight: 700; color: var(--text);
+  margin-bottom: 2px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px;
+}
+.policy-full-name {
+  font-size: 0.78rem; font-weight: 400; color: var(--text-muted);
+}
+.policy-ministry {
+  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 5px;
+}
+.policy-desc {
+  font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.policy-achievements {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px;
+}
+.policy-ach {
+  font-size: 0.72rem; color: var(--success);
+  background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.2);
+  border-radius: 10px; padding: 3px 10px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+
+/* Footer row */
+.policy-footer {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.policy-influence-bar {
+  display: flex; align-items: center; gap: 6px; flex: 1; min-width: 140px;
+}
+.pib-label { font-size: 0.68rem; color: var(--text-dim); white-space: nowrap; }
+.pib-track {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.08);
+  border-radius: 2px; overflow: hidden;
+}
+.pib-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+.pib-val { font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; }
+
+.policy-meta-stats {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  font-size: 0.72rem; color: var(--text-muted);
+}
+.policy-meta-stats span { display: flex; align-items: center; gap: 4px; }
+
+.policy-link {
+  font-size: 0.68rem !important; padding: 3px 10px !important;
+}
+
+@media (max-width: 700px) {
+  .policy-card { flex-direction: column; }
+  .policy-rank-col { width: 100%; min-width: unset; flex-direction: row; padding: 8px 14px; justify-content: flex-start; border-right: none; border-bottom: 1px solid var(--card-border); }
+  .policy-highlight-stat { margin-left: 0; }
+  .policies-sort-row { flex-direction: column; align-items: flex-start; }
 }
